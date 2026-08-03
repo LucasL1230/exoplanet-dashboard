@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Exoplanet Biosignature Follow-up Dashboard</title>
+  <style>
+    :root {
+      --paper: #f6f1e8;
+      --paper-strong: #efe4d0;
+      --ink: #1e2a36;
+      --ink-soft: #4d5b67;
+      --accent: #c96d3d;
+      --accent-cool: #2f6f7e;
+      --accent-soft: #d8b887;
+      --panel: rgba(255, 250, 243, 0.86);
+      --line: rgba(30, 42, 54, 0.12);
+      --shadow: 0 18px 44px rgba(40, 34, 24, 0.12);
+      --radius: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(201, 109, 61, 0.16), transparent 34%),
+        radial-gradient(circle at 85% 12%, rgba(47, 111, 126, 0.15), transparent 26%),
+        linear-gradient(180deg, #fbf7f0 0%, var(--paper) 38%, #f2ece2 100%);
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+
+    .shell {
+      width: min(1220px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 48px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 34px 34px 28px;
+      border: 1px solid rgba(47, 111, 126, 0.15);
+      border-radius: 32px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.88), rgba(255,247,236,0.86)),
+        linear-gradient(90deg, rgba(201,109,61,0.1), rgba(47,111,126,0.08));
+      box-shadow: var(--shadow);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -5% -40px 45%;
+      height: 160px;
+      background: radial-gradient(circle, rgba(216, 184, 135, 0.24), transparent 68%);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(47, 111, 126, 0.10);
+      color: var(--accent-cool);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3 {
+      font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+      letter-spacing: -0.02em;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      max-width: 900px;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      line-height: 1.02;
+    }
+
+    .hero p {
+      max-width: 820px;
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 1.03rem;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .metric-card,
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    .metric-card {
+      padding: 16px 18px;
+      min-height: 110px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .metric-label {
+      color: var(--ink-soft);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .metric-value {
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--accent-cool);
+    }
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 0.9fr;
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .section-grid > *,
+    .stack > *,
+    .panel,
+    .table-scroll,
+    #interactive-table {
+      min-width: 0;
+    }
+
+    .panel {
+      padding: 22px;
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: 1.6rem;
+    }
+
+    h3 {
+      margin: 0 0 10px;
+      font-size: 1.2rem;
+    }
+
+    .lede {
+      color: var(--ink-soft);
+      margin: 0 0 14px;
+    }
+
+    .badge {
+      display: inline-block;
+      margin-right: 8px;
+      margin-bottom: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(201, 109, 61, 0.12);
+      color: #96512d;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .table-scroll {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 4px;
+    }
+
+    .data-table {
+      width: max-content;
+      min-width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 16px;
+    }
+
+    .data-table th {
+      padding: 12px 10px;
+      text-align: left;
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      background: rgba(47, 111, 126, 0.08);
+    }
+
+    .data-table td {
+      padding: 11px 10px;
+      border-top: 1px solid var(--line);
+      font-size: 0.95rem;
+      vertical-align: top;
+    }
+
+    .data-table tbody tr:nth-child(odd) {
+      background: rgba(255, 255, 255, 0.36);
+    }
+
+    .compact-table td,
+    .compact-table th {
+      font-size: 0.85rem;
+      padding: 9px 9px;
+    }
+
+    .figure-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    .control-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 12px;
+      margin: 14px 0 12px;
+    }
+
+    .control {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .control label {
+      color: var(--ink-soft);
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .control input,
+    .control select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.82);
+      color: var(--ink);
+      font: inherit;
+    }
+
+    .inline-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 18px;
+      margin: 10px 0 14px;
+      color: var(--ink-soft);
+      font-size: 0.92rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(47, 111, 126, 0.08);
+      color: var(--accent-cool);
+      font-weight: 600;
+    }
+
+    .figure-card {
+      margin: 0;
+      padding: 12px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid var(--line);
+    }
+
+    .figure-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 14px;
+    }
+
+    .figure-card figcaption {
+      margin-top: 8px;
+      color: var(--ink-soft);
+      font-size: 0.9rem;
+    }
+
+    .muted {
+      color: var(--ink-soft);
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      color: var(--ink-soft);
+      font-size: 0.9rem;
+    }
+
+    .target-highlight {
+      margin-top: 12px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(201, 109, 61, 0.08);
+      border: 1px solid rgba(201, 109, 61, 0.14);
+    }
+
+    .target-highlight strong {
+      color: var(--accent);
+    }
+
+    @media (max-width: 960px) {
+      .section-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 26px 22px 22px;
+      }
+
+      .panel {
+        padding: 18px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .shell {
+        width: min(1220px, calc(100% - 20px));
+        padding-top: 20px;
+      }
+
+      h2 {
+        font-size: 1.35rem;
+      }
+
+      .metric-value {
+        font-size: 1.45rem;
+      }
+
+      .data-table th,
+      .data-table td {
+        padding: 10px 8px;
+        font-size: 0.84rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <span class="eyebrow">NASA Data Pipeline</span>
+      <h1>Exoplanet Biosignature Follow-up Dashboard</h1>
+      <p>
+        This static dashboard translates the pipeline outputs into a presentation-ready research view.
+        It highlights the strongest atmospheric follow-up candidates, summarizes model performance,
+        and preserves historical context for a long-running student science project.
+      </p>
+      <div class="metrics-grid">
+        <div class="metric-card"><span class="metric-label">Run Timestamp</span><span class="metric-value">2026-08-03T17-18-41Z</span></div><div class="metric-card"><span class="metric-label">Raw Catalog Rows</span><span class="metric-value">6275</span></div><div class="metric-card"><span class="metric-label">Training Pool</span><span class="metric-value">421</span></div><div class="metric-card"><span class="metric-label">Strict Shortlist</span><span class="metric-value">27</span></div><div class="metric-card"><span class="metric-label">Selected Model</span><span class="metric-value">gradient_boosting</span></div><div class="metric-card"><span class="metric-label">Test R²</span><span class="metric-value">0.936</span></div>
+      </div>
+    </section>
+
+    <section class="section-grid">
+      <div class="stack">
+        <section class="panel">
+          <h2>Research Framing</h2>
+          <p class="lede">
+            The ranking emphasizes planets that are small, temperate, transiting, and observationally practical
+            for future atmospheric spectroscopy. The score is a follow-up prioritization signal, not a life-detection claim.
+          </p>
+          <span class="badge">Transparent heuristic score</span>
+          <span class="badge">Machine-learning ranking layer</span>
+          <span class="badge">Weekly NASA updates</span>
+          <span class="badge">SQLite history tracking</span>
+        </section>
+
+        <section class="panel">
+          <h2>Top Priority Targets</h2>
+          <p class="lede">These are the current top-ranked shortlist planets for atmospheric biosignature follow-up planning.</p>
+          <div class="table-scroll"><table class="data-table"><thead><tr><th>priority_rank</th><th>pl_name</th><th>hostname</th><th>follow_up_priority_score</th><th>heuristic_priority_score</th><th>ml_predicted_priority_score</th><th>hz_flag</th><th>pl_rade</th><th>pl_eqt</th><th>pl_insol</th><th>sy_dist</th><th>preferred_mag</th><th>atmospheric_signal_ppm</th><th>discoverymethod</th><th>disc_year</th><th>disc_facility</th></tr></thead><tbody><tr><td>1</td><td>TRAPPIST-1 d</td><td>TRAPPIST-1</td><td>89.870</td><td>90.370</td><td>89.536</td><td>1</td><td>0.788</td><td>286.200</td><td>1.115</td><td>12.430</td><td>11.354</td><td>19.551</td><td>Transit</td><td>2016</td><td>La Silla Observatory</td></tr><tr><td>2</td><td>TRAPPIST-1 e</td><td>TRAPPIST-1</td><td>88.553</td><td>88.552</td><td>88.554</td><td>1</td><td>0.920</td><td>249.700</td><td>0.646</td><td>12.430</td><td>11.354</td><td>15.221</td><td>Transit</td><td>2017</td><td>Multiple Observatories</td></tr><tr><td>3</td><td>TRAPPIST-1 c</td><td>TRAPPIST-1</td><td>81.530</td><td>81.226</td><td>81.733</td><td>0</td><td>1.097</td><td>339.700</td><td>2.214</td><td>12.430</td><td>11.354</td><td>18.572</td><td>Transit</td><td>2016</td><td>La Silla Observatory</td></tr><tr><td>4</td><td>TRAPPIST-1 f</td><td>TRAPPIST-1</td><td>78.472</td><td>78.190</td><td>78.661</td><td>1</td><td>1.045</td><td>217.700</td><td>0.373</td><td>12.430</td><td>11.354</td><td>12.952</td><td>Transit</td><td>2017</td><td>Multiple Observatories</td></tr><tr><td>5</td><td>Gliese 12 b</td><td>Gliese 12</td><td>77.758</td><td>77.917</td><td>77.652</td><td>1</td><td>0.930</td><td>314.600</td><td>1.620</td><td>12.210</td><td>8.619</td><td>2.919</td><td>Transit</td><td>2024</td><td>Transiting Exoplanet Survey Satellite (TESS)</td></tr><tr><td>6</td><td>TOI-700 e</td><td>TOI-700</td><td>74.453</td><td>73.827</td><td>74.870</td><td>1</td><td>0.953</td><td>272.900</td><td>1.270</td><td>31.127</td><td>9.469</td><td>1.254</td><td>Transit</td><td>2023</td><td>Transiting Exoplanet Survey Satellite (TESS)</td></tr><tr><td>7</td><td>TOI-700 d</td><td>TOI-700</td><td>74.445</td><td>74.580</td><td>74.355</td><td>1</td><td>1.073</td><td>268.800</td><td>0.850</td><td>31.127</td><td>9.469</td><td>1.154</td><td>Transit</td><td>2020</td><td>Transiting Exoplanet Survey Satellite (TESS)</td></tr><tr><td>8</td><td>Kepler-1649 c</td><td>Kepler-1649</td><td>73.663</td><td>73.406</td><td>73.834</td><td>1</td><td>1.060</td><td>234</td><td>0.750</td><td>92.191</td><td>13.379</td><td>3.330</td><td>Transit</td><td>2020</td><td>Kepler</td></tr><tr><td>9</td><td>LP 890-9 c</td><td>LP 890-9</td><td>72.939</td><td>72.931</td><td>72.944</td><td>1</td><td>1.367</td><td>272</td><td>0.906</td><td>32.430</td><td>12.258</td><td>0.873</td><td>Transit</td><td>2022</td><td>SPECULOOS Southern Observatory</td></tr><tr><td>10</td><td>Kepler-1649 b</td><td>Kepler-1649</td><td>72.390</td><td>72.649</td><td>72.218</td><td>0</td><td>1.017</td><td>307</td><td>2.208</td><td>92.191</td><td>13.379</td><td>4.495</td><td>Transit</td><td>2017</td><td>Kepler</td></tr></tbody></table></div>
+        </section>
+
+        <section class="panel">
+          <h2>Interactive Shortlist Explorer</h2>
+          <p class="lede">
+            This table runs entirely inside the browser. It lets a reviewer search the shortlist,
+            isolate habitable-zone candidates, and sort by different follow-up priorities without needing a server.
+          </p>
+          <div class="control-grid">
+            <div class="control">
+              <label for="search-box">Planet Search</label>
+              <input id="search-box" type="search" placeholder="Search by planet or host star" />
+            </div>
+            <div class="control">
+              <label for="hz-filter">Habitable Zone Filter</label>
+              <select id="hz-filter">
+                <option value="all">All shortlist planets</option>
+                <option value="hz">Habitable-zone proxy only</option>
+                <option value="non_hz">Outside habitable-zone proxy</option>
+              </select>
+            </div>
+            <div class="control">
+              <label for="score-filter">Minimum Score</label>
+              <input id="score-filter" type="number" min="0" max="100" step="0.5" value="0" />
+            </div>
+            <div class="control">
+              <label for="sort-select">Sort By</label>
+              <select id="sort-select">
+                <option value="score_desc">Score: high to low</option>
+                <option value="rank_asc">Rank: best to worst</option>
+                <option value="distance_asc">Distance: near to far</option>
+                <option value="temp_asc">Temperature: cool to warm</option>
+                <option value="radius_asc">Radius: small to large</option>
+              </select>
+            </div>
+          </div>
+          <div class="inline-meta">
+            <span class="pill">Filtered Targets: <span id="filtered-count">0</span></span>
+            <span class="pill">Best Visible Match: <span id="best-match">Loading</span></span>
+          </div>
+          <div id="interactive-target-highlight" class="target-highlight"></div>
+          <div id="interactive-table"></div>
+        </section>
+
+        <section class="panel">
+          <h2>Visualization Gallery</h2>
+          <p class="lede">The dashboard reuses the pipeline figures so a reviewer can move from rank tables to pattern recognition quickly.</p>
+          <div class="figure-grid">
+            <figure class="figure-card"><img src="figures/radius_vs_temperature.png" alt="radius_vs_temperature.png" /><figcaption>Radius Vs Temperature</figcaption></figure><figure class="figure-card"><img src="figures/habitable_zone_distribution.png" alt="habitable_zone_distribution.png" /><figcaption>Habitable Zone Distribution</figcaption></figure><figure class="figure-card"><img src="figures/top_priority_targets.png" alt="top_priority_targets.png" /><figcaption>Top Priority Targets</figcaption></figure><figure class="figure-card"><img src="figures/feature_importance.png" alt="feature_importance.png" /><figcaption>Feature Importance</figcaption></figure>
+          </div>
+        </section>
+      </div>
+
+      <div class="stack">
+        <section class="panel">
+          <h2>Model Snapshot</h2>
+          <p><strong>Selected model:</strong> gradient_boosting</p>
+          <p><strong>Test MAE:</strong> 2.475</p>
+          <p><strong>Test RMSE:</strong> 3.511</p>
+          <p><strong>Cross-validation R²:</strong> 0.947</p>
+          <p class="footer-note">
+            The machine-learning layer learns the nonlinear structure of the physics-informed heuristic score across the broader transiting small-planet population.
+          </p>
+        </section>
+
+        <section class="panel">
+          <h2>Feature Importance</h2>
+          <p class="lede">The most influential variables in the selected model give a compact explanation of what drives the ranking.</p>
+          <div class="table-scroll"><table class="data-table compact-table"><thead><tr><th>feature</th><th>importance</th></tr></thead><tbody><tr><td>st_mass</td><td>0.490</td></tr><tr><td>st_rad</td><td>0.102</td></tr><tr><td>pl_insol</td><td>0.086</td></tr><tr><td>sy_dist</td><td>0.070</td></tr><tr><td>st_teff</td><td>0.061</td></tr><tr><td>pl_eqt</td><td>0.053</td></tr><tr><td>mass_for_signal_earth</td><td>0.044</td></tr><tr><td>pl_rade</td><td>0.041</td></tr><tr><td>hz_flag</td><td>0.012</td></tr><tr><td>pl_orbper</td><td>0.010</td></tr></tbody></table></div>
+        </section>
+
+        <section class="panel">
+          <h2>Leaderboard Changes</h2>
+          <p><strong>New top-10 entries:</strong> LP 890-9 c</p><p><strong>Removed top-10 entries:</strong> K2-72 e</p><div class="table-scroll"><table class="data-table compact-table"><thead><tr><th>pl_name</th><th>previous_rank</th><th>current_rank</th><th>rank_change</th><th>score_change</th></tr></thead><tbody><tr><td>TRAPPIST-1 d</td><td>2</td><td>1</td><td>1</td><td>3.058</td></tr><tr><td>TOI-700 e</td><td>7</td><td>6</td><td>1</td><td>0.703</td></tr><tr><td>TRAPPIST-1 f</td><td>4</td><td>4</td><td>0</td><td>0.820</td></tr><tr><td>TRAPPIST-1 c</td><td>3</td><td>3</td><td>0</td><td>0.806</td></tr><tr><td>Kepler-1649 c</td><td>8</td><td>8</td><td>0</td><td>0.189</td></tr></tbody></table></div>
+        </section>
+
+        <section class="panel">
+          <h2>Run History</h2>
+          <p class="lede">This table shows the recent execution history of the pipeline and supports long-term monitoring.</p>
+          <div class="table-scroll"><table class="data-table compact-table"><thead><tr><th>run_timestamp_utc</th><th>raw_rows</th><th>clean_rows</th><th>training_rows</th><th>shortlist_rows</th><th>selected_model</th><th>test_mae</th><th>test_rmse</th><th>test_r2</th><th>cv_mae_mean</th><th>cv_r2_mean</th></tr></thead><tbody><tr><td>2026-06-16T06-51-58Z</td><td>6240</td><td>6240</td><td>354</td><td>24</td><td>gradient_boosting</td><td>2.275</td><td>3.244</td><td>0.961</td><td>2.388</td><td>0.926</td></tr><tr><td>2026-06-16T07-00-45Z</td><td>6240</td><td>6240</td><td>354</td><td>24</td><td>gradient_boosting</td><td>2.275</td><td>3.244</td><td>0.961</td><td>2.388</td><td>0.926</td></tr><tr><td>2026-06-16T07-04-22Z</td><td>6240</td><td>6240</td><td>354</td><td>24</td><td>gradient_boosting</td><td>2.275</td><td>3.244</td><td>0.961</td><td>2.388</td><td>0.926</td></tr><tr><td>2026-06-16T07-08-15Z</td><td>6240</td><td>6240</td><td>354</td><td>24</td><td>gradient_boosting</td><td>2.275</td><td>3.244</td><td>0.961</td><td>2.388</td><td>0.926</td></tr><tr><td>2026-06-17T13-42-20Z</td><td>6240</td><td>6240</td><td>354</td><td>24</td><td>gradient_boosting</td><td>2.275</td><td>3.244</td><td>0.961</td><td>2.388</td><td>0.926</td></tr><tr><td>2026-06-17T14-25-48Z</td><td>6240</td><td>6240</td><td>354</td><td>24</td><td>gradient_boosting</td><td>2.275</td><td>3.244</td><td>0.961</td><td>2.388</td><td>0.926</td></tr><tr><td>2026-06-19T05-49-39Z</td><td>6240</td><td>6193</td><td>421</td><td>27</td><td>gradient_boosting</td><td>2.195</td><td>2.871</td><td>0.954</td><td>2.041</td><td>0.946</td></tr><tr><td>2026-08-03T17-18-41Z</td><td>6275</td><td>6229</td><td>421</td><td>27</td><td>gradient_boosting</td><td>2.475</td><td>3.511</td><td>0.936</td><td>2.169</td><td>0.947</td></tr></tbody></table></div>
+        </section>
+      </div>
+    </section>
+  </main>
+  <script>
+    const shortlistData = [{"priority_rank": 1, "pl_name": "TRAPPIST-1 d", "hostname": "TRAPPIST-1", "follow_up_priority_score": 89.87, "hz_flag": 1, "pl_rade": 0.788, "pl_eqt": 286.2, "pl_insol": 1.115, "sy_dist": 12.42988881, "preferred_mag": 11.354, "discoverymethod": "Transit"}, {"priority_rank": 2, "pl_name": "TRAPPIST-1 e", "hostname": "TRAPPIST-1", "follow_up_priority_score": 88.553, "hz_flag": 1, "pl_rade": 0.92, "pl_eqt": 249.7, "pl_insol": 0.646, "sy_dist": 12.42988881, "preferred_mag": 11.354, "discoverymethod": "Transit"}, {"priority_rank": 3, "pl_name": "TRAPPIST-1 c", "hostname": "TRAPPIST-1", "follow_up_priority_score": 81.53, "hz_flag": 0, "pl_rade": 1.097, "pl_eqt": 339.7, "pl_insol": 2.214, "sy_dist": 12.42988881, "preferred_mag": 11.354, "discoverymethod": "Transit"}, {"priority_rank": 4, "pl_name": "TRAPPIST-1 f", "hostname": "TRAPPIST-1", "follow_up_priority_score": 78.472, "hz_flag": 1, "pl_rade": 1.045, "pl_eqt": 217.7, "pl_insol": 0.373, "sy_dist": 12.42988881, "preferred_mag": 11.354, "discoverymethod": "Transit"}, {"priority_rank": 5, "pl_name": "Gliese 12 b", "hostname": "Gliese 12", "follow_up_priority_score": 77.758, "hz_flag": 1, "pl_rade": 0.93, "pl_eqt": 314.6, "pl_insol": 1.62, "sy_dist": 12.21, "preferred_mag": 8.619, "discoverymethod": "Transit"}, {"priority_rank": 6, "pl_name": "TOI-700 e", "hostname": "TOI-700", "follow_up_priority_score": 74.453, "hz_flag": 1, "pl_rade": 0.953, "pl_eqt": 272.9, "pl_insol": 1.27, "sy_dist": 31.1265, "preferred_mag": 9.469, "discoverymethod": "Transit"}, {"priority_rank": 7, "pl_name": "TOI-700 d", "hostname": "TOI-700", "follow_up_priority_score": 74.445, "hz_flag": 1, "pl_rade": 1.073, "pl_eqt": 268.8, "pl_insol": 0.85, "sy_dist": 31.1265, "preferred_mag": 9.469, "discoverymethod": "Transit"}, {"priority_rank": 8, "pl_name": "Kepler-1649 c", "hostname": "Kepler-1649", "follow_up_priority_score": 73.663, "hz_flag": 1, "pl_rade": 1.06, "pl_eqt": 234.0, "pl_insol": 0.75, "sy_dist": 92.1913, "preferred_mag": 13.379, "discoverymethod": "Transit"}, {"priority_rank": 9, "pl_name": "LP 890-9 c", "hostname": "LP 890-9", "follow_up_priority_score": 72.939, "hz_flag": 1, "pl_rade": 1.367, "pl_eqt": 272.0, "pl_insol": 0.906, "sy_dist": 32.4298, "preferred_mag": 12.258, "discoverymethod": "Transit"}, {"priority_rank": 10, "pl_name": "Kepler-1649 b", "hostname": "Kepler-1649", "follow_up_priority_score": 72.39, "hz_flag": 0, "pl_rade": 1.017, "pl_eqt": 307.0, "pl_insol": 2.208, "sy_dist": 92.1913, "preferred_mag": 13.379, "discoverymethod": "Transit"}, {"priority_rank": 11, "pl_name": "K2-72 e", "hostname": "K2-72", "follow_up_priority_score": 72.22, "hz_flag": 1, "pl_rade": 1.29, "pl_eqt": 286.34, "pl_insol": 1.2, "sy_dist": 66.4321, "preferred_mag": 11.685, "discoverymethod": "Transit"}, {"priority_rank": 12, "pl_name": "TRAPPIST-1 g", "hostname": "TRAPPIST-1", "follow_up_priority_score": 71.696, "hz_flag": 0, "pl_rade": 1.129, "pl_eqt": 197.3, "pl_insol": 0.252, "sy_dist": 12.42988881, "preferred_mag": 11.354, "discoverymethod": "Transit"}, {"priority_rank": 13, "pl_name": "TOI-6002 b", "hostname": "TOI-6002", "follow_up_priority_score": 70.081, "hz_flag": 1, "pl_rade": 1.65, "pl_eqt": 321.4, "pl_insol": 1.6823, "sy_dist": 32.0266, "preferred_mag": 10.997, "discoverymethod": "Transit"}, {"priority_rank": 14, "pl_name": "TOI-715 b", "hostname": "TOI-715", "follow_up_priority_score": 69.127, "hz_flag": 1, "pl_rade": 1.55, "pl_eqt": 234.0, "pl_insol": 0.67, "sy_dist": 42.4048, "preferred_mag": 11.808, "discoverymethod": "Transit"}, {"priority_rank": 15, "pl_name": "K2-72 c", "hostname": "K2-72", "follow_up_priority_score": 67.261, "hz_flag": 0, "pl_rade": 1.16, "pl_eqt": 333.81, "pl_insol": 2.2, "sy_dist": 66.4321, "preferred_mag": 11.685, "discoverymethod": "Transit"}, {"priority_rank": 16, "pl_name": "TOI-1452 b", "hostname": "TOI-1452", "follow_up_priority_score": 66.375, "hz_flag": 0, "pl_rade": 1.672, "pl_eqt": 326.0, "pl_insol": 1.8, "sy_dist": 30.5212, "preferred_mag": 10.604, "discoverymethod": "Transit"}, {"priority_rank": 17, "pl_name": "Kepler-445 d", "hostname": "Kepler-445", "follow_up_priority_score": 65.421, "hz_flag": 0, "pl_rade": 1.25, "pl_eqt": 305.0, "pl_insol": 4.314, "sy_dist": 127.201, "preferred_mag": 13.542, "discoverymethod": "Transit"}, {"priority_rank": 18, "pl_name": "LHS 1140 b", "hostname": "LHS 1140", "follow_up_priority_score": 64.994, "hz_flag": 1, "pl_rade": 1.73, "pl_eqt": 226.0, "pl_insol": 0.43, "sy_dist": 14.9861, "preferred_mag": 9.612001, "discoverymethod": "Transit"}, {"priority_rank": 19, "pl_name": "K2-3 d", "hostname": "K2-3", "follow_up_priority_score": 63.945, "hz_flag": 1, "pl_rade": 1.458, "pl_eqt": 305.2, "pl_insol": 1.44, "sy_dist": 44.0727, "preferred_mag": 9.421, "discoverymethod": "Transit"}, {"priority_rank": 20, "pl_name": "TOI-2095 c", "hostname": "TOI-2095", "follow_up_priority_score": 62.383, "hz_flag": 0, "pl_rade": 1.33, "pl_eqt": 297.0, "pl_insol": 1.84, "sy_dist": 41.9176, "preferred_mag": 9.797, "discoverymethod": "Transit"}, {"priority_rank": 21, "pl_name": "TOI-5799 c", "hostname": "TOI-5799", "follow_up_priority_score": 59.051, "hz_flag": 0, "pl_rade": 1.76, "pl_eqt": 337.0, "pl_insol": 2.4202, "sy_dist": 27.8123, "preferred_mag": 9.742, "discoverymethod": "Transit"}, {"priority_rank": 22, "pl_name": "TOI-5713 b", "hostname": "TOI-5713", "follow_up_priority_score": 58.863, "hz_flag": 0, "pl_rade": 1.77, "pl_eqt": 347.2, "pl_insol": 2.2554, "sy_dist": 40.8668, "preferred_mag": 11.068, "discoverymethod": "Transit"}, {"priority_rank": 23, "pl_name": "Kepler-560 b", "hostname": "Kepler-560", "follow_up_priority_score": 57.882, "hz_flag": 0, "pl_rade": 1.72, "pl_eqt": 298.0, "pl_insol": 2.46, "sy_dist": 109.308, "preferred_mag": 12.276, "discoverymethod": "Transit"}, {"priority_rank": 24, "pl_name": "K2-133 e", "hostname": "K2-133", "follow_up_priority_score": 56.855, "hz_flag": 0, "pl_rade": 1.73, "pl_eqt": 296.0, "pl_insol": 1.8, "sy_dist": 75.1703, "preferred_mag": 11.084, "discoverymethod": "Transit"}, {"priority_rank": 25, "pl_name": "TOI-2095 b", "hostname": "TOI-2095", "follow_up_priority_score": 53.349, "hz_flag": 0, "pl_rade": 1.25, "pl_eqt": 347.0, "pl_insol": 3.43, "sy_dist": 41.9176, "preferred_mag": 9.797, "discoverymethod": "Transit"}, {"priority_rank": 26, "pl_name": "LHS 1903 e", "hostname": "LHS 1903", "follow_up_priority_score": 51.637, "hz_flag": 0, "pl_rade": 1.732, "pl_eqt": 333.0, "pl_insol": 2.05, "sy_dist": 35.6917, "preferred_mag": 9.061, "discoverymethod": "Transit"}, {"priority_rank": 27, "pl_name": "Kepler-138 d", "hostname": "Kepler-138", "follow_up_priority_score": 49.422, "hz_flag": 0, "pl_rade": 1.51, "pl_eqt": 345.0, "pl_insol": 3.4, "sy_dist": 66.8624, "preferred_mag": 10.293, "discoverymethod": "Transit"}];
+
+    const searchBox = document.getElementById("search-box");
+    const hzFilter = document.getElementById("hz-filter");
+    const scoreFilter = document.getElementById("score-filter");
+    const sortSelect = document.getElementById("sort-select");
+    const filteredCount = document.getElementById("filtered-count");
+    const bestMatch = document.getElementById("best-match");
+    const tableContainer = document.getElementById("interactive-table");
+    const highlight = document.getElementById("interactive-target-highlight");
+
+    function renderTable(rows) {
+      if (!rows.length) {
+        tableContainer.innerHTML = '<p class="muted">No shortlist planets match the current filters.</p>';
+        highlight.innerHTML = '<strong>No target selected.</strong> Broaden the filters to restore shortlist rows.';
+        filteredCount.textContent = '0';
+        bestMatch.textContent = 'None';
+        return;
+      }
+
+      const headers = [
+        'Rank', 'Planet', 'Host', 'Score', 'HZ', 'Radius', 'Temperature', 'Insolation', 'Distance', 'Mag', 'Method'
+      ];
+      const headerHtml = headers.map((header) => `<th>${header}</th>`).join('');
+      const bodyHtml = rows.map((row) => `
+        <tr>
+          <td>${row.priority_rank}</td>
+          <td>${row.pl_name}</td>
+          <td>${row.hostname}</td>
+          <td>${Number(row.follow_up_priority_score).toFixed(3)}</td>
+          <td>${row.hz_flag === 1 ? 'Yes' : 'No'}</td>
+          <td>${Number(row.pl_rade).toFixed(3)}</td>
+          <td>${Number(row.pl_eqt).toFixed(1)} K</td>
+          <td>${Number(row.pl_insol).toFixed(3)}</td>
+          <td>${Number(row.sy_dist).toFixed(3)} pc</td>
+          <td>${row.preferred_mag == null ? 'NA' : Number(row.preferred_mag).toFixed(3)}</td>
+          <td>${row.discoverymethod}</td>
+        </tr>
+      `).join('');
+
+      tableContainer.innerHTML = `
+        <div class="table-scroll">
+          <table class="data-table compact-table">
+            <thead><tr>${headerHtml}</tr></thead>
+            <tbody>${bodyHtml}</tbody>
+          </table>
+        </div>
+      `;
+
+      const top = rows[0];
+      filteredCount.textContent = String(rows.length);
+      bestMatch.textContent = top.pl_name;
+      highlight.innerHTML = `
+        <strong>${top.pl_name}</strong> around <strong>${top.hostname}</strong> remains the best match under the current filters.
+        Its Follow-up Priority Score is <strong>${Number(top.follow_up_priority_score).toFixed(3)}</strong>,
+        with radius <strong>${Number(top.pl_rade).toFixed(3)} R⊕</strong>,
+        equilibrium temperature <strong>${Number(top.pl_eqt).toFixed(1)} K</strong>,
+        and distance <strong>${Number(top.sy_dist).toFixed(3)} pc</strong>.
+      `;
+    }
+
+    function applyFilters() {
+      const query = searchBox.value.trim().toLowerCase();
+      const hzMode = hzFilter.value;
+      const minScore = Number(scoreFilter.value || 0);
+      const sortMode = sortSelect.value;
+
+      let rows = shortlistData.filter((row) => {
+        const text = `${row.pl_name} ${row.hostname} ${row.discoverymethod}`.toLowerCase();
+        const queryOk = !query || text.includes(query);
+        const hzOk =
+          hzMode === 'all' ||
+          (hzMode === 'hz' && row.hz_flag === 1) ||
+          (hzMode === 'non_hz' && row.hz_flag !== 1);
+        const scoreOk = Number(row.follow_up_priority_score) >= minScore;
+        return queryOk && hzOk && scoreOk;
+      });
+
+      const comparators = {
+        score_desc: (a, b) => Number(b.follow_up_priority_score) - Number(a.follow_up_priority_score),
+        rank_asc: (a, b) => Number(a.priority_rank) - Number(b.priority_rank),
+        distance_asc: (a, b) => Number(a.sy_dist) - Number(b.sy_dist),
+        temp_asc: (a, b) => Number(a.pl_eqt) - Number(b.pl_eqt),
+        radius_asc: (a, b) => Number(a.pl_rade) - Number(b.pl_rade),
+      };
+
+      rows = rows.slice().sort(comparators[sortMode] || comparators.score_desc);
+      renderTable(rows);
+    }
+
+    [searchBox, hzFilter, scoreFilter, sortSelect].forEach((element) => {
+      element.addEventListener('input', applyFilters);
+      element.addEventListener('change', applyFilters);
+    });
+
+    applyFilters();
+  </script>
+</body>
+</html>
