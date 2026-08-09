@@ -24,8 +24,7 @@
       box-sizing: border-box;
     }
 
-    body {background:
-radial-gradient(circle at top, #ffffff 0%, #f4f1ea 45%, #e8eef5 100%);
+    body {
       margin: 0;
       color: var(--ink);
       background:
@@ -158,8 +157,11 @@ h1 {
     overflow-wrap: anywhere;
     word-break: break-word;
 }
-word-break: break-word;
-font-size: 1.8rem;
+
+.metric-card:first-child .metric-value {
+    font-size: 1.25rem;
+    line-height: 1.35;
+}
     
     .section-grid {
       display: grid;
@@ -611,9 +613,3 @@ font-size: 1.8rem;
   </script>
 </body>
 </html>
-<!-- Trigger Pages rebuild -->
-
-.metric-card:first-child .metric-value {
-    font-size: 1.25rem;
-    line-height: 1.35;
-}
