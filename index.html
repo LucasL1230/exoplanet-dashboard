@@ -104,28 +104,26 @@ h1 {
       font-size: 1.03rem;
     }
 
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 14px;
-      margin-top: 24px;
-    }
-
-.metric-card,
-.panel {
-  border-radius: 28px;
-  border: 1px solid rgba(255,255,255,0.35);
-  background: rgba(255,255,255,0.65);
-  box-shadow:
-    0 20px 50px rgba(0,0,0,0.12);
-  backdrop-filter: blur(16px);
-  transition: all 0.3s ease;
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 24px;
 }
+
+.metric-card {
+    padding: 18px;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 0;
+    overflow: hidden;
+}
+    
 .metric-card:hover,
 .panel:hover {
- transform: translateY(-8px);
- box-shadow:
-   0 30px 60px rgba(0,0,0,0.18);
+    transform: translateY(-3px);
 }
 
 .metric-card {
@@ -145,11 +143,14 @@ h1 {
       letter-spacing: 0.08em;
     }
 
-    .metric-value {
-      font-size: 1.7rem;
-      font-weight: 700;
-      color: var(--accent-cool);
-    }
+.metric-value {
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: var(--accent-cool);
+    line-height: 1.15;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
 word-break: break-word;
 font-size: 1.8rem;
     
@@ -604,3 +605,8 @@ font-size: 1.8rem;
 </body>
 </html>
 <!-- Trigger Pages rebuild -->
+
+.metric-card:first-child .metric-value {
+    font-size: 1.25rem;
+    line-height: 1.35;
+}
