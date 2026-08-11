@@ -534,6 +534,120 @@ h1 {
   }
 }
 
+.figure-card img {
+  cursor: zoom-in;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.figure-card img:hover {
+  transform: scale(1.02);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 30px;
+
+  background: rgba(3, 8, 20, 0.88);
+  backdrop-filter: blur(8px);
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transition: opacity 180ms ease, visibility 180ms ease;
+}
+
+.lightbox.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.lightbox-content {
+  position: relative;
+  max-width: min(1100px, 95vw);
+  max-height: 90vh;
+
+  transform: scale(0.94);
+  transition: transform 180ms ease;
+}
+
+.lightbox.open .lightbox-content {
+  transform: scale(1);
+}
+
+.lightbox-image {
+  display: block;
+  max-width: 100%;
+  max-height: 82vh;
+
+  border-radius: 16px;
+  box-shadow:
+    0 25px 80px rgba(0, 0, 0, 0.5),
+    0 0 50px rgba(56, 189, 248, 0.12);
+}
+
+.lightbox-caption {
+  margin-top: 12px;
+  color: rgba(255, 255, 255, 0.82);
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -16px;
+  right: -16px;
+
+  width: 40px;
+  height: 40px;
+
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+
+  background: rgba(15, 23, 42, 0.9);
+  color: white;
+
+  font-size: 24px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: background 150ms ease, transform 150ms ease;
+}
+
+.lightbox-close:hover {
+  background: rgba(30, 41, 59, 1);
+  transform: scale(1.08);
+}
+
+@media (max-width: 640px) {
+  .lightbox {
+    padding: 16px;
+  }
+
+  .lightbox-image {
+    max-height: 80vh;
+  }
+
+  .lightbox-close {
+    top: -12px;
+    right: -8px;
+  }
+}
+    
   </style>
 </head>
 <body>
@@ -656,6 +770,19 @@ h1 {
       </div>
     </section>
   </main>
+
+    <div id="lightbox" class="lightbox" aria-hidden="true">
+  <div class="lightbox-content">
+    <button class="lightbox-close" id="lightbox-close" aria-label="Close image">
+      ×
+    </button>
+
+    <img id="lightbox-image" class="lightbox-image" src="" alt="" />
+
+    <div id="lightbox-caption" class="lightbox-caption"></div>
+  </div>
+</div>
+  
   <script>
     const shortlistData = [{"priority_rank": 1, "pl_name": "TRAPPIST-1 e", "hostname": "TRAPPIST-1", "follow_up_priority_score": 87.662, "hz_flag": 1, "pl_rade": 0.92, "pl_eqt": 249.7, "pl_insol": 0.646, "sy_dist": 12.42988881, "preferred_mag": 11.354, "discoverymethod": "Transit"}, {"priority_rank": 2, "pl_name": "TRAPPIST-1 d", "hostname": "TRAPPIST-1", "follow_up_priority_score": 87.123, "hz_flag": 1, "pl_rade": 0.788, "pl_eqt": 286.2, "pl_insol": 1.115, "sy_dist": 12.42988881, "preferred_mag": 11.354, "discoverymethod": "Transit"}, {"priority_rank": 3, "pl_name": "TRAPPIST-1 c", "hostname": "TRAPPIST-1", "follow_up_priority_score": 79.256, "hz_flag": 0, "pl_rade": 1.097, "pl_eqt": 339.7, "pl_insol": 2.214, "sy_dist": 12.42988881, "preferred_mag": 11.354, "discoverymethod": "Transit"}, {"priority_rank": 4, "pl_name": "TRAPPIST-1 f", "hostname": "TRAPPIST-1", "follow_up_priority_score": 78.318, "hz_flag": 1, "pl_rade": 1.045, "pl_eqt": 217.7, "pl_insol": 0.373, "sy_dist": 12.42988881, "preferred_mag": 11.354, "discoverymethod": "Transit"}, {"priority_rank": 5, "pl_name": "Gliese 12 b", "hostname": "Gliese 12", "follow_up_priority_score": 75.722, "hz_flag": 1, "pl_rade": 0.93, "pl_eqt": 314.6, "pl_insol": 1.62, "sy_dist": 12.21, "preferred_mag": 8.619, "discoverymethod": "Transit"}, {"priority_rank": 6, "pl_name": "TOI-700 d", "hostname": "TOI-700", "follow_up_priority_score": 73.921, "hz_flag": 1, "pl_rade": 1.073, "pl_eqt": 268.8, "pl_insol": 0.85, "sy_dist": 31.1265, "preferred_mag": 9.469, "discoverymethod": "Transit"}, {"priority_rank": 7, "pl_name": "TOI-700 e", "hostname": "TOI-700", "follow_up_priority_score": 73.569, "hz_flag": 1, "pl_rade": 0.953, "pl_eqt": 272.9, "pl_insol": 1.27, "sy_dist": 31.1265, "preferred_mag": 9.469, "discoverymethod": "Transit"}, {"priority_rank": 8, "pl_name": "Kepler-1649 c", "hostname": "Kepler-1649", "follow_up_priority_score": 73.557, "hz_flag": 1, "pl_rade": 1.06, "pl_eqt": 234.0, "pl_insol": 0.75, "sy_dist": 92.1913, "preferred_mag": 13.379, "discoverymethod": "Transit"}, {"priority_rank": 9, "pl_name": "Kepler-1649 b", "hostname": "Kepler-1649", "follow_up_priority_score": 71.888, "hz_flag": 0, "pl_rade": 1.017, "pl_eqt": 307.0, "pl_insol": 2.208, "sy_dist": 92.1913, "preferred_mag": 13.379, "discoverymethod": "Transit"}, {"priority_rank": 10, "pl_name": "K2-72 e", "hostname": "K2-72", "follow_up_priority_score": 71.461, "hz_flag": 1, "pl_rade": 1.29, "pl_eqt": 286.34, "pl_insol": 1.2, "sy_dist": 66.4321, "preferred_mag": 11.685, "discoverymethod": "Transit"}, {"priority_rank": 11, "pl_name": "LP 890-9 c", "hostname": "LP 890-9", "follow_up_priority_score": 71.084, "hz_flag": 1, "pl_rade": 1.367, "pl_eqt": 272.0, "pl_insol": 0.906, "sy_dist": 32.4298, "preferred_mag": 12.258, "discoverymethod": "Transit"}, {"priority_rank": 12, "pl_name": "TRAPPIST-1 g", "hostname": "TRAPPIST-1", "follow_up_priority_score": 70.996, "hz_flag": 0, "pl_rade": 1.129, "pl_eqt": 197.3, "pl_insol": 0.252, "sy_dist": 12.42988881, "preferred_mag": 11.354, "discoverymethod": "Transit"}, {"priority_rank": 13, "pl_name": "TOI-715 b", "hostname": "TOI-715", "follow_up_priority_score": 70.545, "hz_flag": 1, "pl_rade": 1.55, "pl_eqt": 234.0, "pl_insol": 0.67, "sy_dist": 42.4048, "preferred_mag": 11.808, "discoverymethod": "Transit"}, {"priority_rank": 14, "pl_name": "TOI-6002 b", "hostname": "TOI-6002", "follow_up_priority_score": 69.234, "hz_flag": 1, "pl_rade": 1.65, "pl_eqt": 321.4, "pl_insol": 1.6823, "sy_dist": 32.0266, "preferred_mag": 10.997, "discoverymethod": "Transit"}, {"priority_rank": 15, "pl_name": "Kepler-445 d", "hostname": "Kepler-445", "follow_up_priority_score": 66.163, "hz_flag": 0, "pl_rade": 1.25, "pl_eqt": 305.0, "pl_insol": 4.314, "sy_dist": 127.201, "preferred_mag": 13.542, "discoverymethod": "Transit"}, {"priority_rank": 16, "pl_name": "TOI-1452 b", "hostname": "TOI-1452", "follow_up_priority_score": 66.009, "hz_flag": 0, "pl_rade": 1.672, "pl_eqt": 326.0, "pl_insol": 1.8, "sy_dist": 30.5212, "preferred_mag": 10.604, "discoverymethod": "Transit"}, {"priority_rank": 17, "pl_name": "K2-72 c", "hostname": "K2-72", "follow_up_priority_score": 65.219, "hz_flag": 0, "pl_rade": 1.16, "pl_eqt": 333.81, "pl_insol": 2.2, "sy_dist": 66.4321, "preferred_mag": 11.685, "discoverymethod": "Transit"}, {"priority_rank": 18, "pl_name": "LHS 1140 b", "hostname": "LHS 1140", "follow_up_priority_score": 65.077, "hz_flag": 1, "pl_rade": 1.73, "pl_eqt": 226.0, "pl_insol": 0.43, "sy_dist": 14.9861, "preferred_mag": 9.612001, "discoverymethod": "Transit"}, {"priority_rank": 19, "pl_name": "K2-3 d", "hostname": "K2-3", "follow_up_priority_score": 63.596, "hz_flag": 1, "pl_rade": 1.458, "pl_eqt": 305.2, "pl_insol": 1.44, "sy_dist": 44.0727, "preferred_mag": 9.421, "discoverymethod": "Transit"}, {"priority_rank": 20, "pl_name": "TOI-2095 c", "hostname": "TOI-2095", "follow_up_priority_score": 62.256, "hz_flag": 0, "pl_rade": 1.33, "pl_eqt": 297.0, "pl_insol": 1.84, "sy_dist": 41.9176, "preferred_mag": 9.797, "discoverymethod": "Transit"}, {"priority_rank": 21, "pl_name": "TOI-5799 c", "hostname": "TOI-5799", "follow_up_priority_score": 60.465, "hz_flag": 0, "pl_rade": 1.76, "pl_eqt": 337.0, "pl_insol": 2.4202, "sy_dist": 27.8123, "preferred_mag": 9.742, "discoverymethod": "Transit"}, {"priority_rank": 22, "pl_name": "Kepler-560 b", "hostname": "Kepler-560", "follow_up_priority_score": 58.306, "hz_flag": 0, "pl_rade": 1.72, "pl_eqt": 298.0, "pl_insol": 2.46, "sy_dist": 109.308, "preferred_mag": 12.276, "discoverymethod": "Transit"}, {"priority_rank": 23, "pl_name": "TOI-5713 b", "hostname": "TOI-5713", "follow_up_priority_score": 57.337, "hz_flag": 0, "pl_rade": 1.77, "pl_eqt": 347.2, "pl_insol": 2.2554, "sy_dist": 40.8668, "preferred_mag": 11.068, "discoverymethod": "Transit"}, {"priority_rank": 24, "pl_name": "K2-133 e", "hostname": "K2-133", "follow_up_priority_score": 56.723, "hz_flag": 0, "pl_rade": 1.73, "pl_eqt": 296.0, "pl_insol": 1.8, "sy_dist": 75.1703, "preferred_mag": 11.084, "discoverymethod": "Transit"}, {"priority_rank": 25, "pl_name": "TOI-2095 b", "hostname": "TOI-2095", "follow_up_priority_score": 53.568, "hz_flag": 0, "pl_rade": 1.25, "pl_eqt": 347.0, "pl_insol": 3.43, "sy_dist": 41.9176, "preferred_mag": 9.797, "discoverymethod": "Transit"}, {"priority_rank": 26, "pl_name": "LHS 1903 e", "hostname": "LHS 1903", "follow_up_priority_score": 51.168, "hz_flag": 0, "pl_rade": 1.732, "pl_eqt": 333.0, "pl_insol": 2.05, "sy_dist": 35.6917, "preferred_mag": 9.061, "discoverymethod": "Transit"}, {"priority_rank": 27, "pl_name": "Kepler-138 d", "hostname": "Kepler-138", "follow_up_priority_score": 49.731, "hz_flag": 0, "pl_rade": 1.51, "pl_eqt": 345.0, "pl_insol": 3.4, "sy_dist": 66.8624, "preferred_mag": 10.293, "discoverymethod": "Transit"}];
 
@@ -753,6 +880,43 @@ h1 {
     });
 
     applyFilters();
+    const lightbox = document.getElementById("lightbox");
+const lightboxImage = document.getElementById("lightbox-image");
+const lightboxCaption = document.getElementById("lightbox-caption");
+const lightboxClose = document.getElementById("lightbox-close");
+
+document.querySelectorAll(".figure-card img").forEach((image) => {
+  image.addEventListener("click", () => {
+    lightboxImage.src = image.src;
+    lightboxImage.alt = image.alt;
+    lightboxCaption.textContent =
+      image.closest(".figure-card")?.querySelector("figcaption")?.textContent || "";
+
+    lightbox.classList.add("open");
+    lightbox.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  });
+});
+
+function closeLightbox() {
+  lightbox.classList.remove("open");
+  lightbox.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+}
+
+lightboxClose.addEventListener("click", closeLightbox);
+
+lightbox.addEventListener("click", (event) => {
+  if (event.target === lightbox) {
+    closeLightbox();
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && lightbox.classList.contains("open")) {
+    closeLightbox();
+  }
+});
   </script>
 </body>
 </html>
