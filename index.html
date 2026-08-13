@@ -270,6 +270,17 @@ h1 {
     border-color 180ms ease;
 }
 
+    .run-history-panel {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(
+      rgba(246, 241, 232, 0.88),
+      rgba(246, 241, 232, 0.88)
+    ),
+    url("galaxy.jpg") center bottom / cover no-repeat;
+}
+
 .panel:hover {
   transform: translateY(-3px);
   border-color: rgba(47, 111, 126, 0.18);
@@ -845,8 +856,8 @@ h1 {
           <p><strong>New top-10 entries:</strong> K2-72 e</p><p><strong>Removed top-10 entries:</strong> LP 890-9 c</p><div class="table-scroll"><table class="data-table compact-table"><thead><tr><th>pl_name</th><th>previous_rank</th><th>current_rank</th><th>rank_change</th><th>score_change</th></tr></thead><tbody><tr><td>Kepler-1649 b</td><td>10</td><td>9</td><td>1</td><td>-0.502</td></tr><tr><td>TOI-700 d</td><td>7</td><td>6</td><td>1</td><td>-0.524</td></tr><tr><td>TRAPPIST-1 e</td><td>2</td><td>1</td><td>1</td><td>-0.891</td></tr><tr><td>Kepler-1649 c</td><td>8</td><td>8</td><td>0</td><td>-0.106</td></tr><tr><td>TRAPPIST-1 f</td><td>4</td><td>4</td><td>0</td><td>-0.154</td></tr></tbody></table></div>
         </section>
 
-        <section class="panel">
-          <h2>Run History</h2>
+<section class="panel run-history-panel">
+  <h2>Run History</h2>
           <p class="lede">This table shows the recent execution history of the pipeline and supports long-term monitoring.</p>
           <div class="table-scroll"><table class="data-table compact-table"><thead><tr><th>run_timestamp_utc</th><th>raw_rows</th><th>clean_rows</th><th>training_rows</th><th>shortlist_rows</th><th>selected_model</th><th>test_mae</th><th>test_rmse</th><th>test_r2</th><th>cv_mae_mean</th><th>cv_r2_mean</th></tr></thead><tbody><tr><td>2026-06-16T07-00-45Z</td><td>6240</td><td>6240</td><td>354</td><td>24</td><td>gradient_boosting</td><td>2.275</td><td>3.244</td><td>0.961</td><td>2.388</td><td>0.926</td></tr><tr><td>2026-06-16T07-04-22Z</td><td>6240</td><td>6240</td><td>354</td><td>24</td><td>gradient_boosting</td><td>2.275</td><td>3.244</td><td>0.961</td><td>2.388</td><td>0.926</td></tr><tr><td>2026-06-16T07-08-15Z</td><td>6240</td><td>6240</td><td>354</td><td>24</td><td>gradient_boosting</td><td>2.275</td><td>3.244</td><td>0.961</td><td>2.388</td><td>0.926</td></tr><tr><td>2026-06-17T13-42-20Z</td><td>6240</td><td>6240</td><td>354</td><td>24</td><td>gradient_boosting</td><td>2.275</td><td>3.244</td><td>0.961</td><td>2.388</td><td>0.926</td></tr><tr><td>2026-06-17T14-25-48Z</td><td>6240</td><td>6240</td><td>354</td><td>24</td><td>gradient_boosting</td><td>2.275</td><td>3.244</td><td>0.961</td><td>2.388</td><td>0.926</td></tr><tr><td>2026-06-19T05-49-39Z</td><td>6240</td><td>6193</td><td>421</td><td>27</td><td>gradient_boosting</td><td>2.195</td><td>2.871</td><td>0.954</td><td>2.041</td><td>0.946</td></tr><tr><td>2026-08-03T17-18-41Z</td><td>6275</td><td>6229</td><td>421</td><td>27</td><td>gradient_boosting</td><td>2.475</td><td>3.511</td><td>0.936</td><td>2.169</td><td>0.947</td></tr><tr><td>2026-08-06T20-53-13Z</td><td>6278</td><td>6232</td><td>422</td><td>27</td><td>gradient_boosting</td><td>1.971</td><td>2.756</td><td>0.964</td><td>2.343</td><td>0.934</td></tr></tbody></table></div>
         </section>
