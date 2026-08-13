@@ -647,6 +647,89 @@ h1 {
     right: -8px;
   }
 }
+
+.nasa-explorer {
+  width: min(1220px, calc(100% - 32px));
+  margin: 28px auto 48px;
+  padding: 50px 30px;
+
+  position: relative;
+  overflow: hidden;
+
+  border: 1px solid rgba(125, 211, 252, 0.25);
+  border-radius: 28px;
+
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(56, 189, 248, 0.16),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 85% 80%,
+      rgba(139, 92, 246, 0.18),
+      transparent 35%
+    ),
+    rgba(8, 20, 38, 0.92);
+
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.35),
+    0 0 60px rgba(56, 189, 248, 0.08);
+
+  text-align: center;
+}
+
+.nasa-explorer-content {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.nasa-explorer h2 {
+  margin: 12px 0 12px;
+  color: white;
+  font-size: clamp(1.8rem, 4vw, 2.7rem);
+}
+
+.nasa-explorer p {
+  margin: 0 auto 24px;
+  color: rgba(226, 232, 240, 0.82);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.nasa-explorer-button {
+  display: inline-block;
+  padding: 13px 22px;
+
+  border: 1px solid rgba(125, 211, 252, 0.35);
+  border-radius: 999px;
+
+  background: linear-gradient(
+    90deg,
+    #164e63,
+    #0ea5e9
+  );
+
+  color: white;
+  text-decoration: none;
+  font-weight: 700;
+
+  box-shadow:
+    0 8px 24px rgba(14, 165, 233, 0.25);
+
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.nasa-explorer-button:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 14px 32px rgba(14, 165, 233, 0.35);
+}
     
   </style>
 </head>
@@ -770,6 +853,28 @@ h1 {
     </section>
   </main>
 
+<section class="nasa-explorer">
+  <div class="nasa-explorer-content">
+    <span class="eyebrow">NASA Interactive Explorer</span>
+
+    <h2>Explore the Exoplanet Archive</h2>
+
+    <p>
+      Explore thousands of known exoplanets with NASA's interactive
+      Eyes on Exoplanets tool.
+    </p>
+
+    <a
+      class="nasa-explorer-button"
+      href="https://eyes.nasa.gov/apps/exo/#/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      🚀 Explore Exoplanets on NASA
+    </a>
+  </div>
+</section>
+  
     <div id="lightbox" class="lightbox" aria-hidden="true">
   <div class="lightbox-content">
     <button class="lightbox-close" id="lightbox-close" aria-label="Close image">
