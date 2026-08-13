@@ -270,12 +270,6 @@ h1 {
     border-color 180ms ease;
 }
 
-  transition:
-    transform 180ms ease,
-    box-shadow 180ms ease,
-    border-color 180ms ease;
-}
-
 .panel:hover {
   transform: translateY(-3px);
   border-color: rgba(47, 111, 126, 0.18);
@@ -701,20 +695,24 @@ h1 {
 }
 
 .nasa-explorer {
-  margin-top: 20px;
-  padding: 24px;
+  position: relative;
+  overflow: hidden;
+
+  width: 75%;
+  margin: 20px auto 0;
+
+  padding: 46px 30px;
   text-align: center;
 
-  width: 100%;
-  max-width: none;
-
   background: rgba(255, 250, 243, 0.93);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  border-radius: var(--radius);
+
+  border: 1px solid rgba(125, 211, 252, 0.22);
+  border-radius: 32px;
 
   box-shadow:
-    0 12px 35px rgba(0, 0, 0, 0.18),
-    0 2px 8px rgba(0, 0, 0, 0.06);
+    0 20px 60px rgba(0, 0, 0, 0.28),
+    0 0 80px rgba(56, 189, 248, 0.08);
+}
 
 .nasa-explorer h2 {
   color: var(--ink);
@@ -848,7 +846,6 @@ h1 {
         </section>
       </div>
     </section>
-  </main>
 
 <section class="nasa-explorer">
   <div class="nasa-explorer-content">
@@ -871,6 +868,8 @@ h1 {
     </a>
   </div>
 </section>
+    
+  </main>
   
     <div id="lightbox" class="lightbox" aria-hidden="true">
   <div class="lightbox-content">
