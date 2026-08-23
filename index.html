@@ -724,8 +724,8 @@ h1 {
 
   background:
     linear-gradient(
-      rgba(246, 241, 232, 0.68),
-      rgba(246, 241, 232, 0.68)
+      rgba(246, 241, 232, 0.52),
+      rgba(246, 241, 232, 0.52)
     ),
     url("nasa-preview.jpg") center / cover no-repeat;
 
@@ -733,6 +733,12 @@ h1 {
     transform 180ms ease,
     box-shadow 180ms ease,
     border-color 180ms ease;
+}
+
+.nasa-explorer:hover {
+  transform: translateY(-3px);
+  border-color: rgba(47, 111, 126, 0.18);
+  box-shadow: 0 16px 38px rgba(40, 34, 24, 0.10);
 }
 
 .nasa-explorer h2 {
