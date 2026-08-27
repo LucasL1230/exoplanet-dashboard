@@ -681,6 +681,37 @@ h1 {
   }
 }
 
+.nasa-explorer {
+  position: relative;
+  overflow: hidden;
+
+  width: 100%;
+  box-sizing: border-box;
+
+  margin-top: 12px;
+  padding: 36px 24px;
+
+  background: rgba(255, 250, 243, 0.93);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
+}
+
+.nasa-explorer:hover {
+  transform: translateY(-3px);
+  border-color: rgba(47, 111, 126, 0.18);
+  box-shadow: 0 16px 38px rgba(40, 34, 24, 0.10);
+}
+
 .nasa-explorer-content {
   position: relative;
   z-index: 1;
@@ -690,27 +721,40 @@ h1 {
 
   margin: 0 auto;
 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
   text-align: center;
 }
 
 .nasa-explorer h2 {
   margin: 12px 0 12px;
-  color: white;
+
+  color: var(--ink);
   font-size: clamp(1.8rem, 4vw, 2.7rem);
+
+  text-align: center;
 }
 
 .nasa-explorer p {
+  width: 100%;
   max-width: 680px;
+
   margin: 0 auto 24px;
 
-  color: rgba(226, 232, 240, 0.82);
+  color: var(--ink-soft);
   font-size: 1rem;
   line-height: 1.7;
+
   text-align: center;
 }
 
 .nasa-explorer-button {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
   padding: 13px 22px;
 
   border: 1px solid rgba(125, 211, 252, 0.35);
@@ -739,45 +783,6 @@ h1 {
 
   box-shadow:
     0 14px 32px rgba(14, 165, 233, 0.35);
-}
-
-.nasa-explorer {
-  position: relative;
-  overflow: hidden;
-
-  background: rgba(255, 250, 243, 0.93);
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.nasa-explorer {
-  margin-top: 12px;
-  transition:
-    transform 180ms ease,
-    box-shadow 180ms ease,
-    border-color 180ms ease;
-}
-    
-  transition:
-    transform 180ms ease,
-    box-shadow 180ms ease,
-    border-color 180ms ease;
-}
-
-.nasa-explorer:hover {
-  transform: translateY(-3px);
-  border-color: rgba(47, 111, 126, 0.18);
-  box-shadow: 0 16px 38px rgba(40, 34, 24, 0.10);
-}
-
-.nasa-explorer h2 {
-  color: var(--ink);
-}
-
-.nasa-explorer p {
-  color: var(--ink-soft);
 }
 
 .nasa-note {
@@ -817,7 +822,7 @@ h1 {
         <section class="panel">
           <h2>Top Priority Targets</h2>
           <p class="lede">These are the current top-ranked shortlist planets for atmospheric biosignature follow-up planning.</p>
-          <div class="table-scroll"><table class="data-table"><thead><tr><th>priority_rank</th><th>pl_name</th><th>hostname</th><th>follow_up_priority_score</th><th>heuristic_priority_score</th><th>ml_predicted_priority_score</th><th>hz_flag</th><th>pl_rade</th><th>pl_eqt</th><th>pl_insol</th><th>sy_dist</th><th>preferred_mag</th><th>atmospheric_signal_ppm</th><th>discoverymethod</th><th>disc_year</th><th>disc_facility</th></tr></thead><tbody><tr><td>1</td><td>TRAPPIST-1 b</td><td>TRAPPIST-1</td><td>88.553</td><td>87.068</td><td>1</td><td>0.920</td><td>249.700</td><td>0.646</td><td>12.430</td><td>11.354</td><td>15.221</td><td>Transit</td><td>2017</td><td>Multiple Observatories</td></tr><tr><td>2</td><td>TRAPPIST-1 e</td><td>TRAPPIST-1 d</td><td>TRAPPIST-1</td><td>87.123</td><td>90.330</td><td>84.985</td><td>1</td><td>0.788</td><td>286.200</td><td>1.115</td><td>12.430</td><td>11.354</td><td>19.551</td><td>Transit</td><td>2016</td><td>La Silla Observatory</td></tr><tr><td>3</td><td>TRAPPIST-1 c</td><td>TRAPPIST-1</td><td>79.256</td><td>81.227</td><td>77.942</td><td>0</td><td>1.097</td><td>339.700</td><td>2.214</td><td>12.430</td><td>11.354</td><td>18.572</td><td>Transit</td><td>2016</td><td>La Silla Observatory</td></tr><tr><td>4</td><td>TRAPPIST-1 f</td><td>TRAPPIST-1</td><td>78.318</td><td>78.191</td><td>78.402</td><td>1</td><td>1.045</td><td>217.700</td><td>0.373</td><td>12.430</td><td>11.354</td><td>12.952</td><td>Transit</td><td>2017</td><td>Multiple Observatories</td></tr><tr><td>5</td><td>Gliese 12 b</td><td>Gliese 12</td><td>75.722</td><td>77.883</td><td>74.281</td><td>1</td><td>0.930</td><td>314.600</td><td>1.620</td><td>12.210</td><td>8.619</td><td>2.919</td><td>Transit</td><td>2024</td><td>Transiting Exoplanet Survey Satellite (TESS)</td></tr><tr><td>6</td><td>TOI-700 d</td><td>TOI-700</td><td>73.921</td><td>74.556</td><td>73.497</td><td>1</td><td>1.073</td><td>268.800</td><td>0.850</td><td>31.127</td><td>9.469</td><td>1.154</td><td>Transit</td><td>2020</td><td>Transiting Exoplanet Survey Satellite (TESS)</td></tr><tr><td>7</td><td>TOI-700 e</td><td>TOI-700</td><td>73.569</td><td>73.808</td><td>73.410</td><td>1</td><td>0.953</td><td>272.900</td><td>1.270</td><td>31.127</td><td>9.469</td><td>1.254</td><td>Transit</td><td>2023</td><td>Transiting Exoplanet Survey Satellite (TESS)</td></tr><tr><td>8</td><td>Kepler-1649 c</td><td>Kepler-1649</td><td>73.557</td><td>73.366</td><td>73.685</td><td>1</td><td>1.060</td><td>234</td><td>0.750</td><td>92.191</td><td>13.379</td><td>3.330</td><td>Transit</td><td>2020</td><td>Kepler</td></tr><tr><td>9</td><td>Kepler-1649 b</td><td>Kepler-1649</td><td>71.888</td><td>72.609</td><td>71.407</td><td>0</td><td>1.017</td><td>307</td><td>2.208</td><td>92.191</td><td>13.379</td><td>4.495</td><td>Transit</td><td>2017</td><td>Kepler</td></tr><tr><td>10</td><td>K2-72 e</td><td>K2-72</td><td>71.461</td><td>72.398</td><td>70.836</td><td>1</td><td>1.290</td><td>286.340</td><td>1.200</td><td>66.432</td><td>11.685</td><td>1.954</td><td>Transit</td><td>2016</td><td>K2</td></tr></tbody></table></div>
+          <div class="table-scroll"><table class="data-table"><thead><tr><th>priority_rank</th><th>pl_name</th><th>hostname</th><th>follow_up_priority_score</th><th>heuristic_priority_score</th><th>ml_predicted_priority_score</th><th>hz_flag</th><th>pl_rade</th><th>pl_eqt</th><th>pl_insol</th><th>sy_dist</th><th>preferred_mag</th><th>atmospheric_signal_ppm</th><th>discoverymethod</th><th>disc_year</th><th>disc_facility</th></tr></thead><tbody><tr><td>1</td><td>TRAPPIST-1 e</td><td>TRAPPIST-1</td><td>88.553</td><td>87.068</td><td>1</td><td>0.920</td><td>249.700</td><td>0.646</td><td>12.430</td><td>11.354</td><td>15.221</td><td>Transit</td><td>2017</td><td>Multiple Observatories</td></tr><tr><td>2</td><td>TRAPPIST-1 d</td><td>TRAPPIST-1</td><td>87.123</td><td>90.330</td><td>84.985</td><td>1</td><td>0.788</td><td>286.200</td><td>1.115</td><td>12.430</td><td>11.354</td><td>19.551</td><td>Transit</td><td>2016</td><td>La Silla Observatory</td></tr><tr><td>3</td><td>TRAPPIST-1 c</td><td>TRAPPIST-1</td><td>79.256</td><td>81.227</td><td>77.942</td><td>0</td><td>1.097</td><td>339.700</td><td>2.214</td><td>12.430</td><td>11.354</td><td>18.572</td><td>Transit</td><td>2016</td><td>La Silla Observatory</td></tr><tr><td>4</td><td>TRAPPIST-1 f</td><td>TRAPPIST-1</td><td>78.318</td><td>78.191</td><td>78.402</td><td>1</td><td>1.045</td><td>217.700</td><td>0.373</td><td>12.430</td><td>11.354</td><td>12.952</td><td>Transit</td><td>2017</td><td>Multiple Observatories</td></tr><tr><td>5</td><td>Gliese 12 b</td><td>Gliese 12</td><td>75.722</td><td>77.883</td><td>74.281</td><td>1</td><td>0.930</td><td>314.600</td><td>1.620</td><td>12.210</td><td>8.619</td><td>2.919</td><td>Transit</td><td>2024</td><td>Transiting Exoplanet Survey Satellite (TESS)</td></tr><tr><td>6</td><td>TOI-700 d</td><td>TOI-700</td><td>73.921</td><td>74.556</td><td>73.497</td><td>1</td><td>1.073</td><td>268.800</td><td>0.850</td><td>31.127</td><td>9.469</td><td>1.154</td><td>Transit</td><td>2020</td><td>Transiting Exoplanet Survey Satellite (TESS)</td></tr><tr><td>7</td><td>TOI-700 e</td><td>TOI-700</td><td>73.569</td><td>73.808</td><td>73.410</td><td>1</td><td>0.953</td><td>272.900</td><td>1.270</td><td>31.127</td><td>9.469</td><td>1.254</td><td>Transit</td><td>2023</td><td>Transiting Exoplanet Survey Satellite (TESS)</td></tr><tr><td>8</td><td>Kepler-1649 c</td><td>Kepler-1649</td><td>73.557</td><td>73.366</td><td>73.685</td><td>1</td><td>1.060</td><td>234</td><td>0.750</td><td>92.191</td><td>13.379</td><td>3.330</td><td>Transit</td><td>2020</td><td>Kepler</td></tr><tr><td>9</td><td>Kepler-1649 b</td><td>Kepler-1649</td><td>71.888</td><td>72.609</td><td>71.407</td><td>0</td><td>1.017</td><td>307</td><td>2.208</td><td>92.191</td><td>13.379</td><td>4.495</td><td>Transit</td><td>2017</td><td>Kepler</td></tr><tr><td>10</td><td>K2-72 e</td><td>K2-72</td><td>71.461</td><td>72.398</td><td>70.836</td><td>1</td><td>1.290</td><td>286.340</td><td>1.200</td><td>66.432</td><td>11.685</td><td>1.954</td><td>Transit</td><td>2016</td><td>K2</td></tr></tbody></table></div>
         </section>
 
         <section class="panel">
