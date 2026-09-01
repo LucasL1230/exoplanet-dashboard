@@ -387,6 +387,21 @@ border: 4px solid #2f6f7e;
   border-color: var(--accent-cool);
 }
 
+    .data-table .host-link {
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(47, 111, 126, 0.35);
+  transition:
+    color 150ms ease,
+    border-color 150ms ease;
+}
+
+.data-table .host-link:hover {
+  color: var(--accent-cool);
+  border-color: var(--accent-cool);
+}
+
     .data-table tbody tr:nth-child(odd) {
       background: rgba(255, 255, 255, 0.36);
     }
@@ -1007,6 +1022,32 @@ function getEyesUrl(planetName) {
 
   return planetUrls[planetName] || "https://eyes.nasa.gov/apps/exo/#/";
 }
+
+    function getStarUrl(hostname) {
+  const starUrls = {
+    "TRAPPIST-1": "https://eyes.nasa.gov/apps/exo/#/star/TRAPPIST-1",
+    "Gliese 12": "https://eyes.nasa.gov/apps/exo/#/star/Gliese_12",
+    "TOI-700": "https://eyes.nasa.gov/apps/exo/#/star/TOI-700",
+    "Kepler-1649": "https://eyes.nasa.gov/apps/exo/#/star/Kepler-1649",
+    "K2-72": "https://eyes.nasa.gov/apps/exo/#/star/K2-72",
+    "LP 890-9": "https://eyes.nasa.gov/apps/exo/#/star/LP_890-9",
+    "TOI-715": "https://eyes.nasa.gov/apps/exo/#/star/TOI-715",
+    "TOI-6002": "https://eyes.nasa.gov/apps/exo/#/star/TOI-6002",
+    "Kepler-445": "https://eyes.nasa.gov/apps/exo/#/star/Kepler-445",
+    "TOI-1452": "https://eyes.nasa.gov/apps/exo/#/star/TOI-1452",
+    "LHS 1140": "https://eyes.nasa.gov/apps/exo/#/star/LHS_1140",
+    "K2-3": "https://eyes.nasa.gov/apps/exo/#/star/K2-3",
+    "TOI-2095": "https://eyes.nasa.gov/apps/exo/#/star/TOI-2095",
+    "TOI-5799": "https://eyes.nasa.gov/apps/exo/#/star/TOI-5799",
+    "Kepler-560": "https://eyes.nasa.gov/apps/exo/#/star/Kepler-560",
+    "TOI-5713": "https://eyes.nasa.gov/apps/exo/#/star/TOI-5713",
+    "K2-133": "https://eyes.nasa.gov/apps/exo/#/star/K2-133",
+    "LHS 1903": "https://eyes.nasa.gov/apps/exo/#/star/LHS_1903",
+    "Kepler-138": "https://eyes.nasa.gov/apps/exo/#/star/Kepler-138"
+  };
+
+  return starUrls[hostname] || "https://eyes.nasa.gov/apps/exo/#/";
+}
     
     function renderTable(rows) {
       if (!rows.length) {
@@ -1034,7 +1075,16 @@ function getEyesUrl(planetName) {
     ${row.pl_name}
   </a>
 </td>
-          <td>${row.hostname}</td>
+<td>
+  <a
+    class="star-link"
+    href="${getStarUrl(row.hostname)}"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    ${row.hostname}
+  </a>
+</td>
           <td>${Number(row.follow_up_priority_score).toFixed(3)}</td>
           <td>${row.hz_flag === 1 ? 'Yes' : 'No'}</td>
           <td>${Number(row.pl_rade).toFixed(3)}</td>
