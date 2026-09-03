@@ -917,8 +917,25 @@ border: 4px solid #2f6f7e;
           <div class="table-scroll"><table class="data-table compact-table"><thead><tr><th>feature</th><th>importance</th></tr></thead><tbody><tr><td>st_mass</td><td>0.521</td></tr><tr><td>st_rad</td><td>0.100</td></tr><tr><td>sy_dist</td><td>0.082</td></tr><tr><td>pl_eqt</td><td>0.075</td></tr><tr><td>mass_for_signal_earth</td><td>0.055</td></tr><tr><td>pl_insol</td><td>0.055</td></tr><tr><td>pl_rade</td><td>0.032</td></tr><tr><td>st_teff</td><td>0.022</td></tr><tr><td>hz_flag</td><td>0.013</td></tr><tr><td>gravity_earth</td><td>0.008</td></tr></tbody></table></div>
         </section>
 
-        <section class="panel">
-          <h2>Leaderboard Changes</h2>
+<section class="panel leaderboard-panel">
+  <h2>Leaderboard Changes</h2>
+  .leaderboard-panel {
+  border: 2px solid #2f6f7e;
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.18),
+    0 0 0 1px rgba(255, 255, 255, 0.45);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
+}
+
+.leaderboard-panel:hover {
+  border-color: #2f7785;
+  box-shadow:
+    0 16px 38px rgba(40, 34, 24, 0.10),
+    0 0 20px rgba(47, 111, 126, 0.10);
+}
           <p><strong>New top-10 entries:</strong> K2-72 e</p><p><strong>Removed top-10 entries:</strong> LP 890-9 c</p><div class="table-scroll"><table class="data-table compact-table"><thead><tr><th>pl_name</th><th>previous_rank</th><th>current_rank</th><th>rank_change</th><th>score_change</th></tr></thead><tbody><tr><td>Kepler-1649 b</td><td>10</td><td>9</td><td>1</td><td>-0.502</td></tr><tr><td>TOI-700 d</td><td>7</td><td>6</td><td>1</td><td>-0.524</td></tr><tr><td>TRAPPIST-1 e</td><td>2</td><td>1</td><td>1</td><td>-0.891</td></tr><tr><td>Kepler-1649 c</td><td>8</td><td>8</td><td>0</td><td>-0.106</td></tr><tr><td>TRAPPIST-1 f</td><td>4</td><td>4</td><td>0</td><td>-0.154</td></tr></tbody></table></div>
         </section>
 
