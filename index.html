@@ -396,6 +396,21 @@ border: 4px solid #2f6f7e;
   border-color: var(--accent-cool);
 }
 
+.planet-link,
+.star-link,
+.planet-link:visited,
+.star-link:visited {
+  color: var(--accent-cool);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(47, 111, 126, 0.35);
+}
+
+.planet-link:hover,
+.star-link:hover {
+  border-color: var(--accent-cool);
+}
+    
     .data-table tbody tr:nth-child(odd) {
       background: rgba(255, 255, 255, 0.36);
     }
@@ -1064,13 +1079,64 @@ function getEyesUrl(planetName) {
 
   return starUrls[hostname] || "https://eyes.nasa.gov/apps/exo/#/";
 }
+
+    function linkKnownTargetNames() {
+  const planetNames = new Set(shortlistData.map((row) => row.pl_name));
+  const hostNames = new Set(shortlistData.map((row) => row.hostname));
+  const names = [...planetNames, ...hostNames]
+    .sort((a, b) => b.length - a.length)
+    .map((name) => name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+  const targetPattern = new RegExp(`(${names.join("|")})`, "g");
+  const textNodes = [];
+
+  const walker = document.createTreeWalker(
+    document.querySelector("main.shell"),
+    NodeFilter.SHOW_TEXT,
+    {
+      acceptNode(node) {
+        const parent = node.parentElement;
+        targetPattern.lastIndex = 0;
+        return node.nodeValue.trim() &&
+          !parent.closest("a, script, style") &&
+          targetPattern.test(node.nodeValue)
+          ? NodeFilter.FILTER_ACCEPT
+          : NodeFilter.FILTER_REJECT;
+      },
+    }
+  );
+
+  while (walker.nextNode()) textNodes.push(walker.currentNode);
+
+  textNodes.forEach((node) => {
+    const fragment = document.createDocumentFragment();
+    let lastIndex = 0;
+
+    node.nodeValue.replace(targetPattern, (name, _matchedName, offset) => {
+      fragment.append(node.nodeValue.slice(lastIndex, offset));
+
+      const link = document.createElement("a");
+      link.className = planetNames.has(name) ? "planet-link" : "star-link";
+      link.href = planetNames.has(name) ? getEyesUrl(name) : getStarUrl(name);
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = name;
+      fragment.append(link);
+
+      lastIndex = offset + name.length;
+      return name;
+    });
+
+    fragment.append(node.nodeValue.slice(lastIndex));
+    node.replaceWith(fragment);
+  });
+}
     
     function renderTable(rows) {
       if (!rows.length) {
         tableContainer.innerHTML = '<p class="muted">No shortlist planets match the current filters.</p>';
         highlight.innerHTML = '<strong>No target selected.</strong> Broaden the filters to restore shortlist rows.';
         filteredCount.textContent = '0';
-        bestMatch.textContent = 'None';
+        bestMatch.textContent = "None";
         return;
       }
 
@@ -1123,9 +1189,9 @@ function getEyesUrl(planetName) {
 
       const top = rows[0];
       filteredCount.textContent = String(rows.length);
-      bestMatch.textContent = top.pl_name;
+      bestMatch.innerHTML = `<a class="planet-link" href="${getEyesUrl(top.pl_name)}" target="_blank" rel="noopener noreferrer">${top.pl_name}</a>`;
       highlight.innerHTML = `
-        <strong>${top.pl_name}</strong> around <strong>${top.hostname}</strong> remains the best match under the current filters.
+       <strong><a class="planet-link" href="${getEyesUrl(top.pl_name)}" target="_blank" rel="noopener noreferrer">${top.pl_name}</a></strong> around <strong><a class="star-link" href="${getStarUrl(top.hostname)}" target="_blank" rel="noopener noreferrer">${top.hostname}</a></strong> remains the best match under the current filters.
         Its Follow-up Priority Score is <strong>${Number(top.follow_up_priority_score).toFixed(3)}</strong>,
         with radius <strong>${Number(top.pl_rade).toFixed(3)} R⊕</strong>,
         equilibrium temperature <strong>${Number(top.pl_eqt).toFixed(1)} K</strong>,
@@ -1168,6 +1234,7 @@ function getEyesUrl(planetName) {
     });
 
     applyFilters();
+    linkKnownTargetNames();
     const lightbox = document.getElementById("lightbox");
 const lightboxImage = document.getElementById("lightbox-image");
 const lightboxCaption = document.getElementById("lightbox-caption");
