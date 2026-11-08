@@ -1062,6 +1062,19 @@ border: 4px solid #2f6f7e;
     grid-template-columns: 1fr;
   }
 }
+
+  height: 220px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 14px;
+  cursor: zoom-in;
+}
+
+@media (max-width: 640px) {
+  .explore-row {
+    grid-template-columns: 1fr;
+  }
+}
     
   </style>
 </head>
@@ -1184,42 +1197,29 @@ border: 4px solid #2f6f7e;
       </div>
     </section>
 
- <section class="panel planet-types-panel">
-    <h2>Types of Exoplanets</h2>
-
-    <figure class="figure-card">
-      <img
-        src="exoplanet-types.jpg"
-        alt="Infographic comparing gas giants, super-Earths,
-             Neptune-like planets, and terrestrial planets."
-      />
-      <figcaption>Click to view the full infographic.</figcaption>
-    </figure>
-  </section>
-</div>
-    
 <div class="explore-row">
-<section class="panel nasa-explorer">
-  <div class="nasa-explorer-content">
-    <span class="eyebrow">NASA Interactive Explorer</span>
 
-    <h2>Explore the Exoplanet Archive</h2>
+  <section class="panel nasa-explorer">
+    <div class="nasa-explorer-content">
+      <span class="eyebrow">NASA Interactive Explorer</span>
 
-    <p>
-      Explore thousands of known exoplanets with NASA's interactive
-      Eyes on Exoplanets tool.
-    </p>
+      <h2>Explore the Exoplanet Archive</h2>
 
-    <a
-      class="nasa-explorer-button"
-      href="https://eyes.nasa.gov/apps/exo/#/"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-       Launch Eyes on Exoplanets
-    </a>
-  </div>
-</section>
+      <p>
+        Explore thousands of known exoplanets with NASA's
+        interactive Eyes on Exoplanets tool.
+      </p>
+
+      <a
+        class="nasa-explorer-button"
+        href="https://eyes.nasa.gov/apps/exo/#/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Launch Eyes on Exoplanets
+      </a>
+    </div>
+  </section>
     
   </main>
   
