@@ -967,6 +967,32 @@ border: 4px solid #2f6f7e;
     transform: none;
   }
 }
+
+/* Reduce empty space around the explorer content */
+.panel.nasa-explorer {
+  width: 100%;
+  max-width: 860px;
+  margin: 24px auto 0;
+  padding: 36px 24px;
+}
+
+/* Let the underline match the heading's width */
+.nasa-explorer h2 {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto 18px;
+}
+
+.nasa-explorer h2::after {
+  width: 100%;
+  height: 3px;
+  margin: 12px auto 0;
+}
+
+/* Remove the arrow beside the button text */
+.nasa-explorer-button::after {
+  content: none;
+}
     
   </style>
 </head>
