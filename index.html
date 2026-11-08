@@ -993,6 +993,30 @@ border: 4px solid #2f6f7e;
 .nasa-explorer-button::after {
   content: none;
 }
+
+.panel.nasa-explorer {
+  /* Match the 1.3fr left column and its 18px gap */
+  width: calc((100% - 18px) * 13 / 22);
+  max-width: none;
+  margin: 24px auto 0 0;
+  padding: 28px 20px;
+}
+
+.nasa-explorer h2 {
+  font-size: clamp(1.6rem, 2.8vw, 2.3rem);
+  line-height: 1.2;
+}
+
+.nasa-explorer p {
+  max-width: 46ch;
+}
+
+/* Use the available width on smaller screens */
+@media (max-width: 900px) {
+  .panel.nasa-explorer {
+    width: 100%;
+  }
+}
     
   </style>
 </head>
