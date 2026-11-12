@@ -1123,6 +1123,17 @@ border: 4px solid #2f6f7e;
 .table-scroll::-webkit-scrollbar-corner {
   background: #e7e9e3;
 }
+
+/* Keep scrollbar controls clear of the rounded corners */
+.table-scroll::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.table-scroll::-webkit-scrollbar-track {
+  margin-inline: 12px;
+}
     
   </style>
 </head>
