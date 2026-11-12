@@ -1076,16 +1076,52 @@ border: 4px solid #2f6f7e;
   }
 }
 
-/* Teal border around every leaderboard/table */
+/* Table border and matching horizontal scrollbar */
 .table-scroll {
+  width: 100%;
+  max-width: 100%;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
   border: 2px solid var(--section-border, #2f6f7e);
   border-radius: 16px;
-  overflow-x: auto;
   padding-bottom: 0;
+
+  background: #f6f1e8;
+
+  /* Firefox and browsers using standard scrollbar styling */
+  scrollbar-width: auto;
+  scrollbar-color: #2f6f7e #e7e9e3;
 }
 
+/* Let the outer container provide the rounded corners */
 .table-scroll .data-table {
   border-radius: 0;
+}
+
+/* Chrome, Edge, and Safari */
+.table-scroll::-webkit-scrollbar {
+  height: 12px;
+}
+
+.table-scroll::-webkit-scrollbar-track {
+  background: #e7e9e3;
+  border-radius: 999px;
+}
+
+.table-scroll::-webkit-scrollbar-thumb {
+  background: #2f6f7e;
+  border: 3px solid #e7e9e3;
+  border-radius: 999px;
+}
+
+.table-scroll::-webkit-scrollbar-thumb:hover {
+  background: #164e63;
+}
+
+.table-scroll::-webkit-scrollbar-corner {
+  background: #e7e9e3;
 }
     
   </style>
