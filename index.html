@@ -1204,6 +1204,34 @@ border: 4px solid #2f6f7e;
 #interactive-target-highlight {
   border: 2px solid rgba(201, 109, 61, 0.55);
 }
+
+/* Rounded leaderboard borders with room for the scrollbar */
+.table-scroll {
+  border: 2px solid var(--section-border, #2f6f7e);
+  border-radius: 16px;
+  padding: 0 8px 8px;
+  background: #e7e9e3;
+  overflow-x: auto;
+}
+
+.table-scroll .data-table {
+  border-radius: 0;
+}
+
+/* Matching scrollbar */
+.table-scroll::-webkit-scrollbar {
+  height: 12px;
+}
+
+.table-scroll::-webkit-scrollbar-track {
+  background: #e7e9e3;
+}
+
+.table-scroll::-webkit-scrollbar-thumb {
+  background: #2f6f7e;
+  border: 3px solid #e7e9e3;
+  border-radius: 999px;
+}
     
   </style>
 </head>
