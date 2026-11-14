@@ -1232,6 +1232,25 @@ border: 4px solid #2f6f7e;
   border: 3px solid #e7e9e3;
   border-radius: 999px;
 }
+
+/* Outer rounded frame */
+.leaderboard-frame {
+  border: 2px solid var(--section-border, #2f6f7e);
+  border-radius: 16px;
+  overflow: hidden;
+  padding-bottom: 8px;
+  background: #e7e9e3;
+}
+
+/* Scrollbar sits inside the frame */
+.leaderboard-frame > .table-scroll {
+  width: auto;
+  max-width: none;
+  margin: 0 8px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+}
     
   </style>
 </head>
@@ -1670,6 +1689,29 @@ document.addEventListener("keydown", (event) => {
     closeLightbox();
   }
 });
+
+function frameLeaderboards() {
+  document.querySelectorAll(".table-scroll").forEach((table) => {
+    if (table.parentElement.classList.contains("leaderboard-frame")) {
+      return;
+    }
+
+    const frame = document.createElement("div");
+    frame.className = "leaderboard-frame";
+
+    table.before(frame);
+    frame.appendChild(table);
+  });
+}
+
+frameLeaderboards();
+
+/* Also frame the interactive table whenever filters change */
+new MutationObserver(frameLeaderboards).observe(
+  document.getElementById("interactive-table"),
+  { childList: true }
+);
+    
   </script>
 </body>
 </html>
