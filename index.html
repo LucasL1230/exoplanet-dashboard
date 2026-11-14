@@ -1163,6 +1163,18 @@ border: 4px solid #2f6f7e;
   font-size: 0.9rem;
   text-align: left;
 }
+
+/* Matching decorative scrollbar for Feature Importance */
+.feature-importance-scroll::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 12px;
+  background:
+    linear-gradient(#2f6f7e, #2f6f7e)
+      12px center / 28% 6px no-repeat,
+    #e7e9e3;
+}
     
   </style>
 </head>
@@ -1269,7 +1281,7 @@ border: 4px solid #2f6f7e;
         <section class="panel">
           <h2>Feature Importance</h2>
           <p class="lede">The most influential variables in the selected model give a compact explanation of what drives the ranking.</p>
-          <div class="table-scroll"><table class="data-table compact-table"><thead><tr><th>feature</th><th>importance</th></tr></thead><tbody><tr><td>st_mass</td><td>0.521</td></tr><tr><td>st_rad</td><td>0.100</td></tr><tr><td>sy_dist</td><td>0.082</td></tr><tr><td>pl_eqt</td><td>0.075</td></tr><tr><td>mass_for_signal_earth</td><td>0.055</td></tr><tr><td>pl_insol</td><td>0.055</td></tr><tr><td>pl_rade</td><td>0.032</td></tr><tr><td>st_teff</td><td>0.022</td></tr><tr><td>hz_flag</td><td>0.013</td></tr><tr><td>gravity_earth</td><td>0.008</td></tr></tbody></table></div>
+          <div class="table-scroll feature-importance-scroll"><table class="data-table compact-table"><thead><tr><th>feature</th><th>importance</th></tr></thead><tbody><tr><td>st_mass</td><td>0.521</td></tr><tr><td>st_rad</td><td>0.100</td></tr><tr><td>sy_dist</td><td>0.082</td></tr><tr><td>pl_eqt</td><td>0.075</td></tr><tr><td>mass_for_signal_earth</td><td>0.055</td></tr><tr><td>pl_insol</td><td>0.055</td></tr><tr><td>pl_rade</td><td>0.032</td></tr><tr><td>st_teff</td><td>0.022</td></tr><tr><td>hz_flag</td><td>0.013</td></tr><tr><td>gravity_earth</td><td>0.008</td></tr></tbody></table></div>
         </section>
 
 <section class="panel leaderboard-panel">
