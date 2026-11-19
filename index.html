@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,1318 +6,1129 @@
   <title>Exoplanet Biosignature Follow-up Dashboard</title>
 
   <style>
-
-
-    .control input:focus,
-    .control select:focus {
-      outline: none;
-      border-color: rgba(47, 111, 126, 0.55);
-      box-shadow: 0 0 0 3px rgba(47, 111, 126, 0.10);
-    }
-.control input::placeholder {
-  color: #89949c;
-}
-
-.control input,
-.control select {
-  transition:
-    border-color 150ms ease,
-    box-shadow 150ms ease;
-}
-
     :root {
-      --paper: #f6f1e8;
-      --paper-strong: #efe4d0;
-      --ink: #1e2a36;
-      --ink-soft: #4d5b67;
-      --accent: #c96d3d;
-      --accent-cool: #2f6f7e;
-      --section-border: #2f6f7e;
-      --accent-soft: #d8b887;
-      --panel: rgba(255, 250, 243, 0.86);
-      --line: rgba(30, 42, 54, 0.12);
-      --shadow: 0 18px 44px rgba(40, 34, 24, 0.12);
-      --radius: 22px;
+      --ink: #17171b;
+      --ink-soft: #52525b;
+      --accent: #c93228;
+      --accent-cool: #175bb5;
+      --section-border: #c9cbd0;
+      --line: #dddde1;
     }
 
     * {
       box-sizing: border-box;
     }
 
-body {
-  margin: 0;
-  color: var(--ink);
-
-  background:
-    linear-gradient(
-      rgba(3, 8, 20, 0.58),
-      rgba(3, 8, 20, 0.58)
-    ),
-    url("Galaxy%20wallpaper.jpg");
-
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-
-  font-family: "Avenir Next", "Segoe UI", sans-serif;
-  line-height: 1.55;
-}
-
-    body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-
-  background-image:
-    radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px),
-    radial-gradient(circle, rgba(255,255,255,0.45) 1px, transparent 1px);
-
-  background-size: 90px 90px, 150px 150px;
-  background-position: 10px 20px, 50px 80px;
-
-  opacity: 0.28;
-}
-
-.shell {
-  position: relative;
-  z-index: 1;
-}
-
-    .shell {
-      width: min(1220px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: 28px 0 48px;
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 110px;
     }
 
-.hero {
-  position: relative;
-  overflow: hidden;
-  padding: 34px 34px 28px;
-  border: 4px solid var(--section-border);
-  border-radius: 32px;
+    body {
+      margin: 0;
+      background: #fff;
+      color: var(--ink);
+      font: 16px/1.65 Arial, Helvetica, sans-serif;
+    }
 
-  background:
-    radial-gradient(
-      circle at 85% 20%,
-      rgba(56, 189, 248, 0.16),
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at 20% 100%,
-      rgba(139, 92, 246, 0.12),
-      transparent 35%
-    ),
-    rgba(248, 246, 240, 0.94);
+    a {
+      color: var(--accent-cool);
+    }
 
-  box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.28),
-    0 0 80px rgba(56, 189, 248, 0.08);
-}
+    button,
+    input,
+    select {
+      font: inherit;
+    }
 
-    .hero::after {
+    a,
+    button,
+    input,
+    select {
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    [tabindex]:focus-visible {
+      outline: 3px solid #338bff;
+      outline-offset: 4px;
+    }
+
+    .skip-link {
+      position: fixed;
+      left: 16px;
+      top: -80px;
+      z-index: 100;
+      padding: 12px;
+      background: #fff;
+    }
+
+    .skip-link:focus {
+      top: 10px;
+    }
+
+    /* Top navigation */
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: #08080b;
+      color: #fff;
+      border-bottom: 1px solid #333;
+    }
+
+    .header-inner {
+      max-width: 1440px;
+      min-height: 88px;
+      margin: auto;
+      padding: 16px 40px;
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .site-brand {
+      margin-right: auto;
+      color: #fff;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: -0.6px;
+      line-height: 1.1;
+    }
+
+    .site-brand span {
+      display: block;
+      margin-top: 6px;
+      color: #aaa;
+      font-size: 10px;
+      letter-spacing: 2px;
+    }
+
+    .site-nav {
+      display: flex;
+      gap: 24px;
+    }
+
+    .site-nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .site-nav a:hover {
+      text-decoration: underline;
+      text-underline-offset: 7px;
+    }
+
+    .site-search {
+      position: relative;
+      display: flex;
+      width: 270px;
+      min-width: 0;
+      border: 1px solid #68686d;
+    }
+
+    .site-search input {
+      width: 100%;
+      min-width: 0;
+      padding: 10px 12px;
+      background: transparent;
+      border: 0;
+      color: #fff;
+      font-size: 14px;
+    }
+
+    .site-search input::placeholder {
+      color: #bbb;
+    }
+
+    .site-search button {
+      padding: 8px 12px;
+      background: transparent;
+      border: 0;
+      color: #fff;
+      cursor: pointer;
+      font-size: 20px;
+    }
+
+    .search-results {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      width: min(400px, 90vw);
+      max-height: 65vh;
+      overflow: auto;
+      background: #fff;
+      color: #111;
+      border: 1px solid #ccc;
+      box-shadow: 0 12px 35px #0005;
+    }
+
+    .search-results[hidden] {
+      display: none;
+    }
+
+    .search-results a {
+      display: block;
+      padding: 13px 16px;
+      border-bottom: 1px solid #eee;
+      color: #111;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .search-results a:hover,
+    .search-results a:focus {
+      background: #eef4fc;
+    }
+
+    .search-results p {
+      margin: 0;
+      padding: 12px 16px;
+      font-size: 14px;
+    }
+
+    /* Main title and metrics */
+
+    .shell {
+      max-width: 1440px;
+      margin: auto;
+      padding: 0 40px 64px;
+    }
+
+    .hero {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      margin: 0 -40px;
+      padding: 80px 60px 0;
+      background: #090c13;
+      color: #fff;
+    }
+
+    .hero::before {
       content: "";
       position: absolute;
-      inset: auto -5% -40px 45%;
-      height: 160px;
-      background: radial-gradient(circle, rgba(216, 184, 135, 0.24), transparent 68%);
-      pointer-events: none;
+      inset: 0;
+      z-index: -1;
+      background:
+        linear-gradient(
+          90deg,
+          rgba(0, 0, 0, 0.93),
+          rgba(0, 0, 0, 0.3)
+        ),
+        url("Galaxy%20wallpaper.jpg") center / cover;
     }
 
     .eyebrow {
       display: inline-block;
-      margin-bottom: 10px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      background: rgba(47, 111, 126, 0.10);
-      color: var(--accent-cool);
-      font-size: 12px;
+      margin-bottom: 24px;
+      font-size: 11px;
+      line-height: 1.4;
       font-weight: 700;
-      letter-spacing: 0.08em;
+      letter-spacing: 2px;
       text-transform: uppercase;
     }
 
-    h1, h2, h3 {
-      font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
-      letter-spacing: -0.02em;
+    .hero .eyebrow {
+      padding-left: 12px;
+      border-left: 4px solid #e54438;
+      color: #ddd;
     }
 
-h1 {
-  margin: 0 0 10px;
-  max-width: 900px;
-  font-size: clamp(2rem, 4vw, 3.4rem);
-  line-height: 1.02;
+    h1,
+    h2,
+    h3 {
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      line-height: 1.08;
+    }
 
-  letter-spacing: -0.04em;
-  background: linear-gradient(
-    90deg,
-    #164e63,
-    #0ea5e9
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
+    h1 {
+      max-width: 1000px;
+      margin: 0 0 24px;
+      font-size: clamp(42px, 5.5vw, 78px);
+    }
+
+    .hero-title-accent {
+      display: block;
+      color: #fff;
+    }
+
     .hero p {
-      max-width: 820px;
-      margin: 0;
-      color: var(--ink-soft);
-      font-size: 1.03rem;
+      max-width: 720px;
+      margin: 0 0 48px;
+      color: #e2e2e6;
+      font-size: 18px;
+      line-height: 1.7;
     }
 
-.metrics-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-  margin-top: 24px;
-}
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 0;
+      margin: 0 -60px;
+      padding: 0 60px;
+      border-top: 1px solid #ffffff50;
+      background: #07080bba;
+    }
 
-.metric-card {
-  position: relative;
-  min-width: 0;
-  min-height: 125px;
-  padding: 22px 24px;
+    .metric-card {
+      min-width: 0;
+      padding: 26px 16px;
+      border-right: 1px solid #ffffff30;
+    }
 
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+    .metric-card:first-child {
+      padding-left: 0;
+    }
 
-  overflow: hidden;
+    .metric-card:last-child {
+      border-right: 0;
+    }
 
-border: 4px solid #2f6f7e;
-  border-radius: 22px;
+    .metric-label {
+      display: block;
+      color: #bbb;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
 
-  box-shadow:
-    0 4px 14px rgba(20, 50, 70, 0.18),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.45);
+    .metric-value {
+      display: block;
+      margin-top: 10px;
+      font-size: clamp(20px, 2.4vw, 34px);
+      font-weight: 900;
+      line-height: 1.2;
+      overflow-wrap: anywhere;
+      font-variant-numeric: tabular-nums;
+    }
 
-  background: rgba(255, 255, 255, 0.72);
+    .metric-card:first-child .metric-value,
+    .metric-card:nth-child(5) .metric-value {
+      font-size: 15px;
+      line-height: 1.5;
+    }
 
-  transition:
-    transform 180ms ease,
-    box-shadow 180ms ease,
-    border-color 180ms ease
-}
+    .metric-card:last-child .metric-value {
+      color: #ff8c7d;
+    }
 
-.metric-card::before {
-  display: none;
-}
+    /* Dashboard sections */
 
-.metric-card:hover {
-  border-color: #2f7785;
-  box-shadow: 0 10px 24px rgba(47, 119, 133, 0.18);
-  transform: translateY(-2px);
-}
-
-.metric-card::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 5px;
-  height: 100%;
-  background: var(--accent-cool);
-  border-radius: 24px 0 0 24px;
-}
-
-.metric-card > * {
-  position: relative;
-  z-index: 1;
-}
-
-.metric-label {
-  color: var(--ink-soft);
-  font-size: 0.78rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.metric-value {
-  margin-top: 10px;
-  color: var(--accent-cool);
-  font-size: 1.65rem;
-  font-weight: 700;
-  line-height: 1.15;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
-.metric-card:first-child .metric-value {
-  font-size: 1.15rem;
-  line-height: 1.3;
-}
-    
     .section-grid {
       display: grid;
-      grid-template-columns: 1.3fr 0.9fr;
-      gap: 18px;
-      margin-top: 20px;
+      grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+      gap: 0 40px;
+      align-items: start;
     }
 
     .stack {
       display: grid;
-      gap: 18px;
-    }
-
-    .section-grid > *,
-    .stack > *,
-    .panel,
-    .table-scroll,
-    #interactive-table {
+      gap: 0;
       min-width: 0;
+      align-content: start;
     }
 
-.panel {
-  padding: 24px;
-  background: rgba(255, 250, 243, 0.93);
-
-  /* Thin black border around every large section */
-  border: 4px solid var(--section-border);
-  border-radius: var(--radius);
-
-  box-shadow:
-    0 12px 35px rgba(0, 0, 0, 0.18),
-    0 2px 8px rgba(0, 0, 0, 0.06);
-
-  transition:
-    transform 180ms ease,
-    box-shadow 180ms ease;
-}
-
-    .run-history-panel {
-  position: relative;
-  overflow: hidden;
-  background:
-    linear-gradient(
-      rgba(246, 241, 232, 0.88),
-      rgba(246, 241, 232, 0.88)
-    ),
-    url("galaxy.jpg") center bottom / cover no-repeat;
-}
-
-.panel:hover {
-  transform: translateY(-3px);
-
-  border-color: var(--section-border);
-
-  box-shadow:
-    0 16px 38px rgba(40, 34, 24, 0.10);
-}
-
-    .nasa-explorer:hover {
-  transform: translateY(-3px);
-  border-color: var(--section-border);
-  box-shadow:
-    0 16px 38px rgba(40, 34, 24, 0.10),
-    0 0 40px rgba(56, 189, 248, 0.10);
-}
-
-    h2 {
-      margin: 0 0 10px;
-      font-size: 1.6rem;
+    .panel {
+      min-width: 0;
+      padding: 40px 0;
+      border: 0;
+      border-bottom: 1px solid #d4d4d8;
+      background: #fff;
+      box-shadow: none;
+      scroll-margin-top: 110px;
     }
 
-    h3 {
-      margin: 0 0 10px;
-      font-size: 1.2rem;
+    .panel h2 {
+      margin: 0 0 18px;
+      font-size: clamp(28px, 3vw, 40px);
+    }
+
+    .panel h2::before {
+      content: "";
+      display: block;
+      width: 36px;
+      height: 4px;
+      margin-bottom: 18px;
+      background: #d9342b;
+    }
+
+    .panel p {
+      margin-top: 0;
+    }
+
+    .lede,
+    .footer-note,
+    .muted {
+      color: var(--ink-soft);
     }
 
     .lede {
-      color: var(--ink-soft);
-      margin: 0 0 14px;
+      margin-bottom: 24px;
+      font-size: 16px;
+    }
+
+    .footer-note {
+      font-size: 14px;
+      line-height: 1.7;
     }
 
     .badge {
       display: inline-block;
-      margin-right: 8px;
-      margin-bottom: 8px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(201, 109, 61, 0.12);
-      color: #96512d;
-      font-size: 0.85rem;
-      font-weight: 600;
+      margin: 0 6px 8px 0;
+      padding: 5px 9px;
+      background: #f2f2f4;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
     }
 
-    .table-scroll {
+    /* Leaderboards and scrollbars */
+
+    .leaderboard-frame {
+      min-width: 0;
+      padding-bottom: 8px;
+      overflow: hidden;
+      border: 1px solid #c9cbd0;
+      border-radius: 8px;
+      background: #eceef0;
+    }
+
+    .table-scroll,
+    .leaderboard-frame > .table-scroll {
       width: 100%;
       max-width: 100%;
+      margin: 0;
+      padding: 0;
       overflow-x: auto;
       overflow-y: hidden;
-      -webkit-overflow-scrolling: touch;
-      padding-bottom: 4px;
+      border: 0;
+      border-radius: 0;
+      scrollbar-color: #515967 #eceef0;
+      scrollbar-width: auto;
+    }
+
+    .table-scroll::-webkit-scrollbar {
+      height: 12px;
+    }
+
+    .table-scroll::-webkit-scrollbar-track {
+      margin-inline: 12px;
+      background: #eceef0;
+    }
+
+    .table-scroll::-webkit-scrollbar-thumb {
+      border: 3px solid #eceef0;
+      border-radius: 10px;
+      background: #515967;
     }
 
     .data-table {
       width: max-content;
       min-width: 100%;
       border-collapse: collapse;
-      overflow: hidden;
-      border-radius: 16px;
+      background: #fff;
+      font-variant-numeric: tabular-nums;
     }
 
     .data-table th {
-      padding: 12px 10px;
+      padding: 13px 12px;
+      background: #eaecef;
+      color: #444b56;
+      font-size: 10px;
+      letter-spacing: 0.65px;
       text-align: left;
-      font-size: 0.78rem;
-      letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: var(--ink-soft);
-      background: rgba(47, 111, 126, 0.08);
+      white-space: nowrap;
     }
 
     .data-table td {
-      padding: 11px 10px;
-      border-top: 1px solid var(--line);
-      font-size: 0.95rem;
+      padding: 13px 12px;
+      border-top: 1px solid #e1e2e5;
+      font-size: 13px;
       vertical-align: top;
+      white-space: nowrap;
     }
 
-.data-table .planet-link,
-.data-table .star-link,
-.data-table .planet-link:visited,
-.data-table .star-link:visited {
-  color: var(--ink) !important;
-  font-weight: 600;
-  text-decoration: none;
-  border-bottom: 1px solid rgba(47, 111, 126, 0.35);
-  transition:
-    color 150ms ease,
-    border-color 150ms ease;
-}
-
-.data-table .planet-link:hover,
-.data-table .star-link:hover {
-  color: var(--accent-cool) !important;
-  border-color: var(--accent-cool);
-}
-
-.planet-link,
-.star-link,
-.planet-link:visited,
-.star-link:visited {
-  color: var(--accent-cool);
-  font-weight: 600;
-  text-decoration: none;
-  border-bottom: 1px solid rgba(47, 111, 126, 0.35);
-}
-
-.planet-link:hover,
-.star-link:hover {
-  border-color: var(--accent-cool);
-}
-    
-    .data-table tbody tr:nth-child(odd) {
-      background: rgba(255, 255, 255, 0.36);
+    .data-table tbody tr:nth-child(even) {
+      background: #f6f7f8;
     }
 
-    .compact-table td,
-    .compact-table th {
-      font-size: 0.85rem;
-      padding: 9px 9px;
+    .data-table tbody tr:hover {
+      background: #edf3fb;
     }
 
-    .figure-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px;
-      margin-top: 14px;
+    .data-table td:nth-child(4) {
+      font-weight: 700;
     }
+
+    .planet-link,
+    .star-link {
+      color: #164f91;
+      font-weight: 700;
+      text-decoration: underline;
+      text-decoration-color: #b5c5da;
+      text-underline-offset: 4px;
+    }
+
+    .data-table .planet-link,
+    .data-table .star-link {
+      color: #172b46;
+    }
+
+    .feature-importance-scroll .data-table {
+      width: 115%;
+      min-width: 115%;
+    }
+
+    /* Interactive shortlist */
 
     .control-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-      gap: 12px;
-      margin: 14px 0 12px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin: 24px 0;
     }
 
     .control {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 7px;
+      min-width: 0;
     }
 
     .control label {
-      color: var(--ink-soft);
-      font-size: 0.82rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
       text-transform: uppercase;
     }
 
     .control input,
     .control select {
       width: 100%;
+      min-width: 0;
+      min-height: 46px;
       padding: 10px 12px;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.82);
-      color: var(--ink);
-      font: inherit;
+      border: 1px solid #92959d;
+      border-radius: 0;
+      background: #fff;
+      color: #222;
+      font-size: 14px;
     }
 
     .inline-meta {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px 18px;
-      margin: 10px 0 14px;
-      color: var(--ink-soft);
-      font-size: 0.92rem;
+      gap: 8px;
+      margin: 18px 0;
     }
 
     .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(47, 111, 126, 0.08);
-      color: var(--accent-cool);
-      font-weight: 600;
-    }
-
-    .figure-card {
-      margin: 0;
-      padding: 12px;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.72);
-      border: 1px solid var(--line);
-    }
-
-    .figure-card img {
-      width: 100%;
-      height: auto;
-      display: block;
-      border-radius: 14px;
-    }
-
-    .figure-card figcaption {
-      margin-top: 8px;
-      color: var(--ink-soft);
-      font-size: 0.9rem;
-    }
-
-    .muted {
-      color: var(--ink-soft);
-    }
-
-    .footer-note {
-      margin-top: 18px;
-      color: var(--ink-soft);
-      font-size: 0.9rem;
+      padding: 7px 10px;
+      background: #edf1f6;
+      font-size: 12px;
+      font-weight: 700;
     }
 
     .target-highlight {
-      margin-top: 12px;
-      padding: 14px 16px;
-      border-radius: 16px;
-      background: rgba(201, 109, 61, 0.08);
-      border: 1px solid rgba(201, 109, 61, 0.14);
+      padding: 18px;
+      border: 1px solid #e7b8a8;
+      border-left: 4px solid #c93228;
+      background: #fff4ef;
+      font-size: 14px;
+      line-height: 1.8;
     }
 
     .target-highlight strong {
-      color: var(--accent);
+      color: #a72c22;
     }
 
-@media (max-width: 640px) {
-  .shell {
-    width: min(100% - 20px, 1220px);
-    padding-top: 14px;
-    padding-bottom: 30px;
-  }
-
-.nasa-explorer {
-  width: 100%;
-  max-width: none;
-}
-  
-  .hero {
-    padding: 24px 18px 20px;
-    border-radius: 24px;
-  }
-
-  h1 {
-    font-size: clamp(2rem, 10vw, 2.7rem);
-    line-height: 1.02;
-  }
-
-  .hero p {
-    font-size: 0.95rem;
-  }
-
-  .metrics-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-    margin-top: 18px;
-  }
-
-  .metric-card {
-    min-height: 112px;
-    padding: 17px 17px 17px 20px;
-    border-radius: 18px;
-  }
-
-  .metric-label {
-    font-size: 0.7rem;
-  }
-
-  .metric-value {
-    font-size: 1.25rem;
-  }
-
-  .metric-card:first-child .metric-value {
-    font-size: 0.92rem;
-  }
-
-  .panel {
-    padding: 18px;
-    border-radius: 18px;
-  }
-
-  h2 {
-    font-size: 1.35rem;
-  }
-
-  h3 {
-    font-size: 1.1rem;
-  }
-
-  .data-table th,
-  .data-table td {
-    padding: 9px 8px;
-    font-size: 0.82rem;
-  }
-
-  .figure-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 420px) {
-  .metrics-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .metric-card {
-    min-height: 100px;
-  }
-}
-
-.figure-card img {
-  cursor: zoom-in;
-  transition: transform 180ms ease, box-shadow 180ms ease;
-}
-
-.figure-card img:hover {
-  transform: scale(1.02);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
-}
-
-.lightbox {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 30px;
-
-  background: rgba(3, 8, 20, 0.88);
-  backdrop-filter: blur(8px);
-
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-
-  transition: opacity 180ms ease, visibility 180ms ease;
-}
-
-.lightbox.open {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-}
-
-.lightbox-content {
-  position: relative;
-  max-width: min(1100px, 95vw);
-  max-height: 90vh;
-
-  transform: scale(0.94);
-  transition: transform 180ms ease;
-}
-
-.lightbox.open .lightbox-content {
-  transform: scale(1);
-}
-
-.lightbox-image {
-  display: block;
-  max-width: 100%;
-  max-height: 82vh;
-
-  border-radius: 16px;
-  box-shadow:
-    0 25px 80px rgba(0, 0, 0, 0.5),
-    0 0 50px rgba(56, 189, 248, 0.12);
-}
-
-.lightbox-caption {
-  margin-top: 12px;
-  color: rgba(255, 255, 255, 0.82);
-  text-align: center;
-  font-size: 0.95rem;
-}
-
-.lightbox-close {
-  position: absolute;
-  top: -16px;
-  right: -16px;
-
-  width: 40px;
-  height: 40px;
-
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 50%;
-
-  background: rgba(15, 23, 42, 0.9);
-  color: white;
-
-  font-size: 24px;
-  line-height: 1;
-
-  cursor: pointer;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  transition: background 150ms ease, transform 150ms ease;
-}
-
-.lightbox-close:hover {
-  background: rgba(30, 41, 59, 1);
-  transform: scale(1.08);
-}
-
-@media (max-width: 640px) {
-  .lightbox {
-    padding: 16px;
-  }
-
-  .lightbox-image {
-    max-height: 80vh;
-  }
-
-  .lightbox-close {
-    top: -12px;
-    right: -8px;
-  }
-}
-
-.nasa-explorer {
-  position: relative;
-  overflow: hidden;
-
-  width: 100%;
-  box-sizing: border-box;
-
-  margin-top: 12px;
-  padding: 36px 24px;
-
-  background: rgba(255, 250, 243, 0.93);
-
-  border: 4px solid var(--section-border);
-  border-radius: var(--radius);
-  
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  text-align: center;
-
-  transition:
-    transform 180ms ease,
-    box-shadow 180ms ease,
-    border-color 180ms ease;
-}
-
-.nasa-explorer:hover {
-  transform: translateY(-3px);
-  border-color: var(--section-border);
-
-  box-shadow:
-    0 16px 38px rgba(40, 34, 24, 0.10);
-}
-
-.nasa-explorer-content {
-  position: relative;
-  z-index: 1;
-
-  width: 100%;
-  max-width: 760px;
-
-  margin: 0 auto;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  text-align: center;
-}
-
-.nasa-explorer h2 {
-  margin: 12px 0 12px;
-
-  color: var(--ink);
-  font-size: clamp(1.8rem, 4vw, 2.7rem);
-
-  text-align: center;
-}
-
-.nasa-explorer p {
-  width: 100%;
-  max-width: 680px;
-
-  margin: 0 auto 24px;
-
-  color: var(--ink-soft);
-  font-size: 1rem;
-  line-height: 1.7;
-
-  text-align: center;
-}
-
-.nasa-explorer-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 16px 28px;
-
-  border: 1px solid rgba(125, 211, 252, 0.35);
-  border-radius: 999px;
-
-  background: linear-gradient(
-    90deg,
-    #164e63,
-    #0ea5e9
-  );
-
-  color: white;
-  text-decoration: none;
-  font-weight: 700;
-
-  box-shadow:
-    0 8px 24px rgba(14, 165, 233, 0.25);
-
-  transition:
-    transform 180ms ease,
-    box-shadow 180ms ease;
-}
-
-.nasa-explorer-button:hover {
-  transform: translateY(-3px);
-
-  box-shadow:
-    0 14px 32px rgba(14, 165, 233, 0.35);
-}
-
-.nasa-note {
-  color: var(--ink-soft) !important;
-}
-
-    /* Consistent borders and softer shadows */
-:root {
-  --section-border: #2f6f7e;
-  --radius: 20px;
-}
-
-.hero,
-.panel,
-.nasa-explorer,
-.metric-card {
-  border: 1px solid var(--section-border);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
-}
-
-.hero,
-.panel,
-.nasa-explorer,
-.metric-card {
-  border: 4px solid #2f6f7e;
-}
-
-/* Explore the Exoplanet Archive */
-.panel.nasa-explorer {
-  margin-top: 24px;
-  padding: 56px 28px;
-
-  border: 4px solid #2f6f7e;
-  border-radius: 26px;
-
-  background:
-    radial-gradient(
-      ellipse at top left,
-      rgba(56, 189, 248, 0.16),
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse at bottom right,
-      rgba(139, 92, 246, 0.12),
-      transparent 55%
-    ),
-    #faf7f0;
-
-  box-shadow:
-    0 18px 44px rgba(0, 0, 0, 0.22),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.7);
-}
-
-.nasa-explorer .eyebrow {
-  margin-bottom: 16px;
-  padding: 8px 16px;
-  border: 1px solid rgba(47, 111, 126, 0.25);
-  background: rgba(47, 111, 126, 0.08);
-}
-
-.nasa-explorer h2 {
-  max-width: 650px;
-  margin: 0 0 18px;
-  font-size: clamp(2rem, 4vw, 3rem);
-  line-height: 1.15;
-  color: #164e63;
-  text-wrap: balance;
-}
-
-/* Small decorative divider */
-.nasa-explorer h2::after {
-  content: "";
-  display: block;
-  width: 64px;
-  height: 3px;
-  margin: 20px auto 0;
-  border-radius: 999px;
-  background: #2f6f7e;
-}
-
-.nasa-explorer p {
-  max-width: 520px;
-  margin: 0 auto 28px;
-  font-size: 1.05rem;
-  line-height: 1.8;
-}
-
-.nasa-explorer .nasa-explorer-button {
-  gap: 12px;
-  max-width: 100%;
-  padding: 16px 28px;
-
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  border-radius: 14px;
-  background: linear-gradient(120deg, #164e63, #28758a);
-
-  color: #fff;
-  text-align: center;
-  line-height: 1.4;
-  box-shadow: 0 8px 22px rgba(22, 78, 99, 0.25);
-
-  transition:
-    transform 180ms ease,
-    box-shadow 180ms ease;
-}
-
-.nasa-explorer-button::after {
-  content: "↗";
-  font-size: 1.3rem;
-}
-
-.nasa-explorer .nasa-explorer-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 28px rgba(22, 78, 99, 0.35);
-}
-
-.nasa-explorer-button:focus-visible {
-  outline: 3px solid #2f6f7e;
-  outline-offset: 5px;
-}
-
-@media (max-width: 640px) {
-  .panel.nasa-explorer {
-    padding: 36px 20px;
-  }
-
-  .nasa-explorer .nasa-explorer-button {
-    width: 100%;
-    padding: 15px 18px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .panel.nasa-explorer,
-  .nasa-explorer .nasa-explorer-button {
-    transition: none;
-    transform: none;
-  }
-}
-
-/* Reduce empty space around the explorer content */
-.panel.nasa-explorer {
-  width: 100%;
-  max-width: 860px;
-  margin: 24px auto 0 0;
-  padding: 36px 24px;
-}
-
-/* Let the underline match the heading's width */
-.nasa-explorer h2 {
-  width: fit-content;
-  max-width: 100%;
-  margin: 0 auto 18px;
-}
-
-.nasa-explorer h2::after {
-  width: 100%;
-  height: 3px;
-  margin: 12px auto 0;
-}
-
-/* Remove the arrow beside the button text */
-.nasa-explorer-button::after {
-  content: none;
-}
-
-.panel.nasa-explorer {
-  /* Match the 1.3fr left column and its 18px gap */
-  width: calc((100% - 18px) * 13 / 22);
-  max-width: none;
-  margin: 24px auto 0 0;
-  padding: 28px 20px;
-}
-
-.nasa-explorer h2 {
-  font-size: clamp(1.6rem, 2.8vw, 2.3rem);
-  line-height: 1.2;
-}
-
-.nasa-explorer p {
-  max-width: 46ch;
-}
-
-/* Use the available width on smaller screens */
-@media (max-width: 900px) {
-  .panel.nasa-explorer {
-    width: 100%;
-  }
-}
-
-.explore-row {
-  display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.9fr);
-  gap: 18px;
-  margin-top: 24px;
-  align-items: stretch;
-}
-
-.explore-row > .panel.nasa-explorer {
-  width: 100%;
-  max-width: none;
-  margin: 0;
-}
-
-.planet-types-panel {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  border: 4px solid #2f6f7e;
-}
-
-.planet-types-panel .figure-card {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  background: transparent;
-}
-
-.planet-types-panel .figure-card img {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-  object-position: center;
-  border-radius: 14px;
-  cursor: zoom-in;
-}
-
-@media (max-width: 900px) {
-  .explore-row {
-    grid-template-columns: 1fr;
-  }
-}
-
-  height: 220px;
-  object-fit: cover;
-  object-position: center;
-  border-radius: 14px;
-  cursor: zoom-in;
-}
-
-@media (max-width: 640px) {
-  .explore-row {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Table border and matching horizontal scrollbar */
-.table-scroll {
-  width: 100%;
-  max-width: 100%;
-
-  overflow-x: auto;
-  overflow-y: hidden;
-
-  border: 2px solid var(--section-border, #2f6f7e);
-  border-radius: 16px;
-  padding-bottom: 0;
-
-  background: #f6f1e8;
-
-  /* Firefox and browsers using standard scrollbar styling */
-  scrollbar-width: auto;
-  scrollbar-color: #2f6f7e #e7e9e3;
-}
-
-/* Let the outer container provide the rounded corners */
-.table-scroll .data-table {
-  border-radius: 0;
-}
-
-/* Chrome, Edge, and Safari */
-.table-scroll::-webkit-scrollbar {
-  height: 12px;
-}
-
-.table-scroll::-webkit-scrollbar-track {
-  background: #e7e9e3;
-  border-radius: 999px;
-}
-
-.table-scroll::-webkit-scrollbar-thumb {
-  background: #2f6f7e;
-  border: 3px solid #e7e9e3;
-  border-radius: 999px;
-}
-
-.table-scroll::-webkit-scrollbar-thumb:hover {
-  background: #164e63;
-}
-
-.table-scroll::-webkit-scrollbar-corner {
-  background: #e7e9e3;
-}
-
-/* Keep scrollbar controls clear of the rounded corners */
-.table-scroll::-webkit-scrollbar-button {
-  display: none;
-  width: 0;
-  height: 0;
-}
-
-.table-scroll::-webkit-scrollbar-track {
-  margin-inline: 12px;
-}
-
-.table-scroll {
-  border-radius: 16px 16px 0 0;
-}
-
-/* Matching teal borders around the gallery picture cards */
-.figure-grid > .figure-card {
-  border: 2px solid var(--section-border, #2f6f7e);
-  border-radius: 16px;
-  padding: 12px;
-  overflow: hidden;
-}
-
-.planet-types-panel .figure-card {
-  width: 100%;
-  margin: 0;
-  padding: 12px;
-  border: 2px solid var(--section-border, #2f6f7e);
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.72);
-  overflow: hidden;
-}
-
-.planet-types-panel .figure-card figcaption {
-  margin-top: 8px;
-  color: var(--ink-soft);
-  font-size: 0.9rem;
-  text-align: left;
-}
-
-/* Matching decorative scrollbar for Feature Importance */
-.feature-importance-scroll::after {
-  content: "";
-  display: block;
-  width: 100%;
-  height: 12px;
-  background:
-    linear-gradient(#2f6f7e, #2f6f7e)
-      12px center / 28% 6px no-repeat,
-    #e7e9e3;
-}
-
-.feature-importance-scroll::after {
-  display: none;
-}
-
-/* Make the table wide enough to scroll */
-.feature-importance-scroll {
-  overflow-x: auto;
-}
-
-.feature-importance-scroll .data-table {
-  width: 115%;
-  min-width: 115%;
-}
-
-.table-scroll,
-.table-scroll .data-table {
-  border-radius: 0;
-}
-
-/* Space between the target summary and leaderboard */
-#interactive-table {
-  margin-top: 20px;
-}
-
-/* Warm orange border matching the target summary */
-#interactive-target-highlight {
-  border: 2px solid rgba(201, 109, 61, 0.55);
-}
-
-/* Rounded leaderboard borders with room for the scrollbar */
-.table-scroll {
-  border: 2px solid var(--section-border, #2f6f7e);
-  border-radius: 16px;
-  padding: 0 8px 8px;
-  background: #e7e9e3;
-  overflow-x: auto;
-}
-
-.table-scroll .data-table {
-  border-radius: 0;
-}
-
-/* Matching scrollbar */
-.table-scroll::-webkit-scrollbar {
-  height: 12px;
-}
-
-.table-scroll::-webkit-scrollbar-track {
-  background: #e7e9e3;
-}
-
-.table-scroll::-webkit-scrollbar-thumb {
-  background: #2f6f7e;
-  border: 3px solid #e7e9e3;
-  border-radius: 999px;
-}
-
-/* Outer rounded frame */
-.leaderboard-frame {
-  border: 2px solid var(--section-border, #2f6f7e);
-  border-radius: 16px;
-  overflow: hidden;
-  padding-bottom: 8px;
-  background: #e7e9e3;
-}
-
-/* Scrollbar sits inside the frame */
-.leaderboard-frame > .table-scroll {
-  width: auto;
-  max-width: none;
-  margin: 0 8px;
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-}
-
-/* Let the table reach both sides of the rounded frame */
-.leaderboard-frame > .table-scroll {
-  width: 100%;
-  max-width: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-/* Keep only the scrollbar away from the corners */
-.leaderboard-frame .table-scroll::-webkit-scrollbar-track {
-  margin-inline: 12px;
-}
-
-/* Transparent backgrounds for all main sections */
-.hero,
-.panel,
-.panel.nasa-explorer {
-  background: rgba(255, 250, 243, 0.86);
-}
-    
+    #interactive-table {
+      margin-top: 20px;
+    }
+
+    /* Pictures */
+
+    .figure-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .figure-card {
+      min-width: 0;
+      margin: 0;
+      padding: 10px;
+      overflow: hidden;
+      border: 1px solid #d3d4d9;
+      background: #fff;
+    }
+
+    .figure-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+      cursor: zoom-in;
+    }
+
+    .figure-card figcaption {
+      padding: 12px 2px 2px;
+      color: #25252b;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    /* Bottom explorer row */
+
+    .explore-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+      gap: 40px;
+      margin-top: 40px;
+      align-items: stretch;
+    }
+
+    .explore-row .panel {
+      padding: 32px;
+      border: 1px solid #ddd;
+      background: #f5f5f6;
+    }
+
+    .explore-row .nasa-explorer {
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      background: #080b12;
+      color: #fff;
+    }
+
+    .nasa-explorer-content {
+      position: relative;
+    }
+
+    .nasa-explorer .eyebrow {
+      margin-bottom: 18px;
+      color: #c4c7d0;
+    }
+
+    .nasa-explorer h2 {
+      max-width: 550px;
+      font-size: clamp(30px, 3.7vw, 48px);
+    }
+
+    .nasa-explorer p {
+      max-width: 480px;
+      margin-bottom: 24px;
+      color: #d2d4dc;
+    }
+
+    .nasa-explorer-button {
+      display: inline-flex;
+      padding: 13px 20px;
+      border: 1px solid #c93228;
+      background: #c93228;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .nasa-explorer-button:hover {
+      background: #a7231b;
+    }
+
+    .planet-types-panel {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .planet-types-panel h2 {
+      font-size: 28px;
+    }
+
+    .planet-types-panel .figure-card img {
+      height: 220px;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .search-match {
+      outline: 3px solid #2c72c7;
+      outline-offset: 8px;
+    }
+
+    /* Expanded image viewer */
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      background: rgba(0, 0, 0, 0.94);
+      visibility: hidden;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .lightbox.open {
+      visibility: visible;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .lightbox-content {
+      position: relative;
+      max-width: 1100px;
+      max-height: 90vh;
+    }
+
+    .lightbox-image {
+      display: block;
+      max-width: 100%;
+      max-height: 80vh;
+      object-fit: contain;
+    }
+
+    .lightbox-caption {
+      margin-top: 14px;
+      color: #ddd;
+      text-align: center;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -24px;
+      right: -16px;
+      width: 42px;
+      height: 42px;
+      border: 0;
+      border-radius: 50%;
+      background: #fff;
+      color: #111;
+      font-size: 28px;
+      cursor: pointer;
+    }
+
+    /* Responsive layouts */
+
+    @media (min-width: 1100px) {
+      .section-grid > .stack:first-child > .panel:first-child {
+        padding-bottom: 32px;
+      }
+
+      .section-grid > .stack:last-child {
+        padding-left: 32px;
+        border-left: 1px solid #ddd;
+      }
+    }
+
+    @media (max-width: 1000px) {
+      .header-inner {
+        flex-wrap: wrap;
+        gap: 20px;
+        padding: 16px 24px;
+      }
+
+      .site-nav {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+      }
+
+      .site-brand {
+        font-size: 18px;
+      }
+
+      .shell {
+        padding: 0 24px 40px;
+      }
+
+      .hero {
+        margin: 0 -24px;
+        padding: 60px 24px 0;
+      }
+
+      .metrics-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        margin: 0 -24px;
+        padding: 0 24px;
+      }
+
+      .metric-card {
+        border-bottom: 1px solid #ffffff30;
+      }
+
+      .metric-card:nth-child(4) {
+        padding-left: 0;
+      }
+
+      .section-grid,
+      .explore-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .explore-row {
+        gap: 20px;
+      }
+
+      .figure-grid {
+        gap: 16px;
+      }
+
+      .panel {
+        padding: 32px 0;
+      }
+    }
+
+    @media (max-width: 540px) {
+      html {
+        scroll-padding-top: 190px;
+      }
+
+      .header-inner {
+        gap: 15px;
+        padding: 14px 20px;
+      }
+
+      .site-brand {
+        font-size: 16px;
+      }
+
+      .site-brand span {
+        font-size: 8px;
+        letter-spacing: 1px;
+      }
+
+      .site-search {
+        order: 3;
+        width: 100%;
+      }
+
+      .site-nav {
+        gap: 18px;
+        justify-content: flex-start;
+        overflow: auto;
+      }
+
+      .site-nav a {
+        font-size: 12px;
+        white-space: nowrap;
+      }
+
+      .shell {
+        padding: 0 20px 32px;
+      }
+
+      .hero {
+        margin: 0 -20px;
+        padding: 42px 20px 0;
+      }
+
+      h1 {
+        font-size: 42px;
+        letter-spacing: -1.8px;
+      }
+
+      .hero p {
+        margin-bottom: 30px;
+        font-size: 16px;
+      }
+
+      .metrics-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        margin: 0 -20px;
+        padding: 0 20px;
+      }
+
+      .metric-card {
+        padding: 18px 10px;
+      }
+
+      .metric-card:nth-child(odd) {
+        padding-left: 0;
+      }
+
+      .metric-card:nth-child(even) {
+        padding-left: 12px;
+        border-right: 0;
+      }
+
+      .control-grid,
+      .figure-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .explore-row .panel {
+        padding: 24px;
+      }
+
+      .lightbox {
+        padding: 24px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+    }
   </style>
 </head>
+
 <body>
-  <main class="shell">
-    <section class="hero">
+  <a class="skip-link" href="#main-content">Skip to dashboard</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="site-brand" href="#overview">
+        EXOPLANET
+        <span>BIOSIGNATURE FOLLOW-UP DASHBOARD</span>
+      </a>
+
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="#targets">Targets</a>
+        <a href="#shortlist">Shortlist</a>
+        <a href="#gallery">Visualizations</a>
+        <a href="#model">Model</a>
+      </nav>
+
+      <form class="site-search" role="search" id="site-search-form">
+        <input
+          id="site-search-input"
+          type="search"
+          placeholder="Search the dashboard"
+          aria-label="Search dashboard sections and planets"
+          aria-controls="site-search-results"
+          autocomplete="off"
+        />
+        <button type="submit" aria-label="Search">⌕</button>
+        <div
+          class="search-results"
+          id="site-search-results"
+          aria-label="Search results"
+          hidden
+        ></div>
+      </form>
+    </div>
+  </header>
+
+  <main class="shell" id="main-content">
+    <section class="hero" id="overview">
       <span class="eyebrow">NASA Data Pipeline</span>
-      <h1>Exoplanet Biosignature Follow-up Dashboard</h1>
+
+      <h1>
+        Exoplanet Biosignature
+        <span class="hero-title-accent">Follow-up Dashboard</span>
+      </h1>
+
       <p>
-        This static dashboard translates the pipeline outputs into a presentation-ready research view.
-        It highlights the strongest atmospheric follow-up candidates, and summarizes model performance.
+        This static dashboard translates the pipeline outputs into a
+        presentation-ready research view. It highlights the strongest
+        atmospheric follow-up candidates, and summarizes model performance.
       </p>
+
       <div class="metrics-grid">
-        <div class="metric-card"><span class="metric-label">Run Timestamp</span><span class="metric-value">2026-08-06T20-53-13Z</span></div><div class="metric-card"><span class="metric-label">Raw Catalog Rows</span><span class="metric-value">6278</span></div><div class="metric-card"><span class="metric-label">Training Pool</span><span class="metric-value">422</span></div><div class="metric-card"><span class="metric-label">Strict Shortlist</span><span class="metric-value">27</span></div><div class="metric-card"><span class="metric-label">Selected Model</span><span class="metric-value">gradient_boosting</span></div><div class="metric-card"><span class="metric-label">Test R²</span><span class="metric-value">0.964</span></div>
+        <div class="metric-card">
+          <span class="metric-label">Run Timestamp</span>
+          <span class="metric-value">2026-08-06T20-53-13Z</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Raw Catalog Rows</span>
+          <span class="metric-value">6278</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Training Pool</span>
+          <span class="metric-value">422</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Strict Shortlist</span>
+          <span class="metric-value">27</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Selected Model</span>
+          <span class="metric-value">gradient_boosting</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Test R²</span>
+          <span class="metric-value">0.964</span>
+        </div>
       </div>
     </section>
 
     <section class="section-grid">
       <div class="stack">
-        <section class="panel">
+        <section class="panel" id="research" tabindex="-1">
           <h2>Research Framing</h2>
+
           <p class="lede">
-            The ranking emphasizes planets that are small, temperate, transiting, and observationally practical
-            for future atmospheric spectroscopy. The score is a follow-up prioritization signal, not a life-detection claim.
+            The ranking emphasizes planets that are small, temperate,
+            transiting, and observationally practical for future atmospheric
+            spectroscopy. The score is a follow-up prioritization signal,
+            not a life-detection claim.
           </p>
+
           <span class="badge">Transparent heuristic score</span>
           <span class="badge">Machine-learning ranking layer</span>
           <span class="badge">Weekly NASA updates</span>
           <span class="badge">SQLite history tracking</span>
         </section>
 
-        <section class="panel">
+        <section class="panel" id="targets" tabindex="-1">
           <h2>Top Priority Targets</h2>
-          <p class="lede">These are the current top-ranked shortlist planets for atmospheric biosignature follow-up planning.</p>
-          <div class="table-scroll"><table class="data-table"><thead><tr><th>priority_rank</th><th>pl_name</th><th>hostname</th><th>follow_up_priority_score</th><th>heuristic_priority_score</th><th>ml_predicted_priority_score</th><th>hz_flag</th><th>pl_rade</th><th>pl_eqt</th><th>pl_insol</th><th>sy_dist</th><th>preferred_mag</th><th>atmospheric_signal_ppm</th><th>discoverymethod</th><th>disc_year</th><th>disc_facility</th></tr></thead><tbody><tr><td>1</td><td>TRAPPIST-1 e</td><td>TRAPPIST-1</td><td>87.662</td><td>87.068</td><td>1</td><td>0.920</td><td>249.700</td><td>0.646</td><td>12.430</td><td>11.354</td><td>15.221</td><td>Transit</td><td>2017</td><td>Multiple Observatories</td></tr><tr><td>2</td><td>TRAPPIST-1 d</td><td>TRAPPIST-1</td><td>87.123</td><td>90.330</td><td>84.985</td><td>1</td><td>0.788</td><td>286.200</td><td>1.115</td><td>12.430</td><td>11.354</td><td>19.551</td><td>Transit</td><td>2016</td><td>La Silla Observatory</td></tr><tr><td>3</td><td>TRAPPIST-1 c</td><td>TRAPPIST-1</td><td>79.256</td><td>81.227</td><td>77.942</td><td>0</td><td>1.097</td><td>339.700</td><td>2.214</td><td>12.430</td><td>11.354</td><td>18.572</td><td>Transit</td><td>2016</td><td>La Silla Observatory</td></tr><tr><td>4</td><td>TRAPPIST-1 f</td><td>TRAPPIST-1</td><td>78.318</td><td>78.191</td><td>78.402</td><td>1</td><td>1.045</td><td>217.700</td><td>0.373</td><td>12.430</td><td>11.354</td><td>12.952</td><td>Transit</td><td>2017</td><td>Multiple Observatories</td></tr><tr><td>5</td><td>Gliese 12 b</td><td>Gliese 12</td><td>75.722</td><td>77.883</td><td>74.281</td><td>1</td><td>0.930</td><td>314.600</td><td>1.620</td><td>12.210</td><td>8.619</td><td>2.919</td><td>Transit</td><td>2024</td><td>Transiting Exoplanet Survey Satellite (TESS)</td></tr><tr><td>6</td><td>TOI-700 d</td><td>TOI-700</td><td>73.921</td><td>74.556</td><td>73.497</td><td>1</td><td>1.073</td><td>268.800</td><td>0.850</td><td>31.127</td><td>9.469</td><td>1.154</td><td>Transit</td><td>2020</td><td>Transiting Exoplanet Survey Satellite (TESS)</td></tr><tr><td>7</td><td>TOI-700 e</td><td>TOI-700</td><td>73.569</td><td>73.808</td><td>73.410</td><td>1</td><td>0.953</td><td>272.900</td><td>1.270</td><td>31.127</td><td>9.469</td><td>1.254</td><td>Transit</td><td>2023</td><td>Transiting Exoplanet Survey Satellite (TESS)</td></tr><tr><td>8</td><td>Kepler-1649 c</td><td>Kepler-1649</td><td>73.557</td><td>73.366</td><td>73.685</td><td>1</td><td>1.060</td><td>234</td><td>0.750</td><td>92.191</td><td>13.379</td><td>3.330</td><td>Transit</td><td>2020</td><td>Kepler</td></tr><tr><td>9</td><td>Kepler-1649 b</td><td>Kepler-1649</td><td>71.888</td><td>72.609</td><td>71.407</td><td>0</td><td>1.017</td><td>307</td><td>2.208</td><td>92.191</td><td>13.379</td><td>4.495</td><td>Transit</td><td>2017</td><td>Kepler</td></tr><tr><td>10</td><td>K2-72 e</td><td>K2-72</td><td>71.461</td><td>72.398</td><td>70.836</td><td>1</td><td>1.290</td><td>286.340</td><td>1.200</td><td>66.432</td><td>11.685</td><td>1.954</td><td>Transit</td><td>2016</td><td>K2</td></tr></tbody></table></div>
+
+          <p class="lede">
+            These are the current top-ranked shortlist planets for
+            atmospheric biosignature follow-up planning.
+          </p>
+
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>priority_rank</th>
+                  <th>pl_name</th>
+                  <th>hostname</th>
+                  <th>follow_up_priority_score</th>
+                  <th>heuristic_priority_score</th>
+                  <th>ml_predicted_priority_score</th>
+                  <th>hz_flag</th>
+                  <th>pl_rade</th>
+                  <th>pl_eqt</th>
+                  <th>pl_insol</th>
+                  <th>sy_dist</th>
+                  <th>preferred_mag</th>
+                  <th>atmospheric_signal_ppm</th>
+                  <th>discoverymethod</th>
+                  <th>disc_year</th>
+                  <th>disc_facility</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td><td>TRAPPIST-1 e</td><td>TRAPPIST-1</td>
+                  <td>87.662</td><td>87.068</td>
+                  <td aria-label="Not available">—</td>
+                  <td>1</td><td>0.920</td><td>249.700</td>
+                  <td>0.646</td><td>12.430</td><td>11.354</td>
+                  <td>15.221</td><td>Transit</td><td>2017</td>
+                  <td>Multiple Observatories</td>
+                </tr>
+                <tr>
+                  <td>2</td><td>TRAPPIST-1 d</td><td>TRAPPIST-1</td>
+                  <td>87.123</td><td>90.330</td><td>84.985</td>
+                  <td>1</td><td>0.788</td><td>286.200</td>
+                  <td>1.115</td><td>12.430</td><td>11.354</td>
+                  <td>19.551</td><td>Transit</td><td>2016</td>
+                  <td>La Silla Observatory</td>
+                </tr>
+                <tr>
+                  <td>3</td><td>TRAPPIST-1 c</td><td>TRAPPIST-1</td>
+                  <td>79.256</td><td>81.227</td><td>77.942</td>
+                  <td>0</td><td>1.097</td><td>339.700</td>
+                  <td>2.214</td><td>12.430</td><td>11.354</td>
+                  <td>18.572</td><td>Transit</td><td>2016</td>
+                  <td>La Silla Observatory</td>
+                </tr>
+                <tr>
+                  <td>4</td><td>TRAPPIST-1 f</td><td>TRAPPIST-1</td>
+                  <td>78.318</td><td>78.191</td><td>78.402</td>
+                  <td>1</td><td>1.045</td><td>217.700</td>
+                  <td>0.373</td><td>12.430</td><td>11.354</td>
+                  <td>12.952</td><td>Transit</td><td>2017</td>
+                  <td>Multiple Observatories</td>
+                </tr>
+                <tr>
+                  <td>5</td><td>Gliese 12 b</td><td>Gliese 12</td>
+                  <td>75.722</td><td>77.883</td><td>74.281</td>
+                  <td>1</td><td>0.930</td><td>314.600</td>
+                  <td>1.620</td><td>12.210</td><td>8.619</td>
+                  <td>2.919</td><td>Transit</td><td>2024</td>
+                  <td>Transiting Exoplanet Survey Satellite (TESS)</td>
+                </tr>
+                <tr>
+                  <td>6</td><td>TOI-700 d</td><td>TOI-700</td>
+                  <td>73.921</td><td>74.556</td><td>73.497</td>
+                  <td>1</td><td>1.073</td><td>268.800</td>
+                  <td>0.850</td><td>31.127</td><td>9.469</td>
+                  <td>1.154</td><td>Transit</td><td>2020</td>
+                  <td>Transiting Exoplanet Survey Satellite (TESS)</td>
+                </tr>
+                <tr>
+                  <td>7</td><td>TOI-700 e</td><td>TOI-700</td>
+                  <td>73.569</td><td>73.808</td><td>73.410</td>
+                  <td>1</td><td>0.953</td><td>272.900</td>
+                  <td>1.270</td><td>31.127</td><td>9.469</td>
+                  <td>1.254</td><td>Transit</td><td>2023</td>
+                  <td>Transiting Exoplanet Survey Satellite (TESS)</td>
+                </tr>
+                <tr>
+                  <td>8</td><td>Kepler-1649 c</td><td>Kepler-1649</td>
+                  <td>73.557</td><td>73.366</td><td>73.685</td>
+                  <td>1</td><td>1.060</td><td>234</td>
+                  <td>0.750</td><td>92.191</td><td>13.379</td>
+                  <td>3.330</td><td>Transit</td><td>2020</td>
+                  <td>Kepler</td>
+                </tr>
+                <tr>
+                  <td>9</td><td>Kepler-1649 b</td><td>Kepler-1649</td>
+                  <td>71.888</td><td>72.609</td><td>71.407</td>
+                  <td>0</td><td>1.017</td><td>307</td>
+                  <td>2.208</td><td>92.191</td><td>13.379</td>
+                  <td>4.495</td><td>Transit</td><td>2017</td>
+                  <td>Kepler</td>
+                </tr>
+                <tr>
+                  <td>10</td><td>K2-72 e</td><td>K2-72</td>
+                  <td>71.461</td><td>72.398</td><td>70.836</td>
+                  <td>1</td><td>1.290</td><td>286.340</td>
+                  <td>1.200</td><td>66.432</td><td>11.685</td>
+                  <td>1.954</td><td>Transit</td><td>2016</td>
+                  <td>K2</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </section>
 
-        <section class="panel">
+        <section class="panel" id="shortlist" tabindex="-1">
           <h2>Interactive Shortlist Explorer</h2>
+
           <p class="lede">
-            This table runs entirely inside the browser. It lets a reviewer search the shortlist,
-            isolate habitable-zone candidates, and sort by different follow-up priorities without needing a server.
+            This table runs entirely inside the browser. It lets a reviewer
+            search the shortlist, isolate habitable-zone candidates, and sort
+            by different follow-up priorities without needing a server.
           </p>
+
           <div class="control-grid">
             <div class="control">
               <label for="search-box">Planet Search</label>
-              <input id="search-box" type="search" placeholder="Search by planet or host star" />
+              <input
+                id="search-box"
+                type="search"
+                placeholder="Search by planet or host star"
+              />
             </div>
+
             <div class="control">
               <label for="hz-filter">Habitable Zone Filter</label>
               <select id="hz-filter">
@@ -1327,10 +1137,19 @@ border: 4px solid #2f6f7e;
                 <option value="non_hz">Outside habitable-zone proxy</option>
               </select>
             </div>
+
             <div class="control">
               <label for="score-filter">Minimum Score</label>
-              <input id="score-filter" type="number" min="0" max="100" step="0.5" value="0" />
+              <input
+                id="score-filter"
+                type="number"
+                min="0"
+                max="100"
+                step="0.5"
+                value="0"
+              />
             </div>
+
             <div class="control">
               <label for="sort-select">Sort By</label>
               <select id="sort-select">
@@ -1342,111 +1161,657 @@ border: 4px solid #2f6f7e;
               </select>
             </div>
           </div>
+
           <div class="inline-meta">
-            <span class="pill">Filtered Targets: <span id="filtered-count">0</span></span>
-<span class="pill">
-  Top Visible Result:
-  <span id="best-match">Loading</span>
-</span>
+            <span class="pill">
+              Filtered Targets: <span id="filtered-count">0</span>
+            </span>
+            <span class="pill">
+              Top Visible Result: <span id="best-match">Loading</span>
+            </span>
           </div>
-          <div id="interactive-target-highlight" class="target-highlight"></div>
+
+          <div
+            id="interactive-target-highlight"
+            class="target-highlight"
+          ></div>
+
           <div id="interactive-table"></div>
         </section>
 
-        <section class="panel">
+        <section class="panel" id="gallery" tabindex="-1">
           <h2>Visualization Gallery</h2>
-          <p class="lede">The dashboard reuses the pipeline figures so a reviewer can move from rank tables to pattern recognition quickly.</p>
+
+          <p class="lede">
+            The dashboard reuses the pipeline figures so a reviewer can move
+            from rank tables to pattern recognition quickly.
+          </p>
+
           <div class="figure-grid">
-            <figure class="figure-card"><img src="figures/radius_vs_temperature.png" alt="radius_vs_temperature.png" /><figcaption>Radius Vs Temperature</figcaption></figure><figure class="figure-card"><img src="figures/habitable_zone_distribution.png" alt="habitable_zone_distribution.png" /><figcaption>Habitable Zone Distribution</figcaption></figure><figure class="figure-card"><img src="figures/top_priority_targets.png" alt="top_priority_targets.png" /><figcaption>Top Priority Targets</figcaption></figure><figure class="figure-card"><img src="figures/feature_importance.png" alt="feature_importance.png" /><figcaption>Feature Importance</figcaption></figure>
+            <figure class="figure-card">
+              <img
+                src="figures/radius_vs_temperature.png"
+                alt="radius_vs_temperature.png"
+              />
+              <figcaption>Radius Vs Temperature</figcaption>
+            </figure>
+
+            <figure class="figure-card">
+              <img
+                src="figures/habitable_zone_distribution.png"
+                alt="habitable_zone_distribution.png"
+              />
+              <figcaption>Habitable Zone Distribution</figcaption>
+            </figure>
+
+            <figure class="figure-card">
+              <img
+                src="figures/top_priority_targets.png"
+                alt="top_priority_targets.png"
+              />
+              <figcaption>Top Priority Targets</figcaption>
+            </figure>
+
+            <figure class="figure-card">
+              <img
+                src="figures/feature_importance.png"
+                alt="feature_importance.png"
+              />
+              <figcaption>Feature Importance</figcaption>
+            </figure>
           </div>
         </section>
       </div>
 
       <div class="stack">
-        <section class="panel">
+        <section class="panel" id="model" tabindex="-1">
           <h2>Model Snapshot</h2>
+
           <p><strong>Selected model:</strong> gradient_boosting</p>
           <p><strong>Test MAE:</strong> 1.971</p>
           <p><strong>Test RMSE:</strong> 2.756</p>
           <p><strong>Cross-validation R²:</strong> 0.934</p>
+
           <p class="footer-note">
-            The machine-learning layer learns the nonlinear structure of the physics-informed heuristic score across the broader transiting small-planet population.
+            The machine-learning layer learns the nonlinear structure of the
+            physics-informed heuristic score across the broader transiting
+            small-planet population.
           </p>
         </section>
 
-        <section class="panel">
+        <section class="panel" id="importance" tabindex="-1">
           <h2>Feature Importance</h2>
-          <p class="lede">The most influential variables in the selected model give a compact explanation of what drives the ranking.</p>
-          <div class="table-scroll feature-importance-scroll"><table class="data-table compact-table"><thead><tr><th>feature</th><th>importance</th></tr></thead><tbody><tr><td>st_mass</td><td>0.521</td></tr><tr><td>st_rad</td><td>0.100</td></tr><tr><td>sy_dist</td><td>0.082</td></tr><tr><td>pl_eqt</td><td>0.075</td></tr><tr><td>mass_for_signal_earth</td><td>0.055</td></tr><tr><td>pl_insol</td><td>0.055</td></tr><tr><td>pl_rade</td><td>0.032</td></tr><tr><td>st_teff</td><td>0.022</td></tr><tr><td>hz_flag</td><td>0.013</td></tr><tr><td>gravity_earth</td><td>0.008</td></tr></tbody></table></div>
+
+          <p class="lede">
+            The most influential variables in the selected model give a
+            compact explanation of what drives the ranking.
+          </p>
+
+          <div class="table-scroll feature-importance-scroll">
+            <table class="data-table compact-table">
+              <thead>
+                <tr><th>feature</th><th>importance</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>st_mass</td><td>0.521</td></tr>
+                <tr><td>st_rad</td><td>0.100</td></tr>
+                <tr><td>sy_dist</td><td>0.082</td></tr>
+                <tr><td>pl_eqt</td><td>0.075</td></tr>
+                <tr><td>mass_for_signal_earth</td><td>0.055</td></tr>
+                <tr><td>pl_insol</td><td>0.055</td></tr>
+                <tr><td>pl_rade</td><td>0.032</td></tr>
+                <tr><td>st_teff</td><td>0.022</td></tr>
+                <tr><td>hz_flag</td><td>0.013</td></tr>
+                <tr><td>gravity_earth</td><td>0.008</td></tr>
+              </tbody>
+            </table>
+          </div>
         </section>
 
-<section class="panel leaderboard-panel">
-  <h2>Leaderboard Changes</h2>
-          <p><strong>New top-10 entries:</strong> K2-72 e</p><p><strong>Removed top-10 entries:</strong> LP 890-9 c</p><div class="table-scroll"><table class="data-table compact-table"><thead><tr><th>pl_name</th><th>previous_rank</th><th>current_rank</th><th>rank_change</th><th>score_change</th></tr></thead><tbody><tr><td>Kepler-1649 b</td><td>10</td><td>9</td><td>1</td><td>-0.502</td></tr><tr><td>TOI-700 d</td><td>7</td><td>6</td><td>1</td><td>-0.524</td></tr><tr><td>TRAPPIST-1 e</td><td>2</td><td>1</td><td>1</td><td>-0.891</td></tr><tr><td>Kepler-1649 c</td><td>8</td><td>8</td><td>0</td><td>-0.106</td></tr><tr><td>TRAPPIST-1 f</td><td>4</td><td>4</td><td>0</td><td>-0.154</td></tr></tbody></table></div>
+        <section class="panel leaderboard-panel" id="changes" tabindex="-1">
+          <h2>Leaderboard Changes</h2>
+
+          <p><strong>New top-10 entries:</strong> K2-72 e</p>
+          <p><strong>Removed top-10 entries:</strong> LP 890-9 c</p>
+
+          <div class="table-scroll">
+            <table class="data-table compact-table">
+              <thead>
+                <tr>
+                  <th>pl_name</th>
+                  <th>previous_rank</th>
+                  <th>current_rank</th>
+                  <th>rank_change</th>
+                  <th>score_change</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Kepler-1649 b</td><td>10</td><td>9</td>
+                  <td>1</td><td>-0.502</td>
+                </tr>
+                <tr>
+                  <td>TOI-700 d</td><td>7</td><td>6</td>
+                  <td>1</td><td>-0.524</td>
+                </tr>
+                <tr>
+                  <td>TRAPPIST-1 e</td><td>2</td><td>1</td>
+                  <td>1</td><td>-0.891</td>
+                </tr>
+                <tr>
+                  <td>Kepler-1649 c</td><td>8</td><td>8</td>
+                  <td>0</td><td>-0.106</td>
+                </tr>
+                <tr>
+                  <td>TRAPPIST-1 f</td><td>4</td><td>4</td>
+                  <td>0</td><td>-0.154</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </section>
 
-<section class="panel run-history-panel">
-  <h2>Run History</h2>
-          <p class="lede">This table shows the recent execution history of the pipeline and supports long-term monitoring.</p>
-          <div class="table-scroll"><table class="data-table compact-table"><thead><tr><th>run_timestamp_utc</th><th>raw_rows</th><th>clean_rows</th><th>training_rows</th><th>shortlist_rows</th><th>selected_model</th><th>test_mae</th><th>test_rmse</th><th>test_r2</th><th>cv_mae_mean</th><th>cv_r2_mean</th></tr></thead><tbody><tr><td>2026-06-16T07-00-45Z</td><td>6240</td><td>6240</td><td>354</td><td>24</td><td>gradient_boosting</td><td>2.275</td><td>3.244</td><td>0.961</td><td>2.388</td><td>0.926</td></tr><tr><td>2026-06-16T07-04-22Z</td><td>6240</td><td>6240</td><td>354</td><td>24</td><td>gradient_boosting</td><td>2.275</td><td>3.244</td><td>0.961</td><td>2.388</td><td>0.926</td></tr><tr><td>2026-06-16T07-08-15Z</td><td>6240</td><td>6240</td><td>354</td><td>24</td><td>gradient_boosting</td><td>2.275</td><td>3.244</td><td>0.961</td><td>2.388</td><td>0.926</td></tr><tr><td>2026-06-17T13-42-20Z</td><td>6240</td><td>6240</td><td>354</td><td>24</td><td>gradient_boosting</td><td>2.275</td><td>3.244</td><td>0.961</td><td>2.388</td><td>0.926</td></tr><tr><td>2026-06-17T14-25-48Z</td><td>6240</td><td>6240</td><td>354</td><td>24</td><td>gradient_boosting</td><td>2.275</td><td>3.244</td><td>0.961</td><td>2.388</td><td>0.926</td></tr><tr><td>2026-06-19T05-49-39Z</td><td>6240</td><td>6193</td><td>421</td><td>27</td><td>gradient_boosting</td><td>2.195</td><td>2.871</td><td>0.954</td><td>2.041</td><td>0.946</td></tr><tr><td>2026-08-03T17-18-41Z</td><td>6275</td><td>6229</td><td>421</td><td>27</td><td>gradient_boosting</td><td>2.475</td><td>3.511</td><td>0.936</td><td>2.169</td><td>0.947</td></tr><tr><td>2026-08-06T20-53-13Z</td><td>6278</td><td>6232</td><td>422</td><td>27</td><td>gradient_boosting</td><td>1.971</td><td>2.756</td><td>0.964</td><td>2.343</td><td>0.934</td></tr></tbody></table></div>
+        <section class="panel run-history-panel" id="history" tabindex="-1">
+          <h2>Run History</h2>
+
+          <p class="lede">
+            This table shows the recent execution history of the pipeline
+            and supports long-term monitoring.
+          </p>
+
+          <div class="table-scroll">
+            <table class="data-table compact-table">
+              <thead>
+                <tr>
+                  <th>run_timestamp_utc</th>
+                  <th>raw_rows</th>
+                  <th>clean_rows</th>
+                  <th>training_rows</th>
+                  <th>shortlist_rows</th>
+                  <th>selected_model</th>
+                  <th>test_mae</th>
+                  <th>test_rmse</th>
+                  <th>test_r2</th>
+                  <th>cv_mae_mean</th>
+                  <th>cv_r2_mean</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>2026-06-16T07-00-45Z</td>
+                  <td>6240</td><td>6240</td><td>354</td><td>24</td>
+                  <td>gradient_boosting</td>
+                  <td>2.275</td><td>3.244</td><td>0.961</td>
+                  <td>2.388</td><td>0.926</td>
+                </tr>
+                <tr>
+                  <td>2026-06-16T07-04-22Z</td>
+                  <td>6240</td><td>6240</td><td>354</td><td>24</td>
+                  <td>gradient_boosting</td>
+                  <td>2.275</td><td>3.244</td><td>0.961</td>
+                  <td>2.388</td><td>0.926</td>
+                </tr>
+                <tr>
+                  <td>2026-06-16T07-08-15Z</td>
+                  <td>6240</td><td>6240</td><td>354</td><td>24</td>
+                  <td>gradient_boosting</td>
+                  <td>2.275</td><td>3.244</td><td>0.961</td>
+                  <td>2.388</td><td>0.926</td>
+                </tr>
+                <tr>
+                  <td>2026-06-17T13-42-20Z</td>
+                  <td>6240</td><td>6240</td><td>354</td><td>24</td>
+                  <td>gradient_boosting</td>
+                  <td>2.275</td><td>3.244</td><td>0.961</td>
+                  <td>2.388</td><td>0.926</td>
+                </tr>
+                <tr>
+                  <td>2026-06-17T14-25-48Z</td>
+                  <td>6240</td><td>6240</td><td>354</td><td>24</td>
+                  <td>gradient_boosting</td>
+                  <td>2.275</td><td>3.244</td><td>0.961</td>
+                  <td>2.388</td><td>0.926</td>
+                </tr>
+                <tr>
+                  <td>2026-06-19T05-49-39Z</td>
+                  <td>6240</td><td>6193</td><td>421</td><td>27</td>
+                  <td>gradient_boosting</td>
+                  <td>2.195</td><td>2.871</td><td>0.954</td>
+                  <td>2.041</td><td>0.946</td>
+                </tr>
+                <tr>
+                  <td>2026-08-03T17-18-41Z</td>
+                  <td>6275</td><td>6229</td><td>421</td><td>27</td>
+                  <td>gradient_boosting</td>
+                  <td>2.475</td><td>3.511</td><td>0.936</td>
+                  <td>2.169</td><td>0.947</td>
+                </tr>
+                <tr>
+                  <td>2026-08-06T20-53-13Z</td>
+                  <td>6278</td><td>6232</td><td>422</td><td>27</td>
+                  <td>gradient_boosting</td>
+                  <td>1.971</td><td>2.756</td><td>0.964</td>
+                  <td>2.343</td><td>0.934</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </section>
       </div>
     </section>
 
-<div class="explore-row">
+    <div class="explore-row">
+      <section class="panel nasa-explorer" id="archive" tabindex="-1">
+        <div class="nasa-explorer-content">
+          <span class="eyebrow">NASA Interactive Explorer</span>
 
-  <section class="panel nasa-explorer">
-    <div class="nasa-explorer-content">
-      <span class="eyebrow">NASA Interactive Explorer</span>
+          <h2>Explore the Exoplanet Archive</h2>
 
-      <h2>Explore the Exoplanet Archive</h2>
+          <p>
+            Explore thousands of known exoplanets with NASA's
+            interactive Eyes on Exoplanets tool.
+          </p>
 
-      <p>
-        Explore thousands of known exoplanets with NASA's
-        interactive Eyes on Exoplanets tool.
-      </p>
+          <a
+            class="nasa-explorer-button"
+            href="https://eyes.nasa.gov/apps/exo/#/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Launch Eyes on Exoplanets
+          </a>
+        </div>
+      </section>
 
-      <a
-        class="nasa-explorer-button"
-        href="https://eyes.nasa.gov/apps/exo/#/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Launch Eyes on Exoplanets
-      </a>
+      <section class="panel planet-types-panel" id="types" tabindex="-1">
+        <h2>Types of Exoplanets</h2>
+
+        <figure class="figure-card">
+          <img
+            src="exoplanet-types.jpg"
+            alt="Infographic comparing the different types of exoplanets."
+          />
+          <figcaption>Exoplanet Classification</figcaption>
+        </figure>
+      </section>
     </div>
-  </section>
-
-  <section class="panel planet-types-panel">
-    <h2>Types of Exoplanets</h2>
-
-<figure class="figure-card">
-  <img
-    src="exoplanet-types.jpg"
-    alt="Infographic comparing the different types of exoplanets."
-  />
-  <figcaption>Exoplanet Classification</figcaption>
-</figure>
-  </section>
-
-</div>
-  
   </main>
-  
-    <div id="lightbox" class="lightbox" aria-hidden="true">
-  <div class="lightbox-content">
-    <button class="lightbox-close" id="lightbox-close" aria-label="Close image">
-      ×
-    </button>
 
-    <img id="lightbox-image" class="lightbox-image" src="" alt="" />
+  <div
+    id="lightbox"
+    class="lightbox"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Expanded image"
+    aria-hidden="true"
+  >
+    <div class="lightbox-content">
+      <button
+        type="button"
+        class="lightbox-close"
+        id="lightbox-close"
+        aria-label="Close image"
+      >×</button>
 
-    <div id="lightbox-caption" class="lightbox-caption"></div>
+      <img id="lightbox-image" class="lightbox-image" alt="" />
+      <div id="lightbox-caption" class="lightbox-caption"></div>
+    </div>
   </div>
-</div>
-  
+
   <script>
-    const shortlistData = [{"priority_rank": 1, "pl_name": "TRAPPIST-1 e", "hostname": "TRAPPIST-1", "follow_up_priority_score": 87.662, "hz_flag": 1, "pl_rade": 0.92, "pl_eqt": 249.7, "pl_insol": 0.646, "sy_dist": 12.42988881, "preferred_mag": 11.354, "discoverymethod": "Transit"}, {"priority_rank": 2, "pl_name": "TRAPPIST-1 d", "hostname": "TRAPPIST-1", "follow_up_priority_score": 87.123, "hz_flag": 1, "pl_rade": 0.788, "pl_eqt": 286.2, "pl_insol": 1.115, "sy_dist": 12.42988881, "preferred_mag": 11.354, "discoverymethod": "Transit"}, {"priority_rank": 3, "pl_name": "TRAPPIST-1 c", "hostname": "TRAPPIST-1", "follow_up_priority_score": 79.256, "hz_flag": 0, "pl_rade": 1.097, "pl_eqt": 339.7, "pl_insol": 2.214, "sy_dist": 12.42988881, "preferred_mag": 11.354, "discoverymethod": "Transit"}, {"priority_rank": 4, "pl_name": "TRAPPIST-1 f", "hostname": "TRAPPIST-1", "follow_up_priority_score": 78.318, "hz_flag": 1, "pl_rade": 1.045, "pl_eqt": 217.7, "pl_insol": 0.373, "sy_dist": 12.42988881, "preferred_mag": 11.354, "discoverymethod": "Transit"}, {"priority_rank": 5, "pl_name": "Gliese 12 b", "hostname": "Gliese 12", "follow_up_priority_score": 75.722, "hz_flag": 1, "pl_rade": 0.93, "pl_eqt": 314.6, "pl_insol": 1.62, "sy_dist": 12.21, "preferred_mag": 8.619, "discoverymethod": "Transit"}, {"priority_rank": 6, "pl_name": "TOI-700 d", "hostname": "TOI-700", "follow_up_priority_score": 73.921, "hz_flag": 1, "pl_rade": 1.073, "pl_eqt": 268.8, "pl_insol": 0.85, "sy_dist": 31.1265, "preferred_mag": 9.469, "discoverymethod": "Transit"}, {"priority_rank": 7, "pl_name": "TOI-700 e", "hostname": "TOI-700", "follow_up_priority_score": 73.569, "hz_flag": 1, "pl_rade": 0.953, "pl_eqt": 272.9, "pl_insol": 1.27, "sy_dist": 31.1265, "preferred_mag": 9.469, "discoverymethod": "Transit"}, {"priority_rank": 8, "pl_name": "Kepler-1649 c", "hostname": "Kepler-1649", "follow_up_priority_score": 73.557, "hz_flag": 1, "pl_rade": 1.06, "pl_eqt": 234.0, "pl_insol": 0.75, "sy_dist": 92.1913, "preferred_mag": 13.379, "discoverymethod": "Transit"}, {"priority_rank": 9, "pl_name": "Kepler-1649 b", "hostname": "Kepler-1649", "follow_up_priority_score": 71.888, "hz_flag": 0, "pl_rade": 1.017, "pl_eqt": 307.0, "pl_insol": 2.208, "sy_dist": 92.1913, "preferred_mag": 13.379, "discoverymethod": "Transit"}, {"priority_rank": 10, "pl_name": "K2-72 e", "hostname": "K2-72", "follow_up_priority_score": 71.461, "hz_flag": 1, "pl_rade": 1.29, "pl_eqt": 286.34, "pl_insol": 1.2, "sy_dist": 66.4321, "preferred_mag": 11.685, "discoverymethod": "Transit"}, {"priority_rank": 11, "pl_name": "LP 890-9 c", "hostname": "LP 890-9", "follow_up_priority_score": 71.084, "hz_flag": 1, "pl_rade": 1.367, "pl_eqt": 272.0, "pl_insol": 0.906, "sy_dist": 32.4298, "preferred_mag": 12.258, "discoverymethod": "Transit"}, {"priority_rank": 12, "pl_name": "TRAPPIST-1 g", "hostname": "TRAPPIST-1", "follow_up_priority_score": 70.996, "hz_flag": 0, "pl_rade": 1.129, "pl_eqt": 197.3, "pl_insol": 0.252, "sy_dist": 12.42988881, "preferred_mag": 11.354, "discoverymethod": "Transit"}, {"priority_rank": 13, "pl_name": "TOI-715 b", "hostname": "TOI-715", "follow_up_priority_score": 70.545, "hz_flag": 1, "pl_rade": 1.55, "pl_eqt": 234.0, "pl_insol": 0.67, "sy_dist": 42.4048, "preferred_mag": 11.808, "discoverymethod": "Transit"}, {"priority_rank": 14, "pl_name": "TOI-6002 b", "hostname": "TOI-6002", "follow_up_priority_score": 69.234, "hz_flag": 1, "pl_rade": 1.65, "pl_eqt": 321.4, "pl_insol": 1.6823, "sy_dist": 32.0266, "preferred_mag": 10.997, "discoverymethod": "Transit"}, {"priority_rank": 15, "pl_name": "Kepler-445 d", "hostname": "Kepler-445", "follow_up_priority_score": 66.163, "hz_flag": 0, "pl_rade": 1.25, "pl_eqt": 305.0, "pl_insol": 4.314, "sy_dist": 127.201, "preferred_mag": 13.542, "discoverymethod": "Transit"}, {"priority_rank": 16, "pl_name": "TOI-1452 b", "hostname": "TOI-1452", "follow_up_priority_score": 66.009, "hz_flag": 0, "pl_rade": 1.672, "pl_eqt": 326.0, "pl_insol": 1.8, "sy_dist": 30.5212, "preferred_mag": 10.604, "discoverymethod": "Transit"}, {"priority_rank": 17, "pl_name": "K2-72 c", "hostname": "K2-72", "follow_up_priority_score": 65.219, "hz_flag": 0, "pl_rade": 1.16, "pl_eqt": 333.81, "pl_insol": 2.2, "sy_dist": 66.4321, "preferred_mag": 11.685, "discoverymethod": "Transit"}, {"priority_rank": 18, "pl_name": "LHS 1140 b", "hostname": "LHS 1140", "follow_up_priority_score": 65.077, "hz_flag": 1, "pl_rade": 1.73, "pl_eqt": 226.0, "pl_insol": 0.43, "sy_dist": 14.9861, "preferred_mag": 9.612001, "discoverymethod": "Transit"}, {"priority_rank": 19, "pl_name": "K2-3 d", "hostname": "K2-3", "follow_up_priority_score": 63.596, "hz_flag": 1, "pl_rade": 1.458, "pl_eqt": 305.2, "pl_insol": 1.44, "sy_dist": 44.0727, "preferred_mag": 9.421, "discoverymethod": "Transit"}, {"priority_rank": 20, "pl_name": "TOI-2095 c", "hostname": "TOI-2095", "follow_up_priority_score": 62.256, "hz_flag": 0, "pl_rade": 1.33, "pl_eqt": 297.0, "pl_insol": 1.84, "sy_dist": 41.9176, "preferred_mag": 9.797, "discoverymethod": "Transit"}, {"priority_rank": 21, "pl_name": "TOI-5799 c", "hostname": "TOI-5799", "follow_up_priority_score": 60.465, "hz_flag": 0, "pl_rade": 1.76, "pl_eqt": 337.0, "pl_insol": 2.4202, "sy_dist": 27.8123, "preferred_mag": 9.742, "discoverymethod": "Transit"}, {"priority_rank": 22, "pl_name": "Kepler-560 b", "hostname": "Kepler-560", "follow_up_priority_score": 58.306, "hz_flag": 0, "pl_rade": 1.72, "pl_eqt": 298.0, "pl_insol": 2.46, "sy_dist": 109.308, "preferred_mag": 12.276, "discoverymethod": "Transit"}, {"priority_rank": 23, "pl_name": "TOI-5713 b", "hostname": "TOI-5713", "follow_up_priority_score": 57.337, "hz_flag": 0, "pl_rade": 1.77, "pl_eqt": 347.2, "pl_insol": 2.2554, "sy_dist": 40.8668, "preferred_mag": 11.068, "discoverymethod": "Transit"}, {"priority_rank": 24, "pl_name": "K2-133 e", "hostname": "K2-133", "follow_up_priority_score": 56.723, "hz_flag": 0, "pl_rade": 1.73, "pl_eqt": 296.0, "pl_insol": 1.8, "sy_dist": 75.1703, "preferred_mag": 11.084, "discoverymethod": "Transit"}, {"priority_rank": 25, "pl_name": "TOI-2095 b", "hostname": "TOI-2095", "follow_up_priority_score": 53.568, "hz_flag": 0, "pl_rade": 1.25, "pl_eqt": 347.0, "pl_insol": 3.43, "sy_dist": 41.9176, "preferred_mag": 9.797, "discoverymethod": "Transit"}, {"priority_rank": 26, "pl_name": "LHS 1903 e", "hostname": "LHS 1903", "follow_up_priority_score": 51.168, "hz_flag": 0, "pl_rade": 1.732, "pl_eqt": 333.0, "pl_insol": 2.05, "sy_dist": 35.6917, "preferred_mag": 9.061, "discoverymethod": "Transit"}, {"priority_rank": 27, "pl_name": "Kepler-138 d", "hostname": "Kepler-138", "follow_up_priority_score": 49.731, "hz_flag": 0, "pl_rade": 1.51, "pl_eqt": 345.0, "pl_insol": 3.4, "sy_dist": 66.8624, "preferred_mag": 10.293, "discoverymethod": "Transit"}];
+    const shortlistData = [
+      {
+        priority_rank: 1,
+        pl_name: "TRAPPIST-1 e",
+        hostname: "TRAPPIST-1",
+        follow_up_priority_score: 87.662,
+        hz_flag: 1,
+        pl_rade: 0.92,
+        pl_eqt: 249.7,
+        pl_insol: 0.646,
+        sy_dist: 12.42988881,
+        preferred_mag: 11.354,
+        discoverymethod: "Transit"
+      },
+      {
+        priority_rank: 2,
+        pl_name: "TRAPPIST-1 d",
+        hostname: "TRAPPIST-1",
+        follow_up_priority_score: 87.123,
+        hz_flag: 1,
+        pl_rade: 0.788,
+        pl_eqt: 286.2,
+        pl_insol: 1.115,
+        sy_dist: 12.42988881,
+        preferred_mag: 11.354,
+        discoverymethod: "Transit"
+      },
+      {
+        priority_rank: 3,
+        pl_name: "TRAPPIST-1 c",
+        hostname: "TRAPPIST-1",
+        follow_up_priority_score: 79.256,
+        hz_flag: 0,
+        pl_rade: 1.097,
+        pl_eqt: 339.7,
+        pl_insol: 2.214,
+        sy_dist: 12.42988881,
+        preferred_mag: 11.354,
+        discoverymethod: "Transit"
+      },
+      {
+        priority_rank: 4,
+        pl_name: "TRAPPIST-1 f",
+        hostname: "TRAPPIST-1",
+        follow_up_priority_score: 78.318,
+        hz_flag: 1,
+        pl_rade: 1.045,
+        pl_eqt: 217.7,
+        pl_insol: 0.373,
+        sy_dist: 12.42988881,
+        preferred_mag: 11.354,
+        discoverymethod: "Transit"
+      },
+      {
+        priority_rank: 5,
+        pl_name: "Gliese 12 b",
+        hostname: "Gliese 12",
+        follow_up_priority_score: 75.722,
+        hz_flag: 1,
+        pl_rade: 0.93,
+        pl_eqt: 314.6,
+        pl_insol: 1.62,
+        sy_dist: 12.21,
+        preferred_mag: 8.619,
+        discoverymethod: "Transit"
+      },
+      {
+        priority_rank: 6,
+        pl_name: "TOI-700 d",
+        hostname: "TOI-700",
+        follow_up_priority_score: 73.921,
+        hz_flag: 1,
+        pl_rade: 1.073,
+        pl_eqt: 268.8,
+        pl_insol: 0.85,
+        sy_dist: 31.1265,
+        preferred_mag: 9.469,
+        discoverymethod: "Transit"
+      },
+      {
+        priority_rank: 7,
+        pl_name: "TOI-700 e",
+        hostname: "TOI-700",
+        follow_up_priority_score: 73.569,
+        hz_flag: 1,
+        pl_rade: 0.953,
+        pl_eqt: 272.9,
+        pl_insol: 1.27,
+        sy_dist: 31.1265,
+        preferred_mag: 9.469,
+        discoverymethod: "Transit"
+      },
+      {
+        priority_rank: 8,
+        pl_name: "Kepler-1649 c",
+        hostname: "Kepler-1649",
+        follow_up_priority_score: 73.557,
+        hz_flag: 1,
+        pl_rade: 1.06,
+        pl_eqt: 234,
+        pl_insol: 0.75,
+        sy_dist: 92.1913,
+        preferred_mag: 13.379,
+        discoverymethod: "Transit"
+      },
+      {
+        priority_rank: 9,
+        pl_name: "Kepler-1649 b",
+        hostname: "Kepler-1649",
+        follow_up_priority_score: 71.888,
+        hz_flag: 0,
+        pl_rade: 1.017,
+        pl_eqt: 307,
+        pl_insol: 2.208,
+        sy_dist: 92.1913,
+        preferred_mag: 13.379,
+        discoverymethod: "Transit"
+      },
+      {
+        priority_rank: 10,
+        pl_name: "K2-72 e",
+        hostname: "K2-72",
+        follow_up_priority_score: 71.461,
+        hz_flag: 1,
+        pl_rade: 1.29,
+        pl_eqt: 286.34,
+        pl_insol: 1.2,
+        sy_dist: 66.4321,
+        preferred_mag: 11.685,
+        discoverymethod: "Transit"
+      },
+      {
+        priority_rank: 11,
+        pl_name: "LP 890-9 c",
+        hostname: "LP 890-9",
+        follow_up_priority_score: 71.084,
+        hz_flag: 1,
+        pl_rade: 1.367,
+        pl_eqt: 272,
+        pl_insol: 0.906,
+        sy_dist: 32.4298,
+        preferred_mag: 12.258,
+        discoverymethod: "Transit"
+      },
+      {
+        priority_rank: 12,
+        pl_name: "TRAPPIST-1 g",
+        hostname: "TRAPPIST-1",
+        follow_up_priority_score: 70.996,
+        hz_flag: 0,
+        pl_rade: 1.129,
+        pl_eqt: 197.3,
+        pl_insol: 0.252,
+        sy_dist: 12.42988881,
+        preferred_mag: 11.354,
+        discoverymethod: "Transit"
+      },
+      {
+        priority_rank: 13,
+        pl_name: "TOI-715 b",
+        hostname: "TOI-715",
+        follow_up_priority_score: 70.545,
+        hz_flag: 1,
+        pl_rade: 1.55,
+        pl_eqt: 234,
+        pl_insol: 0.67,
+        sy_dist: 42.4048,
+        preferred_mag: 11.808,
+        discoverymethod: "Transit"
+      },
+      {
+        priority_rank: 14,
+        pl_name: "TOI-6002 b",
+        hostname: "TOI-6002",
+        follow_up_priority_score: 69.234,
+        hz_flag: 1,
+        pl_rade: 1.65,
+        pl_eqt: 321.4,
+        pl_insol: 1.6823,
+        sy_dist: 32.0266,
+        preferred_mag: 10.997,
+        discoverymethod: "Transit"
+      },
+      {
+        priority_rank: 15,
+        pl_name: "Kepler-445 d",
+        hostname: "Kepler-445",
+        follow_up_priority_score: 66.163,
+        hz_flag: 0,
+        pl_rade: 1.25,
+        pl_eqt: 305,
+        pl_insol: 4.314,
+        sy_dist: 127.201,
+        preferred_mag: 13.542,
+        discoverymethod: "Transit"
+      },
+      {
+        priority_rank: 16,
+        pl_name: "TOI-1452 b",
+        hostname: "TOI-1452",
+        follow_up_priority_score: 66.009,
+        hz_flag: 0,
+        pl_rade: 1.672,
+        pl_eqt: 326,
+        pl_insol: 1.8,
+        sy_dist: 30.5212,
+        preferred_mag: 10.604,
+        discoverymethod: "Transit"
+      },
+      {
+        priority_rank: 17,
+        pl_name: "K2-72 c",
+        hostname: "K2-72",
+        follow_up_priority_score: 65.219,
+        hz_flag: 0,
+        pl_rade: 1.16,
+        pl_eqt: 333.81,
+        pl_insol: 2.2,
+        sy_dist: 66.4321,
+        preferred_mag: 11.685,
+        discoverymethod: "Transit"
+      },
+      {
+        priority_rank: 18,
+        pl_name: "LHS 1140 b",
+        hostname: "LHS 1140",
+        follow_up_priority_score: 65.077,
+        hz_flag: 1,
+        pl_rade: 1.73,
+        pl_eqt: 226,
+        pl_insol: 0.43,
+        sy_dist: 14.9861,
+        preferred_mag: 9.612001,
+        discoverymethod: "Transit"
+      },
+      {
+        priority_rank: 19,
+        pl_name: "K2-3 d",
+        hostname: "K2-3",
+        follow_up_priority_score: 63.596,
+        hz_flag: 1,
+        pl_rade: 1.458,
+        pl_eqt: 305.2,
+        pl_insol: 1.44,
+        sy_dist: 44.0727,
+        preferred_mag: 9.421,
+        discoverymethod: "Transit"
+      },
+      {
+        priority_rank: 20,
+        pl_name: "TOI-2095 c",
+        hostname: "TOI-2095",
+        follow_up_priority_score: 62.256,
+        hz_flag: 0,
+        pl_rade: 1.33,
+        pl_eqt: 297,
+        pl_insol: 1.84,
+        sy_dist: 41.9176,
+        preferred_mag: 9.797,
+        discoverymethod: "Transit"
+      },
+      {
+        priority_rank: 21,
+        pl_name: "TOI-5799 c",
+        hostname: "TOI-5799",
+        follow_up_priority_score: 60.465,
+        hz_flag: 0,
+        pl_rade: 1.76,
+        pl_eqt: 337,
+        pl_insol: 2.4202,
+        sy_dist: 27.8123,
+        preferred_mag: 9.742,
+        discoverymethod: "Transit"
+      },
+      {
+        priority_rank: 22,
+        pl_name: "Kepler-560 b",
+        hostname: "Kepler-560",
+        follow_up_priority_score: 58.306,
+        hz_flag: 0,
+        pl_rade: 1.72,
+        pl_eqt: 298,
+        pl_insol: 2.46,
+        sy_dist: 109.308,
+        preferred_mag: 12.276,
+        discoverymethod: "Transit"
+      },
+      {
+        priority_rank: 23,
+        pl_name: "TOI-5713 b",
+        hostname: "TOI-5713",
+        follow_up_priority_score: 57.337,
+        hz_flag: 0,
+        pl_rade: 1.77,
+        pl_eqt: 347.2,
+        pl_insol: 2.2554,
+        sy_dist: 40.8668,
+        preferred_mag: 11.068,
+        discoverymethod: "Transit"
+      },
+      {
+        priority_rank: 24,
+        pl_name: "K2-133 e",
+        hostname: "K2-133",
+        follow_up_priority_score: 56.723,
+        hz_flag: 0,
+        pl_rade: 1.73,
+        pl_eqt: 296,
+        pl_insol: 1.8,
+        sy_dist: 75.1703,
+        preferred_mag: 11.084,
+        discoverymethod: "Transit"
+      },
+      {
+        priority_rank: 25,
+        pl_name: "TOI-2095 b",
+        hostname: "TOI-2095",
+        follow_up_priority_score: 53.568,
+        hz_flag: 0,
+        pl_rade: 1.25,
+        pl_eqt: 347,
+        pl_insol: 3.43,
+        sy_dist: 41.9176,
+        preferred_mag: 9.797,
+        discoverymethod: "Transit"
+      },
+      {
+        priority_rank: 26,
+        pl_name: "LHS 1903 e",
+        hostname: "LHS 1903",
+        follow_up_priority_score: 51.168,
+        hz_flag: 0,
+        pl_rade: 1.732,
+        pl_eqt: 333,
+        pl_insol: 2.05,
+        sy_dist: 35.6917,
+        preferred_mag: 9.061,
+        discoverymethod: "Transit"
+      },
+      {
+        priority_rank: 27,
+        pl_name: "Kepler-138 d",
+        hostname: "Kepler-138",
+        follow_up_priority_score: 49.731,
+        hz_flag: 0,
+        pl_rade: 1.51,
+        pl_eqt: 345,
+        pl_insol: 3.4,
+        sy_dist: 66.8624,
+        preferred_mag: 10.293,
+        discoverymethod: "Transit"
+      }
+    ];
 
     const searchBox = document.getElementById("search-box");
     const hzFilter = document.getElementById("hz-filter");
@@ -1457,163 +1822,212 @@ border: 4px solid #2f6f7e;
     const tableContainer = document.getElementById("interactive-table");
     const highlight = document.getElementById("interactive-target-highlight");
 
-function getEyesUrl(planetName) {
-  const planetUrls = {
-    "TRAPPIST-1 e": "https://eyes.nasa.gov/apps/exo/#/planet/TRAPPIST-1_e",
-    "TRAPPIST-1 d": "https://eyes.nasa.gov/apps/exo/#/planet/TRAPPIST-1_d",
-    "TRAPPIST-1 c": "https://eyes.nasa.gov/apps/exo/#/planet/TRAPPIST-1_c",
-    "TRAPPIST-1 f": "https://eyes.nasa.gov/apps/exo/#/planet/TRAPPIST-1_f",
-    "Gliese 12 b": "https://eyes.nasa.gov/apps/exo/#/planet/Gliese_12_b",
-    "TOI-700 d": "https://eyes.nasa.gov/apps/exo/#/planet/TOI-700_d",
-    "TOI-700 e": "https://eyes.nasa.gov/apps/exo/#/planet/TOI-700_e",
-    "Kepler-1649 c": "https://eyes.nasa.gov/apps/exo/#/planet/Kepler-1649_c",
-    "Kepler-1649 b": "https://eyes.nasa.gov/apps/exo/#/planet/Kepler-1649_b",
-    "K2-72 e": "https://eyes.nasa.gov/apps/exo/#/planet/K2-72_e",
-    "LP 890-9 c": "https://eyes.nasa.gov/apps/exo/#/planet/LP_890-9_c",
-    "TRAPPIST-1 g": "https://eyes.nasa.gov/apps/exo/#/planet/TRAPPIST-1_g",
-    "TOI-715 b": "https://eyes.nasa.gov/apps/exo/#/planet/TOI-715_b",
-    "TOI-6002 b": "https://eyes.nasa.gov/apps/exo/#/planet/TOI-6002_b",
-    "Kepler-445 d": "https://eyes.nasa.gov/apps/exo/#/planet/Kepler-445_d",
-    "TOI-1452 b": "https://eyes.nasa.gov/apps/exo/#/planet/TOI-1452_b",
-    "K2-72 c": "https://eyes.nasa.gov/apps/exo/#/planet/K2-72_c",
-    "LHS 1140 b": "https://eyes.nasa.gov/apps/exo/#/planet/LHS_1140_b",
-    "K2-3 d": "https://eyes.nasa.gov/apps/exo/#/planet/K2-3_d",
-    "TOI-2095 c": "https://eyes.nasa.gov/apps/exo/#/planet/TOI-2095_c",
-    "TOI-5799 c": "https://eyes.nasa.gov/apps/exo/#/planet/TOI-5799_c",
-    "Kepler-560 b": "https://eyes.nasa.gov/apps/exo/#/planet/Kepler-560_b",
-    "TOI-5713 b": "https://eyes.nasa.gov/apps/exo/#/planet/TOI-5713_b",
-    "K2-133 e": "https://eyes.nasa.gov/apps/exo/#/planet/K2-133_e",
-    "TOI-2095 b": "https://eyes.nasa.gov/apps/exo/#/planet/TOI-2095_b",
-    "LHS 1903 e": "https://eyes.nasa.gov/apps/exo/#/planet/LHS_1903_e",
-    "Kepler-138 d": "https://eyes.nasa.gov/apps/exo/#/planet/Kepler-138_d"
-  };
+    function getEyesUrl(planetName) {
+      const planetUrls = {
+        "TRAPPIST-1 e": "https://eyes.nasa.gov/apps/exo/#/planet/TRAPPIST-1_e",
+        "TRAPPIST-1 d": "https://eyes.nasa.gov/apps/exo/#/planet/TRAPPIST-1_d",
+        "TRAPPIST-1 c": "https://eyes.nasa.gov/apps/exo/#/planet/TRAPPIST-1_c",
+        "TRAPPIST-1 f": "https://eyes.nasa.gov/apps/exo/#/planet/TRAPPIST-1_f",
+        "Gliese 12 b": "https://eyes.nasa.gov/apps/exo/#/planet/Gliese_12_b",
+        "TOI-700 d": "https://eyes.nasa.gov/apps/exo/#/planet/TOI-700_d",
+        "TOI-700 e": "https://eyes.nasa.gov/apps/exo/#/planet/TOI-700_e",
+        "Kepler-1649 c": "https://eyes.nasa.gov/apps/exo/#/planet/Kepler-1649_c",
+        "Kepler-1649 b": "https://eyes.nasa.gov/apps/exo/#/planet/Kepler-1649_b",
+        "K2-72 e": "https://eyes.nasa.gov/apps/exo/#/planet/K2-72_e",
+        "LP 890-9 c": "https://eyes.nasa.gov/apps/exo/#/planet/LP_890-9_c",
+        "TRAPPIST-1 g": "https://eyes.nasa.gov/apps/exo/#/planet/TRAPPIST-1_g",
+        "TOI-715 b": "https://eyes.nasa.gov/apps/exo/#/planet/TOI-715_b",
+        "TOI-6002 b": "https://eyes.nasa.gov/apps/exo/#/planet/TOI-6002_b",
+        "Kepler-445 d": "https://eyes.nasa.gov/apps/exo/#/planet/Kepler-445_d",
+        "TOI-1452 b": "https://eyes.nasa.gov/apps/exo/#/planet/TOI-1452_b",
+        "K2-72 c": "https://eyes.nasa.gov/apps/exo/#/planet/K2-72_c",
+        "LHS 1140 b": "https://eyes.nasa.gov/apps/exo/#/planet/LHS_1140_b",
+        "K2-3 d": "https://eyes.nasa.gov/apps/exo/#/planet/K2-3_d",
+        "TOI-2095 c": "https://eyes.nasa.gov/apps/exo/#/planet/TOI-2095_c",
+        "TOI-5799 c": "https://eyes.nasa.gov/apps/exo/#/planet/TOI-5799_c",
+        "Kepler-560 b": "https://eyes.nasa.gov/apps/exo/#/planet/Kepler-560_b",
+        "TOI-5713 b": "https://eyes.nasa.gov/apps/exo/#/planet/TOI-5713_b",
+        "K2-133 e": "https://eyes.nasa.gov/apps/exo/#/planet/K2-133_e",
+        "TOI-2095 b": "https://eyes.nasa.gov/apps/exo/#/planet/TOI-2095_b",
+        "LHS 1903 e": "https://eyes.nasa.gov/apps/exo/#/planet/LHS_1903_e",
+        "Kepler-138 d": "https://eyes.nasa.gov/apps/exo/#/planet/Kepler-138_d"
+      };
 
-  return planetUrls[planetName] || "https://eyes.nasa.gov/apps/exo/#/";
-}
+      return planetUrls[planetName] ||
+        "https://eyes.nasa.gov/apps/exo/#/";
+    }
 
     function getStarUrl(hostname) {
-  const starUrls = {
-    "TRAPPIST-1": "https://eyes.nasa.gov/apps/exo/#/star/TRAPPIST-1",
-    "Gliese 12": "https://eyes.nasa.gov/apps/exo/#/star/Gliese_12",
-    "TOI-700": "https://eyes.nasa.gov/apps/exo/#/star/TOI-700",
-    "Kepler-1649": "https://eyes.nasa.gov/apps/exo/#/star/Kepler-1649",
-    "K2-72": "https://eyes.nasa.gov/apps/exo/#/star/K2-72",
-    "LP 890-9": "https://eyes.nasa.gov/apps/exo/#/star/LP_890-9",
-    "TOI-715": "https://eyes.nasa.gov/apps/exo/#/star/TOI-715",
-    "TOI-6002": "https://eyes.nasa.gov/apps/exo/#/star/TOI-6002",
-    "Kepler-445": "https://eyes.nasa.gov/apps/exo/#/star/Kepler-445",
-    "TOI-1452": "https://eyes.nasa.gov/apps/exo/#/star/TOI-1452",
-    "LHS 1140": "https://eyes.nasa.gov/apps/exo/#/star/LHS_1140",
-    "K2-3": "https://eyes.nasa.gov/apps/exo/#/star/K2-3",
-    "TOI-2095": "https://eyes.nasa.gov/apps/exo/#/star/TOI-2095",
-    "TOI-5799": "https://eyes.nasa.gov/apps/exo/#/star/TOI-5799",
-    "Kepler-560": "https://eyes.nasa.gov/apps/exo/#/star/Kepler-560",
-    "TOI-5713": "https://eyes.nasa.gov/apps/exo/#/star/TOI-5713",
-    "K2-133": "https://eyes.nasa.gov/apps/exo/#/star/K2-133",
-    "LHS 1903": "https://eyes.nasa.gov/apps/exo/#/star/LHS_1903",
-    "Kepler-138": "https://eyes.nasa.gov/apps/exo/#/star/Kepler-138"
-  };
+      const starUrls = {
+        "TRAPPIST-1": "https://eyes.nasa.gov/apps/exo/#/star/TRAPPIST-1",
+        "Gliese 12": "https://eyes.nasa.gov/apps/exo/#/star/Gliese_12",
+        "TOI-700": "https://eyes.nasa.gov/apps/exo/#/star/TOI-700",
+        "Kepler-1649": "https://eyes.nasa.gov/apps/exo/#/star/Kepler-1649",
+        "K2-72": "https://eyes.nasa.gov/apps/exo/#/star/K2-72",
+        "LP 890-9": "https://eyes.nasa.gov/apps/exo/#/star/LP_890-9",
+        "TOI-715": "https://eyes.nasa.gov/apps/exo/#/star/TOI-715",
+        "TOI-6002": "https://eyes.nasa.gov/apps/exo/#/star/TOI-6002",
+        "Kepler-445": "https://eyes.nasa.gov/apps/exo/#/star/Kepler-445",
+        "TOI-1452": "https://eyes.nasa.gov/apps/exo/#/star/TOI-1452",
+        "LHS 1140": "https://eyes.nasa.gov/apps/exo/#/star/LHS_1140",
+        "K2-3": "https://eyes.nasa.gov/apps/exo/#/star/K2-3",
+        "TOI-2095": "https://eyes.nasa.gov/apps/exo/#/star/TOI-2095",
+        "TOI-5799": "https://eyes.nasa.gov/apps/exo/#/star/TOI-5799",
+        "Kepler-560": "https://eyes.nasa.gov/apps/exo/#/star/Kepler-560",
+        "TOI-5713": "https://eyes.nasa.gov/apps/exo/#/star/TOI-5713",
+        "K2-133": "https://eyes.nasa.gov/apps/exo/#/star/K2-133",
+        "LHS 1903": "https://eyes.nasa.gov/apps/exo/#/star/LHS_1903",
+        "Kepler-138": "https://eyes.nasa.gov/apps/exo/#/star/Kepler-138"
+      };
 
-  return starUrls[hostname] || "https://eyes.nasa.gov/apps/exo/#/";
-}
+      return starUrls[hostname] ||
+        "https://eyes.nasa.gov/apps/exo/#/";
+    }
 
     function linkKnownTargetNames() {
-  const planetNames = new Set(shortlistData.map((row) => row.pl_name));
-  const hostNames = new Set(shortlistData.map((row) => row.hostname));
-  const names = [...planetNames, ...hostNames]
-    .sort((a, b) => b.length - a.length)
-    .map((name) => name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
-  const targetPattern = new RegExp(`(${names.join("|")})`, "g");
-  const textNodes = [];
+      const planetNames = new Set(
+        shortlistData.map(row => row.pl_name)
+      );
 
-  const walker = document.createTreeWalker(
-    document.querySelector("main.shell"),
-    NodeFilter.SHOW_TEXT,
-    {
-      acceptNode(node) {
-        const parent = node.parentElement;
-        targetPattern.lastIndex = 0;
-        return node.nodeValue.trim() &&
-          !parent.closest("a, script, style") &&
-          targetPattern.test(node.nodeValue)
-          ? NodeFilter.FILTER_ACCEPT
-          : NodeFilter.FILTER_REJECT;
-      },
+      const hostNames = new Set(
+        shortlistData.map(row => row.hostname)
+      );
+
+      const names = [...planetNames, ...hostNames]
+        .sort((a, b) => b.length - a.length)
+        .map(name => name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+
+      const targetPattern = new RegExp(
+        `(${names.join("|")})`,
+        "g"
+      );
+
+      const textNodes = [];
+
+      const walker = document.createTreeWalker(
+        document.querySelector("main.shell"),
+        NodeFilter.SHOW_TEXT,
+        {
+          acceptNode(node) {
+            const parent = node.parentElement;
+            targetPattern.lastIndex = 0;
+
+            return node.nodeValue.trim() &&
+              !parent.closest("a, script, style") &&
+              targetPattern.test(node.nodeValue)
+                ? NodeFilter.FILTER_ACCEPT
+                : NodeFilter.FILTER_REJECT;
+          }
+        }
+      );
+
+      while (walker.nextNode()) {
+        textNodes.push(walker.currentNode);
+      }
+
+      textNodes.forEach(node => {
+        const fragment = document.createDocumentFragment();
+        let lastIndex = 0;
+
+        node.nodeValue.replace(
+          targetPattern,
+          (name, matchedName, offset) => {
+            fragment.append(
+              node.nodeValue.slice(lastIndex, offset)
+            );
+
+            const link = document.createElement("a");
+            const isPlanet = planetNames.has(name);
+
+            link.className = isPlanet
+              ? "planet-link"
+              : "star-link";
+
+            link.href = isPlanet
+              ? getEyesUrl(name)
+              : getStarUrl(name);
+
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            link.textContent = name;
+
+            fragment.append(link);
+            lastIndex = offset + name.length;
+
+            return name;
+          }
+        );
+
+        fragment.append(node.nodeValue.slice(lastIndex));
+        node.replaceWith(fragment);
+      });
     }
-  );
 
-  while (walker.nextNode()) textNodes.push(walker.currentNode);
-
-  textNodes.forEach((node) => {
-    const fragment = document.createDocumentFragment();
-    let lastIndex = 0;
-
-    node.nodeValue.replace(targetPattern, (name, _matchedName, offset) => {
-      fragment.append(node.nodeValue.slice(lastIndex, offset));
-
-      const link = document.createElement("a");
-      link.className = planetNames.has(name) ? "planet-link" : "star-link";
-      link.href = planetNames.has(name) ? getEyesUrl(name) : getStarUrl(name);
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-      link.textContent = name;
-      fragment.append(link);
-
-      lastIndex = offset + name.length;
-      return name;
-    });
-
-    fragment.append(node.nodeValue.slice(lastIndex));
-    node.replaceWith(fragment);
-  });
-}
-    
     function renderTable(rows) {
       if (!rows.length) {
-        tableContainer.innerHTML = '<p class="muted">No shortlist planets match the current filters.</p>';
-        highlight.innerHTML = '<strong>No target selected.</strong> Broaden the filters to restore shortlist rows.';
-        filteredCount.textContent = '0';
+        tableContainer.innerHTML =
+          '<p class="muted">No shortlist planets match the current filters.</p>';
+
+        highlight.innerHTML =
+          "<strong>No target selected.</strong> " +
+          "Broaden the filters to restore shortlist rows.";
+
+        filteredCount.textContent = "0";
         bestMatch.textContent = "None";
         return;
       }
 
       const headers = [
-        'Rank', 'Planet', 'Host', 'Score', 'HZ', 'Radius', 'Temperature', 'Insolation', 'Distance', 'Mag', 'Method'
+        "Rank",
+        "Planet",
+        "Host",
+        "Score",
+        "HZ",
+        "Radius",
+        "Temperature",
+        "Insolation",
+        "Distance",
+        "Mag",
+        "Method"
       ];
-      const headerHtml = headers.map((header) => `<th>${header}</th>`).join('');
-      const bodyHtml = rows.map((row) => `
+
+      const headerHtml = headers
+        .map(header => `<th scope="col">${header}</th>`)
+        .join("");
+
+      const bodyHtml = rows.map(row => `
         <tr>
           <td>${row.priority_rank}</td>
-<td>
-  <a
-    class="planet-link"
-    href="${getEyesUrl(row.pl_name)}"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    ${row.pl_name}
-  </a>
-</td>
-<td>
-  <a
-    class="star-link"
-    href="${getStarUrl(row.hostname)}"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    ${row.hostname}
-  </a>
-</td>
+          <td>
+            <a
+              class="planet-link"
+              href="${getEyesUrl(row.pl_name)}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >${row.pl_name}</a>
+          </td>
+          <td>
+            <a
+              class="star-link"
+              href="${getStarUrl(row.hostname)}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >${row.hostname}</a>
+          </td>
           <td>${Number(row.follow_up_priority_score).toFixed(3)}</td>
-          <td>${row.hz_flag === 1 ? 'Yes' : 'No'}</td>
+          <td>${row.hz_flag === 1 ? "Yes" : "No"}</td>
           <td>${Number(row.pl_rade).toFixed(3)}</td>
           <td>${Number(row.pl_eqt).toFixed(1)} K</td>
           <td>${Number(row.pl_insol).toFixed(3)}</td>
           <td>${Number(row.sy_dist).toFixed(3)} pc</td>
-          <td>${row.preferred_mag == null ? 'NA' : Number(row.preferred_mag).toFixed(3)}</td>
+          <td>${
+            row.preferred_mag == null
+              ? "NA"
+              : Number(row.preferred_mag).toFixed(3)
+          }</td>
           <td>${row.discoverymethod}</td>
         </tr>
-      `).join('');
+      `).join("");
 
       tableContainer.innerHTML = `
         <div class="table-scroll">
@@ -1625,14 +2039,45 @@ function getEyesUrl(planetName) {
       `;
 
       const top = rows[0];
+
       filteredCount.textContent = String(rows.length);
-      bestMatch.innerHTML = `<a class="planet-link" href="${getEyesUrl(top.pl_name)}" target="_blank" rel="noopener noreferrer">${top.pl_name}</a>`;
+
+      bestMatch.innerHTML = `
+        <a
+          class="planet-link"
+          href="${getEyesUrl(top.pl_name)}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >${top.pl_name}</a>
+      `;
+
       highlight.innerHTML = `
-       <strong><a class="planet-link" href="${getEyesUrl(top.pl_name)}" target="_blank" rel="noopener noreferrer">${top.pl_name}</a></strong> around <strong><a class="star-link" href="${getStarUrl(top.hostname)}" target="_blank" rel="noopener noreferrer">${top.hostname}</a></strong> remains the best match under the current filters.
-        Its Follow-up Priority Score is <strong>${Number(top.follow_up_priority_score).toFixed(3)}</strong>,
-        with radius <strong>${Number(top.pl_rade).toFixed(3)} R⊕</strong>,
-        equilibrium temperature <strong>${Number(top.pl_eqt).toFixed(1)} K</strong>,
-        and distance <strong>${Number(top.sy_dist).toFixed(3)} pc</strong>.
+        <strong>
+          <a
+            class="planet-link"
+            href="${getEyesUrl(top.pl_name)}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >${top.pl_name}</a>
+        </strong>
+        around
+        <strong>
+          <a
+            class="star-link"
+            href="${getStarUrl(top.hostname)}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >${top.hostname}</a>
+        </strong>
+        remains the best match under the current filters.
+        Its Follow-up Priority Score is
+        <strong>${Number(top.follow_up_priority_score).toFixed(3)}</strong>,
+        with radius
+        <strong>${Number(top.pl_rade).toFixed(3)} R⊕</strong>,
+        equilibrium temperature
+        <strong>${Number(top.pl_eqt).toFixed(1)} K</strong>,
+        and distance
+        <strong>${Number(top.sy_dist).toFixed(3)} pc</strong>.
       `;
     }
 
@@ -1642,96 +2087,273 @@ function getEyesUrl(planetName) {
       const minScore = Number(scoreFilter.value || 0);
       const sortMode = sortSelect.value;
 
-      let rows = shortlistData.filter((row) => {
-        const text = `${row.pl_name} ${row.hostname} ${row.discoverymethod}`.toLowerCase();
+      let rows = shortlistData.filter(row => {
+        const text =
+          `${row.pl_name} ${row.hostname} ${row.discoverymethod}`
+            .toLowerCase();
+
         const queryOk = !query || text.includes(query);
+
         const hzOk =
-          hzMode === 'all' ||
-          (hzMode === 'hz' && row.hz_flag === 1) ||
-          (hzMode === 'non_hz' && row.hz_flag !== 1);
-        const scoreOk = Number(row.follow_up_priority_score) >= minScore;
+          hzMode === "all" ||
+          (hzMode === "hz" && row.hz_flag === 1) ||
+          (hzMode === "non_hz" && row.hz_flag !== 1);
+
+        const scoreOk =
+          Number(row.follow_up_priority_score) >= minScore;
+
         return queryOk && hzOk && scoreOk;
       });
 
       const comparators = {
-        score_desc: (a, b) => Number(b.follow_up_priority_score) - Number(a.follow_up_priority_score),
-        rank_asc: (a, b) => Number(a.priority_rank) - Number(b.priority_rank),
-        distance_asc: (a, b) => Number(a.sy_dist) - Number(b.sy_dist),
-        temp_asc: (a, b) => Number(a.pl_eqt) - Number(b.pl_eqt),
-        radius_asc: (a, b) => Number(a.pl_rade) - Number(b.pl_rade),
+        score_desc: (a, b) =>
+          Number(b.follow_up_priority_score) -
+          Number(a.follow_up_priority_score),
+
+        rank_asc: (a, b) =>
+          Number(a.priority_rank) - Number(b.priority_rank),
+
+        distance_asc: (a, b) =>
+          Number(a.sy_dist) - Number(b.sy_dist),
+
+        temp_asc: (a, b) =>
+          Number(a.pl_eqt) - Number(b.pl_eqt),
+
+        radius_asc: (a, b) =>
+          Number(a.pl_rade) - Number(b.pl_rade)
       };
 
-      rows = rows.slice().sort(comparators[sortMode] || comparators.score_desc);
+      rows = rows.slice().sort(
+        comparators[sortMode] || comparators.score_desc
+      );
+
       renderTable(rows);
     }
 
-    [searchBox, hzFilter, scoreFilter, sortSelect].forEach((element) => {
-      element.addEventListener('input', applyFilters);
-      element.addEventListener('change', applyFilters);
+    [searchBox, hzFilter, scoreFilter, sortSelect].forEach(element => {
+      element.addEventListener("input", applyFilters);
+      element.addEventListener("change", applyFilters);
     });
 
     applyFilters();
     linkKnownTargetNames();
-    const lightbox = document.getElementById("lightbox");
-const lightboxImage = document.getElementById("lightbox-image");
-const lightboxCaption = document.getElementById("lightbox-caption");
-const lightboxClose = document.getElementById("lightbox-close");
 
-document.querySelectorAll(".figure-card img").forEach((image) => {
-  image.addEventListener("click", () => {
-    lightboxImage.src = image.src;
-    lightboxImage.alt = image.alt;
-    lightboxCaption.textContent =
-      image.closest(".figure-card")?.querySelector("figcaption")?.textContent || "";
+    /* Surround all scrollable tables with a rounded frame. */
 
-    lightbox.classList.add("open");
-    lightbox.setAttribute("aria-hidden", "false");
-    document.body.style.overflow = "hidden";
-  });
-});
+    function frameLeaderboards() {
+      document.querySelectorAll(".table-scroll").forEach(table => {
+        if (
+          table.parentElement.classList.contains("leaderboard-frame")
+        ) {
+          return;
+        }
 
-function closeLightbox() {
-  lightbox.classList.remove("open");
-  lightbox.setAttribute("aria-hidden", "true");
-  document.body.style.overflow = "";
-}
+        const frame = document.createElement("div");
+        frame.className = "leaderboard-frame";
 
-lightboxClose.addEventListener("click", closeLightbox);
-
-lightbox.addEventListener("click", (event) => {
-  if (event.target === lightbox) {
-    closeLightbox();
-  }
-});
-
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && lightbox.classList.contains("open")) {
-    closeLightbox();
-  }
-});
-
-function frameLeaderboards() {
-  document.querySelectorAll(".table-scroll").forEach((table) => {
-    if (table.parentElement.classList.contains("leaderboard-frame")) {
-      return;
+        table.before(frame);
+        frame.appendChild(table);
+      });
     }
 
-    const frame = document.createElement("div");
-    frame.className = "leaderboard-frame";
+    frameLeaderboards();
 
-    table.before(frame);
-    frame.appendChild(table);
-  });
-}
+    new MutationObserver(frameLeaderboards).observe(
+      tableContainer,
+      { childList: true }
+    );
 
-frameLeaderboards();
+    /* Image expansion */
 
-/* Also frame the interactive table whenever filters change */
-new MutationObserver(frameLeaderboards).observe(
-  document.getElementById("interactive-table"),
-  { childList: true }
-);
-    
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImage = document.getElementById("lightbox-image");
+    const lightboxCaption = document.getElementById("lightbox-caption");
+    const lightboxClose = document.getElementById("lightbox-close");
+
+    let lastImageTrigger = null;
+
+    function openLightbox(image) {
+      lastImageTrigger = image;
+      lightboxImage.src = image.src;
+      lightboxImage.alt = image.alt;
+
+      lightboxCaption.textContent =
+        image.closest(".figure-card")
+          ?.querySelector("figcaption")
+          ?.textContent || "";
+
+      lightbox.classList.add("open");
+      lightbox.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+      lightboxClose.focus();
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove("open");
+      lightbox.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+      lastImageTrigger?.focus();
+    }
+
+    document.querySelectorAll(".figure-card img").forEach(image => {
+      image.tabIndex = 0;
+      image.setAttribute("role", "button");
+
+      const caption =
+        image.closest("figure")
+          ?.querySelector("figcaption")
+          ?.textContent || image.alt;
+
+      image.setAttribute("aria-label", "Expand " + caption);
+
+      image.addEventListener("click", () => openLightbox(image));
+
+      image.addEventListener("keydown", event => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openLightbox(image);
+        }
+      });
+    });
+
+    lightboxClose.addEventListener("click", closeLightbox);
+
+    lightbox.addEventListener("click", event => {
+      if (event.target === lightbox) {
+        closeLightbox();
+      }
+    });
+
+    lightbox.addEventListener("keydown", event => {
+      if (event.key === "Tab") {
+        event.preventDefault();
+        lightboxClose.focus();
+      }
+    });
+
+    document.addEventListener("keydown", event => {
+      if (
+        event.key === "Escape" &&
+        lightbox.classList.contains("open")
+      ) {
+        closeLightbox();
+      }
+    });
+
+    /* Search the existing dashboard sections and planets. */
+
+    const siteSearchForm =
+      document.getElementById("site-search-form");
+
+    const siteSearchInput =
+      document.getElementById("site-search-input");
+
+    const siteSearchResults =
+      document.getElementById("site-search-results");
+
+    const sectionIndex = [
+      ...document.querySelectorAll("main section[id]")
+    ].map(section => ({
+      section,
+      title: section.querySelector("h2,h1")?.textContent || "",
+      text: section.textContent.toLowerCase()
+    }));
+
+    function searchDashboard() {
+      const query = siteSearchInput.value.trim().toLowerCase();
+
+      siteSearchResults.replaceChildren();
+
+      if (!query) {
+        siteSearchResults.hidden = true;
+        return;
+      }
+
+      const matches = sectionIndex.filter(item =>
+        item.text.includes(query)
+      );
+
+      const planetMatches = shortlistData.filter(row =>
+        `${row.pl_name} ${row.hostname}`
+          .toLowerCase()
+          .includes(query)
+      );
+
+      function addResult(label, section, planetQuery) {
+        const link = document.createElement("a");
+
+        link.href = "#" + section.id;
+        link.textContent = label;
+
+        link.addEventListener("click", () => {
+          if (planetQuery) {
+            searchBox.value = planetQuery;
+            hzFilter.value = "all";
+            scoreFilter.value = "0";
+            sortSelect.value = "score_desc";
+            applyFilters();
+          }
+
+          siteSearchResults.hidden = true;
+
+          document.querySelectorAll(".search-match").forEach(element => {
+            element.classList.remove("search-match");
+          });
+
+          section.classList.add("search-match");
+          section.focus({ preventScroll: true });
+        });
+
+        siteSearchResults.append(link);
+      }
+
+      planetMatches.slice(0, 5).forEach(row => {
+        addResult(
+          row.pl_name + " · Interactive Shortlist Explorer",
+          document.getElementById("shortlist"),
+          row.pl_name
+        );
+      });
+
+      matches.slice(0, 8).forEach(item => {
+        addResult(item.title, item.section);
+      });
+
+      if (!matches.length && !planetMatches.length) {
+        const empty = document.createElement("p");
+        empty.textContent = "No matching sections or planets.";
+        siteSearchResults.append(empty);
+      }
+
+      siteSearchResults.hidden = false;
+    }
+
+    siteSearchInput.addEventListener("input", searchDashboard);
+
+    siteSearchForm.addEventListener("submit", event => {
+      event.preventDefault();
+      searchDashboard();
+      siteSearchResults.querySelector("a")?.focus();
+    });
+
+    siteSearchInput.addEventListener("keydown", event => {
+      if (event.key === "ArrowDown") {
+        event.preventDefault();
+        siteSearchResults.querySelector("a")?.focus();
+      }
+    });
+
+    document.addEventListener("click", event => {
+      if (!siteSearchForm.contains(event.target)) {
+        siteSearchResults.hidden = true;
+      }
+    });
+
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") {
+        siteSearchResults.hidden = true;
+      }
+    });
   </script>
 </body>
 </html>
