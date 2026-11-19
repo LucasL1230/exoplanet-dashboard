@@ -899,6 +899,39 @@
   width: 100%;
   max-width: none;
 }
+
+    .figure-card {
+  transition:
+    transform 200ms ease,
+    box-shadow 200ms ease,
+    border-color 200ms ease;
+}
+
+@media (hover: hover) {
+  .figure-card:hover {
+    transform: translateY(-5px);
+    border-color: #175bb5;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* Same effect for keyboard navigation */
+.figure-card:focus-within {
+  transform: translateY(-5px);
+  border-color: #175bb5;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .figure-card {
+    transition: none;
+  }
+
+  .figure-card:hover,
+  .figure-card:focus-within {
+    transform: none;
+  }
+}
   </style>
 </head>
 
