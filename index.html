@@ -944,29 +944,6 @@
   color: var(--ink-soft);
 }
 
-    .site-search {
-  width: 360px;
-  align-items: center;
-}
-
-.site-search input {
-  flex: 1;
-  min-width: 0;
-}
-
-#find-count {
-  flex-shrink: 0;
-  padding-right: 6px;
-  color: #ccc;
-  font-size: 12px;
-  white-space: nowrap;
-}
-
-.site-search button {
-  flex-shrink: 0;
-  padding: 8px;
-}
-
 mark.page-match {
   background: #ffe681;
   color: #111;
@@ -1007,25 +984,11 @@ mark.page-match.current-match {
   <input
     id="site-search-input"
     type="search"
-    placeholder="Find on this page"
+    placeholder="Search the dashboard"
     aria-label="Find on this page"
     autocomplete="off"
   />
-
-  <span id="find-count" aria-live="polite"></span>
-
-  <button
-    type="button"
-    id="find-previous"
-    aria-label="Previous match"
-    title="Previous match"
-  >↑</button>
-
-  <button
-    type="submit"
-    aria-label="Next match"
-    title="Next match"
-  >↓</button>
+  <button type="submit" aria-label="Find next match">⌕</button>
 </form>
     </div>
   </header>
@@ -2342,8 +2305,7 @@ mark.page-match.current-match {
 
 const findForm = document.getElementById("site-search-form");
 const findInput = document.getElementById("site-search-input");
-const findCount = document.getElementById("find-count");
-const findPrevious = document.getElementById("find-previous");
+const findCount = document.createElement("span");
 const findRoot = document.getElementById("main-content");
 
 let pageMatches = [];
@@ -2503,10 +2465,6 @@ function movePageMatch(direction) {
 findForm.addEventListener("submit", event => {
   event.preventDefault();
   movePageMatch(1);
-});
-
-findPrevious.addEventListener("click", () => {
-  movePageMatch(-1);
 });
 
 findInput.addEventListener("keydown", event => {
