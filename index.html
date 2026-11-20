@@ -943,6 +943,46 @@
 .nasa-explorer p {
   color: var(--ink-soft);
 }
+
+    .site-search {
+  width: 360px;
+  align-items: center;
+}
+
+.site-search input {
+  flex: 1;
+  min-width: 0;
+}
+
+#find-count {
+  flex-shrink: 0;
+  padding-right: 6px;
+  color: #ccc;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.site-search button {
+  flex-shrink: 0;
+  padding: 8px;
+}
+
+mark.page-match {
+  background: #ffe681;
+  color: #111;
+}
+
+mark.page-match.current-match {
+  background: #ff963e;
+  color: #111;
+  outline: 2px solid #a83b00;
+}
+
+@media (max-width: 540px) {
+  .site-search {
+    width: 100%;
+  }
+}
   </style>
 </head>
 
@@ -963,23 +1003,30 @@
         <a href="#model">Model</a>
       </nav>
 
-      <form class="site-search" role="search" id="site-search-form">
-        <input
-          id="site-search-input"
-          type="search"
-          placeholder="Search the dashboard"
-          aria-label="Search dashboard sections and planets"
-          aria-controls="site-search-results"
-          autocomplete="off"
-        />
-        <button type="submit" aria-label="Search">⌕</button>
-        <div
-          class="search-results"
-          id="site-search-results"
-          aria-label="Search results"
-          hidden
-        ></div>
-      </form>
+<form class="site-search" role="search" id="site-search-form">
+  <input
+    id="site-search-input"
+    type="search"
+    placeholder="Find on this page"
+    aria-label="Find on this page"
+    autocomplete="off"
+  />
+
+  <span id="find-count" aria-live="polite"></span>
+
+  <button
+    type="button"
+    id="find-previous"
+    aria-label="Previous match"
+    title="Previous match"
+  >↑</button>
+
+  <button
+    type="submit"
+    aria-label="Next match"
+    title="Next match"
+  >↓</button>
+</form>
     </div>
   </header>
 
@@ -2291,120 +2338,204 @@
       }
     });
 
-    /* Search the existing dashboard sections and planets. */
+/* Find text on the page, like Ctrl + F. */
 
-    const siteSearchForm =
-      document.getElementById("site-search-form");
+const findForm = document.getElementById("site-search-form");
+const findInput = document.getElementById("site-search-input");
+const findCount = document.getElementById("find-count");
+const findPrevious = document.getElementById("find-previous");
+const findRoot = document.getElementById("main-content");
 
-    const siteSearchInput =
-      document.getElementById("site-search-input");
+let pageMatches = [];
+let currentMatch = -1;
+let findTimer;
 
-    const siteSearchResults =
-      document.getElementById("site-search-results");
+function clearPageMatches() {
+  const parents = new Set();
 
-    const sectionIndex = [
-      ...document.querySelectorAll("main section[id]")
-    ].map(section => ({
-      section,
-      title: section.querySelector("h2,h1")?.textContent || "",
-      text: section.textContent.toLowerCase()
-    }));
+  findRoot.querySelectorAll("mark.page-match").forEach(mark => {
+    const parent = mark.parentNode;
+    mark.replaceWith(document.createTextNode(mark.textContent));
+    parents.add(parent);
+  });
 
-    function searchDashboard() {
-      const query = siteSearchInput.value.trim().toLowerCase();
+  parents.forEach(parent => parent.normalize());
 
-      siteSearchResults.replaceChildren();
+  pageMatches = [];
+  currentMatch = -1;
+}
 
-      if (!query) {
-        siteSearchResults.hidden = true;
-        return;
+function showPageMatch(index) {
+  if (!pageMatches.length) return;
+
+  pageMatches[currentMatch]?.classList.remove("current-match");
+
+  currentMatch =
+    (index + pageMatches.length) % pageMatches.length;
+
+  const match = pageMatches[currentMatch];
+  match.classList.add("current-match");
+
+  findCount.textContent =
+    `${currentMatch + 1}/${pageMatches.length}`;
+
+  match.scrollIntoView({
+    behavior: "instant",
+    block: "center",
+    inline: "center"
+  });
+}
+
+function findOnPage(scrollToFirst = true) {
+  clearPageMatches();
+
+  const query = findInput.value;
+
+  if (!query.trim()) {
+    findCount.textContent = "";
+    return;
+  }
+
+  // Treat punctuation as ordinary text rather than a search pattern.
+  const escapedQuery = query.replace(
+    /[.*+?^${}()|[\]\\]/g,
+    "\\$&"
+  );
+
+  const pattern = new RegExp(escapedQuery, "gi");
+  const textNodes = [];
+
+  const walker = document.createTreeWalker(
+    findRoot,
+    NodeFilter.SHOW_TEXT,
+    {
+      acceptNode(node) {
+        const parent = node.parentElement;
+
+        if (
+          !parent ||
+          !node.nodeValue.trim() ||
+          parent.closest(
+            "script, style, input, select, textarea, button, " +
+            "option, [hidden], [aria-hidden='true']"
+          ) ||
+          !parent.getClientRects().length
+        ) {
+          return NodeFilter.FILTER_REJECT;
+        }
+
+        pattern.lastIndex = 0;
+
+        return pattern.test(node.nodeValue)
+          ? NodeFilter.FILTER_ACCEPT
+          : NodeFilter.FILTER_REJECT;
       }
+    }
+  );
 
-      const matches = sectionIndex.filter(item =>
-        item.text.includes(query)
+  while (walker.nextNode()) {
+    textNodes.push(walker.currentNode);
+  }
+
+  textNodes.forEach(node => {
+    const text = node.nodeValue;
+    const fragment = document.createDocumentFragment();
+
+    let position = 0;
+
+    pattern.lastIndex = 0;
+
+    for (const match of text.matchAll(pattern)) {
+      fragment.append(
+        document.createTextNode(
+          text.slice(position, match.index)
+        )
       );
 
-      const planetMatches = shortlistData.filter(row =>
-        `${row.pl_name} ${row.hostname}`
-          .toLowerCase()
-          .includes(query)
-      );
+      const mark = document.createElement("mark");
+      mark.className = "page-match";
+      mark.textContent = match[0];
 
-      function addResult(label, section, planetQuery) {
-        const link = document.createElement("a");
+      fragment.append(mark);
+      pageMatches.push(mark);
 
-        link.href = "#" + section.id;
-        link.textContent = label;
-
-        link.addEventListener("click", () => {
-          if (planetQuery) {
-            searchBox.value = planetQuery;
-            hzFilter.value = "all";
-            scoreFilter.value = "0";
-            sortSelect.value = "score_desc";
-            applyFilters();
-          }
-
-          siteSearchResults.hidden = true;
-
-          document.querySelectorAll(".search-match").forEach(element => {
-            element.classList.remove("search-match");
-          });
-
-          section.classList.add("search-match");
-          section.focus({ preventScroll: true });
-        });
-
-        siteSearchResults.append(link);
-      }
-
-      planetMatches.slice(0, 5).forEach(row => {
-        addResult(
-          row.pl_name + " · Interactive Shortlist Explorer",
-          document.getElementById("shortlist"),
-          row.pl_name
-        );
-      });
-
-      matches.slice(0, 8).forEach(item => {
-        addResult(item.title, item.section);
-      });
-
-      if (!matches.length && !planetMatches.length) {
-        const empty = document.createElement("p");
-        empty.textContent = "No matching sections or planets.";
-        siteSearchResults.append(empty);
-      }
-
-      siteSearchResults.hidden = false;
+      position = match.index + match[0].length;
     }
 
-    siteSearchInput.addEventListener("input", searchDashboard);
+    fragment.append(
+      document.createTextNode(text.slice(position))
+    );
 
-    siteSearchForm.addEventListener("submit", event => {
-      event.preventDefault();
-      searchDashboard();
-      siteSearchResults.querySelector("a")?.focus();
-    });
+    node.replaceWith(fragment);
+  });
 
-    siteSearchInput.addEventListener("keydown", event => {
-      if (event.key === "ArrowDown") {
-        event.preventDefault();
-        siteSearchResults.querySelector("a")?.focus();
-      }
-    });
+  findCount.textContent = pageMatches.length
+    ? `0/${pageMatches.length}`
+    : "0/0";
 
-    document.addEventListener("click", event => {
-      if (!siteSearchForm.contains(event.target)) {
-        siteSearchResults.hidden = true;
-      }
-    });
+  if (scrollToFirst && pageMatches.length) {
+    showPageMatch(0);
+  }
+}
 
-    document.addEventListener("keydown", event => {
-      if (event.key === "Escape") {
-        siteSearchResults.hidden = true;
-      }
-    });
+findInput.addEventListener("input", () => {
+  clearTimeout(findTimer);
+
+  findTimer = setTimeout(() => {
+    findOnPage();
+  }, 150);
+});
+
+function movePageMatch(direction) {
+  clearTimeout(findTimer);
+
+  if (!pageMatches.length) {
+    findOnPage(false);
+  }
+
+  showPageMatch(
+    currentMatch === -1
+      ? (direction > 0 ? 0 : pageMatches.length - 1)
+      : currentMatch + direction
+  );
+}
+
+findForm.addEventListener("submit", event => {
+  event.preventDefault();
+  movePageMatch(1);
+});
+
+findPrevious.addEventListener("click", () => {
+  movePageMatch(-1);
+});
+
+findInput.addEventListener("keydown", event => {
+  if (event.key === "Enter" && event.shiftKey) {
+    event.preventDefault();
+    movePageMatch(-1);
+  }
+
+  if (event.key === "Escape") {
+    clearTimeout(findTimer);
+    findInput.value = "";
+    clearPageMatches();
+    findCount.textContent = "";
+    findInput.blur();
+  }
+});
+
+/* Keep highlights accurate when filters replace the table. */
+new MutationObserver(() => {
+  if (!findInput.value.trim()) return;
+
+  clearTimeout(findTimer);
+
+  findTimer = setTimeout(() => {
+    findOnPage(false);
+  }, 0);
+}).observe(tableContainer, {
+  childList: true
+});
   </script>
 </body>
 </html>
