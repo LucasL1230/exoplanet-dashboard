@@ -961,39 +961,29 @@ mark.page-match.current-match {
   }
 }
 
-    /* Fit the relocated sections into the right column */
-.section-grid > .stack > .nasa-explorer,
-.section-grid > .stack > .planet-types-panel {
-  width: 100%;
-  min-width: 0;
-  margin: 0;
-  padding: 32px 0;
-  border: 0;
-  border-bottom: 1px solid #d4d4d8;
-  background: #fff;
-  color: var(--ink);
+    /* Scroll vertically inside the shortlist */
+#interactive-table .table-scroll {
+  max-height: 480px;
+  overflow-y: auto;
+  overflow-x: auto;
 }
 
-.section-grid .nasa-explorer h2,
-.section-grid .planet-types-panel h2 {
-  font-size: clamp(28px, 2.5vw, 36px);
+/* Keep column headings visible while scrolling */
+#interactive-table .data-table th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #eaecef;
 }
 
-.section-grid .nasa-explorer p,
-.section-grid .nasa-explorer .eyebrow {
-  color: var(--ink-soft);
+/* Match the vertical scrollbar to the horizontal one */
+#interactive-table .table-scroll::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
 }
 
-.section-grid .planet-types-panel .figure-card {
-  width: 100%;
-}
-
-    }
-
-@media (max-width: 540px) {
-  #main-content > #shortlist .control-grid {
-    grid-template-columns: 1fr;
-  }
+#interactive-table .table-scroll::-webkit-scrollbar-corner {
+  background: #eceef0;
 }
   </style>
 </head>
@@ -2540,14 +2530,6 @@ const explorerRow = document.querySelector(".explore-row");
 if (rightColumn && explorerRow) {
   rightColumn.append(...Array.from(explorerRow.children));
   explorerRow.remove();
-}
-
-    /* Give the shortlist its own full-width row */
-const shortlistSection = document.getElementById("shortlist");
-const dashboardColumns = document.querySelector(".section-grid");
-
-if (shortlistSection && dashboardColumns) {
-  dashboardColumns.after(shortlistSection);
 }
   </script>
 </body>
