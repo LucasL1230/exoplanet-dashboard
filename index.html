@@ -2531,6 +2531,61 @@ if (rightColumn && explorerRow) {
   rightColumn.append(...Array.from(explorerRow.children));
   explorerRow.remove();
 }
+
+    /* Adjust the shortlist height to align both column bottoms */
+const layoutColumns = document.querySelectorAll(
+  ".section-grid > .stack"
+);
+
+let alignmentFrame;
+
+function alignColumnBottoms() {
+  if (layoutColumns.length !== 2) return;
+
+  const [left, right] = layoutColumns;
+  const scroller = document.querySelector(
+    "#interactive-table .table-scroll"
+  );
+
+  if (!scroller) return;
+
+  /* Keep the normal scroll height on smaller screens */
+  if (window.matchMedia("(max-width: 1000px)").matches) {
+    scroller.style.maxHeight = "";
+    return;
+  }
+
+  const leftHeight = left.getBoundingClientRect().height;
+  const rightHeight = right.getBoundingClientRect().height;
+  const tableHeight = scroller.getBoundingClientRect().height;
+
+  const requiredHeight = Math.max(
+    240,
+    tableHeight + rightHeight - leftHeight
+  );
+
+  if (Math.abs(tableHeight - requiredHeight) > 1) {
+    scroller.style.maxHeight = `${requiredHeight}px`;
+  }
+}
+
+function scheduleAlignment() {
+  cancelAnimationFrame(alignmentFrame);
+  alignmentFrame = requestAnimationFrame(alignColumnBottoms);
+}
+
+const columnObserver = new ResizeObserver(scheduleAlignment);
+layoutColumns.forEach(column => columnObserver.observe(column));
+
+new MutationObserver(scheduleAlignment).observe(
+  document.getElementById("interactive-table"),
+  { childList: true }
+);
+
+window.addEventListener("load", scheduleAlignment);
+window.addEventListener("resize", scheduleAlignment);
+document.fonts.ready.then(scheduleAlignment);
+scheduleAlignment();
   </script>
 </body>
 </html>
