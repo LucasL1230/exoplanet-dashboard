@@ -987,6 +987,14 @@ mark.page-match.current-match {
 .section-grid .planet-types-panel .figure-card {
   width: 100%;
 }
+
+    }
+
+@media (max-width: 540px) {
+  #main-content > #shortlist .control-grid {
+    grid-template-columns: 1fr;
+  }
+}
   </style>
 </head>
 
@@ -2532,6 +2540,14 @@ const explorerRow = document.querySelector(".explore-row");
 if (rightColumn && explorerRow) {
   rightColumn.append(...Array.from(explorerRow.children));
   explorerRow.remove();
+}
+
+    /* Give the shortlist its own full-width row */
+const shortlistSection = document.getElementById("shortlist");
+const dashboardColumns = document.querySelector(".section-grid");
+
+if (shortlistSection && dashboardColumns) {
+  dashboardColumns.after(shortlistSection);
 }
   </script>
 </body>
